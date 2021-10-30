@@ -1,7 +1,7 @@
-from find_way import  dijkstra
+from dijkstra_level1 import dijkstra
 
 
-def dfs_depth_n(map, turn, depth, agentx, agenty, diamondlist, holelist, score, diccolor_number):
+def dfs_depth_n(map,height,width, turn, depth, agentx, agenty, diamondlist, holelist, score, diccolor_number):
    current_score = score
    max_value = -1
    next_move = tuple()
@@ -43,7 +43,7 @@ def dfs_depth_n(map, turn, depth, agentx, agenty, diamondlist, holelist, score, 
            d = (diamond[0], diamond[1])
            if d not in visited_diamond:
                visited_diamond[d] = (True, level)
-               distance = dijkstra(map, agentx, agenty, diamond[0], diamond[1])
+               distance = dijkstra(map,height, width, agentx, agenty, diamond[0], diamond[1])
                if (distance <= remain_turn) and (level+1 <= depth):
                    if diamond[3] == 10 and diccolor_number_copy['y'] < 15:
                        diccolor_number_copy['y'] += 1
@@ -64,7 +64,7 @@ def dfs_depth_n(map, turn, depth, agentx, agenty, diamondlist, holelist, score, 
        for hole in holelist:
            h=(hole[0],hole[1])
            visited_hole[h]=(True,level) ## just for level we do not need to visit holes
-           distancehole = dijkstra(map, agentx, agenty, h[0], h[1])
+           distancehole = dijkstra(map,height, width, agentx, agenty, h[0], h[1])
            if (distancehole <= remain_turn) and (level + 1 <= depth):
                 value_hole =0
                 for item_hole in holelist:
