@@ -20,7 +20,7 @@ def dij_show_way(agentx, agenty, goalx, goaly, map, height, width):
                 x = current_nodex
                 y = current_nodey
                 if map[x][y] == 'T':
-                    way.put('T')
+                    way.put('t')
                 while parent[(x, y)] != -1:
                     way.put(parent[(x, y)][3])
                     x = parent[(x, y)][0]
