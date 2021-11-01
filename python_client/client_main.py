@@ -7,7 +7,6 @@ class Agent(BaseAgent):
     def do_turn(self) -> Action:
         action_state = action_state_func(self.grid,self.grid_height,self.grid_width,self.turn_count,self.max_turn_count,self.character,self.score,1)
         print(action_state)
-
         if action_state == 'u':
             return Action.UP
         if action_state == 'd':
@@ -20,6 +19,7 @@ class Agent(BaseAgent):
             return Action.TELEPORT
         if action_state == 'n':
             return Action.NOOP
+
 
 if __name__ == '__main__':
     data = Agent().play()
