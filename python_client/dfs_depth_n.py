@@ -15,9 +15,9 @@ def dfs_depth_n(map,height,width, turn, depth, agentx, agenty, diamondlist, hole
        ## attention to hloes  the value maybe change
        if level == depth:
            ##get value range 0 to 1 or change percent
-           print(score_agent,current_score,remain_turn,"3taa")
-           value = ((60 * (score_agent - current_score)) + (40 * remain_turn)) // 100
-           print(value,max_value)
+           # print(score_agent,current_score,remain_turn,"3taa")
+           value = ((20 * (score_agent - current_score)) + (80 * remain_turn)) // 100
+           # print(value,max_value)
            if value > max_value:
                max_value = value
                for keyvisited, valuevisited in visited_diamond.items():
@@ -26,11 +26,11 @@ def dfs_depth_n(map,height,width, turn, depth, agentx, agenty, diamondlist, hole
                for keyvisited, valuevisited in visited_hole.items():
                    if valuevisited[1] == 1:
                        next_move = keyvisited
-           print(next_move,"nm")
+           # print(next_move,"nm")
            return value
 
        if remain_turn == 0:
-           value = (60 * (score_agent - current_score) + (40 * remain_turn)) // 100
+           value = (20 * (score_agent - current_score) + (80 * remain_turn)) // 100
            if value > max_value:
                max_value = value
                for keyvisited, valuevisited in visited_diamond.items():
@@ -39,7 +39,7 @@ def dfs_depth_n(map,height,width, turn, depth, agentx, agenty, diamondlist, hole
                for keyvisited, valuevisited in visited_hole.items():
                    if valuevisited[1] == 1:
                        next_move = keyvisited
-           print(next_move,"nm")
+           # print(next_move,"nm")
            return value
 
        result_return = 0
@@ -98,5 +98,5 @@ def dfs_depth_n(map,height,width, turn, depth, agentx, agenty, diamondlist, hole
    ##not visit start agent
    diccolor_number_copy=diccolor_number
    dfs(visited_diamond, visited_hole, 0, agentx, agenty, turn,score,diccolor_number_copy)
-   print(next_move)
+   # print(next_move)
    return next_move
