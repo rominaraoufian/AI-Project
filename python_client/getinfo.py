@@ -41,7 +41,7 @@ def startturn(map, height, width, turn ,maxturn, timelimit):
     global start #should change in other turns
     way = LifoQueue()
     sizedh = len(diamond) + len(hole)
-    depth = floor(log((10**5) * timelimit, sizedh))
+    depth = floor(log((10**4) * timelimit, sizedh))
     print(start,"start")
     print(maxturn-turn)
     #we change maxturn-turn to maxturn-turn+1 because the first turn is 1

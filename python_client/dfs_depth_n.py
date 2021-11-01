@@ -22,10 +22,10 @@ def dfs_depth_n(map,height,width, turn, depth, agentx, agenty, diamondlist, hole
            if value > max_value:
                max_value = value
                for keyvisited, valuevisited in visited_diamond.items():
-                   if valuevisited[1] == 1:
+                   if valuevisited[1] == 0:
                        next_move = keyvisited
                for keyvisited, valuevisited in visited_hole.items():
-                   if valuevisited[1] == 1:
+                   if valuevisited[1] == 0:
                        next_move = keyvisited
 
            return value
@@ -35,10 +35,10 @@ def dfs_depth_n(map,height,width, turn, depth, agentx, agenty, diamondlist, hole
            if value > max_value:
                max_value = value
                for keyvisited, valuevisited in visited_diamond.items():
-                   if valuevisited[1] == 1:
+                   if valuevisited[1] == 0:
                        next_move = keyvisited
                for keyvisited, valuevisited in visited_hole.items():
-                   if valuevisited[1] == 1:
+                   if valuevisited[1] == 0:
                        next_move = keyvisited
 
            return value
