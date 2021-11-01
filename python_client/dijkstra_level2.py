@@ -1,6 +1,6 @@
 from queue import PriorityQueue,  LifoQueue
 
-def dij_show_way(agentx, agenty, goalx, goaly, gridmap, height, width):
+def dij_show_way(agentx, agenty, goalx, goaly, gridmap, height, width,scoredij):
         visited = {}
         distancelist = {}
         parent = {}
@@ -31,7 +31,9 @@ def dij_show_way(agentx, agenty, goalx, goaly, gridmap, height, width):
             # up
             if (current_nodex - 1 >= 0) and ((current_nodex - 1, current_nodey) not in visited) and (
                (gridmap[current_nodex - 1][current_nodey] == 'E') or (gridmap[current_nodex - 1][current_nodey] == 'T')or(gridmap[current_nodex-1][current_nodey]=="EA")or(
-               (current_nodex - 1 == goalx) and (current_nodey == goaly))):
+               (current_nodex - 1 == goalx) and (current_nodey == goaly)) or (gridmap[current_nodex-1][current_nodey] == '1' and scoredij-1 < 0) or (
+              gridmap[current_nodex-1][current_nodey] == '2' and scoredij-1 < 15) or (gridmap[current_nodex-1][current_nodey] == '3' and scoredij-1 < 50 ) or (
+              gridmap[current_nodex-1][current_nodey] == '4' and scoredij-1 < 140)):
 
                 if (current_nodex - 1, current_nodey) not in distancelist:
                     distancelist[(current_nodex - 1, current_nodey)]=dist+1
@@ -45,7 +47,9 @@ def dij_show_way(agentx, agenty, goalx, goaly, gridmap, height, width):
             # down
             if (current_nodex + 1 < height) and ((current_nodex + 1, current_nodey) not in visited) and (
                (gridmap[current_nodex + 1][current_nodey] == 'E') or (gridmap[current_nodex + 1][current_nodey] == 'T')or(gridmap[current_nodex+1][current_nodey]=="EA")or(
-               (current_nodex + 1 == goalx) and (current_nodey == goaly))):
+               (current_nodex + 1 == goalx) and (current_nodey == goaly))or (gridmap[current_nodex+1][current_nodey] == '1' and scoredij-1 < 0) or (
+              gridmap[current_nodex+1][current_nodey] == '2' and scoredij-1 < 15) or (gridmap[current_nodex+1][current_nodey] == '3' and scoredij-1 < 50 ) or (
+              gridmap[current_nodex+1][current_nodey] == '4' and scoredij-1 < 140)):
 
                 if (current_nodex + 1, current_nodey) not in distancelist:
                     distancelist[(current_nodex + 1, current_nodey)]=dist+1
@@ -59,7 +63,9 @@ def dij_show_way(agentx, agenty, goalx, goaly, gridmap, height, width):
             # left
             if (current_nodey - 1 >= 0) and ((current_nodex, current_nodey - 1) not in visited) and (
                (gridmap[current_nodex][current_nodey - 1] == 'E') or (gridmap[current_nodex][current_nodey - 1] == 'T')or(gridmap[current_nodex][current_nodey-1]=="EA")or(
-               (current_nodex == goalx) and (current_nodey-1 == goaly))):
+               (current_nodex == goalx) and (current_nodey-1 == goaly))or (gridmap[current_nodex][current_nodey-1] == '1' and scoredij-1 < 0) or (
+              gridmap[current_nodex][current_nodey-1] == '2' and scoredij-1 < 15) or (gridmap[current_nodex][current_nodey-1] == '3' and scoredij-1 < 50 ) or (
+              gridmap[current_nodex][current_nodey-1] == '4' and scoredij-1 < 140)):
 
                 if (current_nodex, current_nodey - 1) not in distancelist:
                     distancelist[(current_nodex, current_nodey - 1)]=dist+1
@@ -74,7 +80,9 @@ def dij_show_way(agentx, agenty, goalx, goaly, gridmap, height, width):
             # right
             if (current_nodey + 1 < width) and ((current_nodex, current_nodey + 1) not in visited) and (
                (gridmap[current_nodex][current_nodey + 1] == 'E') or (gridmap[current_nodex][current_nodey + 1] == 'T') or(gridmap[current_nodex][current_nodey+1]=="EA")or(
-               (current_nodex == goalx) and (current_nodey+1 == goaly))):
+               (current_nodex == goalx) and (current_nodey+1 == goaly)) or (gridmap[current_nodex][current_nodey+1] == '1' and scoredij-1 < 0) or (
+              gridmap[current_nodex][current_nodey+1] == '2' and scoredij-1 < 15) or (gridmap[current_nodex][current_nodey+1] == '3' and scoredij-1 < 50 ) or (
+              gridmap[current_nodex][current_nodey +1] == '4' and scoredij-1 < 140)):
                 if (current_nodex, current_nodey + 1) not in distancelist:
                     distancelist[(current_nodex, current_nodey + 1)]=dist+1
                     pq.put((dist + 1, (current_nodex, current_nodey + 1)))
@@ -86,3 +94,4 @@ def dij_show_way(agentx, agenty, goalx, goaly, gridmap, height, width):
                         parent[(current_nodex, current_nodey + 1)] = (current_nodex, current_nodey, 'r')
 
 
+            scoredij -= 1

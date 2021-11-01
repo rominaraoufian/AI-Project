@@ -45,7 +45,6 @@ def startturn(gridmap, height, width, turn, maxturn, timelimit):
     global start #should change in other turns
     global sizedh
     way = LifoQueue()
-
     depth = floor(log((10**4) * timelimit, max(sizedh,1)))
     print(start,"start in startturn")
     print(depth,"depth")
@@ -75,7 +74,7 @@ def startturn(gridmap, height, width, turn, maxturn, timelimit):
             score += 75
             diamond.remove((next_move[0], next_move[1], 75))
 
-        way = dij_show_way(start[0], start[1], next_move[0], next_move[1], gridmap, height, width)
+        way = dij_show_way(start[0], start[1], next_move[0], next_move[1], gridmap, height, width, score)
     start = next_move
     # print(score,"scoreafter")
     # while not way.empty():
@@ -102,12 +101,12 @@ def action_state_func(gridmap, height, width, turn, maxturn, character, maxscore
                     start = (item_hole[0],item_hole[1])
                     print(start,"start hole")
         actions = startturn(gridmap, height, width, turn, maxturn, time)
-        print(actions)
+        # print(actions)
         size_action = actions.qsize()
 
     # while not actions.empty():
     #     print(actions.get())
     # print("weeeeee innnnn")
-    prev_action = actions.get()
-    # print(prev_action,"current_action")
+    prev_action=actions.get()
+    print(prev_action,"current_action")
     return prev_action
