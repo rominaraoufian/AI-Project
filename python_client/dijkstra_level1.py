@@ -18,7 +18,7 @@ def dijkstra(gridmap,height, width, agentx,agenty,goalx,goaly, scoredij):
           return dist
       #up
       if (current_nodex-1 >= 0) and ((current_nodex-1,current_nodey) not in visited) and (
-         (gridmap[current_nodex-1][current_nodey] == 'E') or (gridmap[current_nodex-1][current_nodey] == 'T')or(gridmap[current_nodex-1][current_nodey]=="EA") or(gridmap[current_nodex-1][current_nodey]=="EA")or(
+         (gridmap[current_nodex-1][current_nodey] == 'E') or (gridmap[current_nodex-1][current_nodey] == 'T')or(gridmap[current_nodex-1][current_nodey]=="EA") or(gridmap[current_nodex-1][current_nodey]=="TA")or(
          (current_nodex-1==goalx) and (current_nodey==goaly)) or (gridmap[current_nodex-1][current_nodey] == '1' and scoredij-1 < 0) or (
               gridmap[current_nodex-1][current_nodey] == '2' and scoredij-1 < 15) or (gridmap[current_nodex-1][current_nodey] == '3' and scoredij-1 < 50 ) or (
               gridmap[current_nodex-1][current_nodey] == '4' and scoredij-1 < 140)):
@@ -34,7 +34,7 @@ def dijkstra(gridmap,height, width, agentx,agenty,goalx,goaly, scoredij):
       #down
 
       if (current_nodex+1 < height) and ((current_nodex + 1, current_nodey) not in visited) and (
-         (gridmap[current_nodex + 1][current_nodey] == 'E') or (gridmap[current_nodex + 1][current_nodey] == 'T')or(gridmap[current_nodex+1][current_nodey]=="EA") or(gridmap[current_nodex+1][current_nodey]=="EA")or(
+         (gridmap[current_nodex + 1][current_nodey] == 'E') or (gridmap[current_nodex + 1][current_nodey] == 'T')or(gridmap[current_nodex+1][current_nodey]=="EA") or(gridmap[current_nodex+1][current_nodey]=="TA")or(
          (current_nodex + 1 == goalx) and (current_nodey == goaly))  or (gridmap[current_nodex+1][current_nodey] == '1' and scoredij-1 < 0) or (
               gridmap[current_nodex+1][current_nodey] == '2' and scoredij-1 < 15) or (gridmap[current_nodex+1][current_nodey] == '3' and scoredij-1 < 50 ) or (
               gridmap[current_nodex+1][current_nodey] == '4' and scoredij-1 < 140)):
@@ -49,7 +49,7 @@ def dijkstra(gridmap,height, width, agentx,agenty,goalx,goaly, scoredij):
                   pq.put((dist + 1, current_nodex + 1, current_nodey))
       #left
       if (current_nodey - 1 >= 0)  and ((current_nodex , current_nodey-1) not in visited) and (
-         (gridmap[current_nodex][current_nodey-1] == 'E') or (gridmap[current_nodex][current_nodey-1] == 'T')or(gridmap[current_nodex][current_nodey-1]=="EA") or (gridmap[current_nodex][current_nodey-1]=="EA")or(
+         (gridmap[current_nodex][current_nodey-1] == 'E') or (gridmap[current_nodex][current_nodey-1] == 'T')or(gridmap[current_nodex][current_nodey-1]=="EA") or (gridmap[current_nodex][current_nodey-1]=="TA")or(
          (current_nodex  == goalx) and (current_nodey-1 == goaly)) or (gridmap[current_nodex][current_nodey-1] == '1' and scoredij-1 < 0) or (
               gridmap[current_nodex][current_nodey-1] == '2' and scoredij-1 < 15) or (gridmap[current_nodex][current_nodey-1] == '3' and scoredij-1 < 50 ) or (
               gridmap[current_nodex][current_nodey-1] == '4' and scoredij-1 < 140)):
@@ -63,7 +63,7 @@ def dijkstra(gridmap,height, width, agentx,agenty,goalx,goaly, scoredij):
 
       #right
       if (current_nodey + 1 < width) and ((current_nodex , current_nodey+1) not in visited) and (
-         (gridmap[current_nodex][current_nodey+1] == 'E') or (gridmap[current_nodex][current_nodey+1] == 'T') or (gridmap[current_nodex][current_nodey+1]=="EA")or (gridmap[current_nodex][current_nodey+1]=="EA") or(
+         (gridmap[current_nodex][current_nodey+1] == 'E') or (gridmap[current_nodex][current_nodey+1] == 'T') or (gridmap[current_nodex][current_nodey+1]=="EA")or (gridmap[current_nodex][current_nodey+1]=="TA") or(
          (current_nodex  == goalx) and (current_nodey+1 == goaly)) or (gridmap[current_nodex][current_nodey+1] == '1' and scoredij-1 < 0) or (
               gridmap[current_nodex][current_nodey+1] == '2' and scoredij-1 < 15) or (gridmap[current_nodex][current_nodey+1] == '3' and scoredij-1 < 50 ) or (
               gridmap[current_nodex][current_nodey +1] == '4' and scoredij-1 < 140)):

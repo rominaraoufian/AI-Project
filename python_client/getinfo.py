@@ -56,9 +56,13 @@ def startturn(gridmap, height, width, turn, maxturn, timelimit):
     global walls
     way = LifoQueue()
 
-    depth = floor(log((10**4) * timelimit, max(sizedh, 2)))
+    # depth = floor(log((10**5) * timelimit, max(sizedh * len(hole) - walls, 2)))
+    # print(depth, "depth")
+    # if (walls//(height+width))*100 < 5:
+    #     depth -= 1
+    depth = floor(log((10 ** 4) * timelimit, max(sizedh, 2)))
     # print(depth,"before")
-    if (walls//(height+width))*100 < 5 and len(hole) == 0:
+    if (walls // (height + width)) * 100 < 5 and len(hole) == 0:
         depth -= 1
 
     # print(start,"start in startturn")
@@ -88,8 +92,8 @@ def startturn(gridmap, height, width, turn, maxturn, timelimit):
             diccolornumber['b'] += 1
             score += 75
             diamond.remove((next_move[0], next_move[1], 75))
-        print(start," start")
-        print(next_move, "next_move")
+        # print(start," start")
+        # print(next_move, "next_move")
         way = dij_show_way(start[0], start[1], next_move[0], next_move[1], gridmap, height, width, score)
     start = next_move
     # print(score,"scoreafter")
