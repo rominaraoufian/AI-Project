@@ -3,38 +3,36 @@ from dijkstra_level1 import dijkstra
 max_value = -1
 next_move = tuple()
 
-def dfs_depth_n(gridmap,height,width, turn, depth, agentx, agenty, diamondlist, holelist, score, diccolor_number):
+
+def dfs_depth_n(gridmap, height, width, turn, depth, agentx, agenty, diamondlist, holelist, score, diccolor_number):
    current_score = score
    global max_value
    global next_move
    next_move = tuple()
    max_value = -1
+
+
    def dfs(visited_diamond, visited_hole, level, agentx, agenty, remain_turn, score_agent, diccolor_number_copy):
        global max_value
        global next_move
        ##attention to hloes  the value maybe change
        if level == depth:
            ##get value range 0 to 1 or change percent
-
            value = (((20 * (score_agent - current_score)) + (80 * remain_turn)) // 100)
-
-              ## value = max((((5 * (score_agent - current_score)) + (95 * remain_turn)) // 100), (((20 * (score_agent - current_score)) + (80 * remain_turn)) // 100) )
-
+           ## value = max((((5 * (score_agent - current_score)) + (95 * remain_turn)) // 100), (((20 * (score_agent - current_score)) + (80 * remain_turn)) // 100) )
            if value > max_value:
                max_value = value
                for keyvisited, valuevisited in visited_diamond.items():
                    if valuevisited[1] == 0:
                        next_move = keyvisited
-
                for keyvisited, valuevisited in visited_hole.items():
                    if valuevisited[1] == 0:
-                       next_move = (keyvisited[0],keyvisited[1])
+                       next_move = (keyvisited[0], keyvisited[1])
            return value
-       if remain_turn == 0:
 
+       if remain_turn == 0:
            value = (((20 * (score_agent - current_score)) + (80 * remain_turn)) // 100)
                #value = max((((5 * (score_agent - current_score)) + (95 * remain_turn)) // 100), (((20 * (score_agent - current_score)) + (80 * remain_turn)) // 100))
-
            if value > max_value:
                max_value = value
                for keyvisited, valuevisited in visited_diamond.items():
@@ -42,8 +40,9 @@ def dfs_depth_n(gridmap,height,width, turn, depth, agentx, agenty, diamondlist, 
                        next_move = keyvisited
                for keyvisited, valuevisited in visited_hole.items():
                    if valuevisited[1] == 0:
-                       next_move = (keyvisited[0],keyvisited[1])
+                       next_move = (keyvisited[0], keyvisited[1])
            return value
+
        if len(diamondlist) == len(visited_diamond):
            value = (((20 * (score_agent - current_score)) + (80 * remain_turn)) // 100)
            if value > max_value:
@@ -54,7 +53,7 @@ def dfs_depth_n(gridmap,height,width, turn, depth, agentx, agenty, diamondlist, 
 
                for keyvisited, valuevisited in visited_hole.items():
                    if valuevisited[1] == 0:
-                       next_move = (keyvisited[0],keyvisited[1])
+                       next_move = (keyvisited[0], keyvisited[1])
            return value
 
        result_return = 0
@@ -105,7 +104,7 @@ def dfs_depth_n(gridmap,height,width, turn, depth, agentx, agenty, diamondlist, 
            h = (hole[0], hole[1])
            if (h[0] != agentx) or (h[1] != agenty):
                visited_hole[(h[0],h[1],level)] = (True, level) ## just for level we do not need to visit holes
-               print(visited_hole,"visitedhole")
+               # print(visited_hole,"visitedhole")
                current_hole = (h[0], h[1], 0)
                next_step = (agentx, agenty, 0)
                if next_step in holelist:
