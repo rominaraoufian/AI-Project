@@ -9,7 +9,10 @@ def dij_show_way(agentx, agenty, goalx, goaly, gridmap, height, width,scoredij):
         pq = PriorityQueue()
         pq.put((0, (agentx, agenty)))
         distancelist[(agentx, agenty)] = 0
-
+        print(gridmap[agentx][agenty],gridmap[goalx][goaly],"dij2 sg")
+        if gridmap[agentx][agenty] == 'TA' and gridmap[goalx][goaly] == 'T':
+            way.put('t')
+            return way
         while not pq.empty():
             temp = pq.get()
             dist = temp[0]

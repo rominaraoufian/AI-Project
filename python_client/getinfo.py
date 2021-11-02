@@ -52,7 +52,7 @@ def startturn(gridmap, height, width, turn, maxturn, timelimit):
     #we change maxturn-turn to maxturn-turn+1 because the first turn is 1
     next_move = dfs_depth_n(gridmap, height, width, maxturn-turn+1,depth, start[0], start[1], diamond, hole, score, diccolornumber)
     # print(score,"afterdfsscore")
-    # print(next_move,"next_move")
+    print(next_move,"next_move")
     if next_move == ():
         for i in range(maxturn-turn+1):
            way.put('n')
