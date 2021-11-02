@@ -11,12 +11,14 @@ diccolornumber = {'y': 0, 'g': 0, 'r': 0, 'b': 0}
 actions=LifoQueue()
 sizedh=0
 prev_action=''
+walls =0
 def getinfo(gridmap, height, width, character,scoreinitial):
     global diamond
     global hole
     global start
     global score
     global  sizedh
+    global walls
     score =scoreinitial
     for i in range(0, height):
         for j in range(0, width):
@@ -32,6 +34,8 @@ def getinfo(gridmap, height, width, character,scoreinitial):
                 diamond.append((i, j, 75))
             if (gridmap[i][j] == ('E'+character)):
                 start = (i, j)
+            if (gridmap[i][j] == 'W'):
+                walls += 1
     sizedh = len(diamond) + len(hole)
     # print(diamond, "diamond")
     # print(hole,"hole")
@@ -46,6 +50,8 @@ def startturn(gridmap, height, width, turn, maxturn, timelimit):
     global sizedh
     way = LifoQueue()
     depth = floor(log((10**4) * timelimit, max(sizedh,2)))
+    # if (((height*width-walls)//height*width)*100) > 2:
+    #     depth -= 1
     print(start,"start in startturn")
     print(depth,"depth")
     # print(score,"befordfs")

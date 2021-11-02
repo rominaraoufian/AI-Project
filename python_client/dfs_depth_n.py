@@ -28,11 +28,11 @@ def dfs_depth_n(gridmap,height,width, turn, depth, agentx, agenty, diamondlist, 
                        next_move = keyvisited
                for keyvisited, valuevisited in visited_hole.items():
                    if valuevisited[1] == 0:
-                       next_move = (keyvisited[0],keyvisited[1])
+                       next_move = (keyvisited[0], keyvisited[1])
            return value
        if remain_turn == 0:
 
-           value = (((30 * (score_agent - current_score)) + (70 * remain_turn)) // 100)
+           value = (((20 * (score_agent - current_score)) + (80 * (remain_turn))) // 100)
 
                #value = max((((5 * (score_agent - current_score)) + (95 * remain_turn)) // 100), (((20 * (score_agent - current_score)) + (80 * remain_turn)) // 100))
            if value > max_value:
@@ -45,10 +45,10 @@ def dfs_depth_n(gridmap,height,width, turn, depth, agentx, agenty, diamondlist, 
                        next_move = (keyvisited[0],keyvisited[1])
            return value
        if len(diamondlist) == len(visited_diamond):
-           if len(holelist) != 0:
-               value = (((5 * (score_agent - current_score)) + (95 * remain_turn)) // 100)
-           else:
-               value = max((((5 * (score_agent - current_score)) + (95 * remain_turn)) // 100),(((20 * (score_agent - current_score)) + (80 * remain_turn)) // 100))
+
+
+           value = (((20 * (score_agent - current_score)) + (80 * remain_turn)) // 100)
+
 
            if value > max_value:
                max_value = value
