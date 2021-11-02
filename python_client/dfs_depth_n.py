@@ -14,14 +14,11 @@ def dfs_depth_n(gridmap,height,width, turn, depth, agentx, agenty, diamondlist, 
        global next_move
        ##attention to hloes  the value maybe change
        if level == depth:
-           # print("level == depth")
-           # print(diamondlist, "diamondlist")
-           # print(holelist,"holelist")
            ##get value range 0 to 1 or change percent
            if len(holelist) != 0:
-               value =(((5 * (score_agent - current_score)) + (95 * remain_turn)) // 100)
+               value = (((5 * (score_agent - current_score)) + (95 * remain_turn)) // 100)
            else:
-               value =max(( ((5 * (score_agent - current_score)) + (95 * remain_turn)) // 100 ),(((20 * (score_agent - current_score)) + (80 * remain_turn)) // 100) )
+               value = max((((5 * (score_agent - current_score)) + (95 * remain_turn)) // 100), (((20 * (score_agent - current_score)) + (80 * remain_turn)) // 100) )
            if value > max_value:
                max_value = value
                for keyvisited, valuevisited in visited_diamond.items():
@@ -29,19 +26,9 @@ def dfs_depth_n(gridmap,height,width, turn, depth, agentx, agenty, diamondlist, 
                        next_move = keyvisited
                for keyvisited, valuevisited in visited_hole.items():
                    if valuevisited[1] == 0:
-                       next_move = keyvisited
-
-           # print(value, 'value')
-           # print(visited_diamond,"visitdimond")
-           # print(visited_hole, "visitedhole")
-           # print(remain_turn, "remain_turn")
-           # print(max_value, "max_value")
+                       next_move = (keyvisited[0],keyvisited[1])
            return value
-
        if remain_turn == 0:
-           # print("remain-turn == 0")
-           # print(diamondlist,"diamondlist")
-           # print(holelist, "holelist")
            if len(holelist) != 0:
                value = (((5 * (score_agent - current_score)) + (95 * remain_turn)) // 100)
            else:
@@ -51,10 +38,9 @@ def dfs_depth_n(gridmap,height,width, turn, depth, agentx, agenty, diamondlist, 
                for keyvisited, valuevisited in visited_diamond.items():
                    if valuevisited[1] == 0:
                        next_move = keyvisited
-
                for keyvisited, valuevisited in visited_hole.items():
                    if valuevisited[1] == 0:
-                       next_move = keyvisited
+                       next_move = (keyvisited[0],keyvisited[1])
            return value
        if len(diamondlist) == len(visited_diamond):
            if len(holelist) != 0:
@@ -70,26 +56,25 @@ def dfs_depth_n(gridmap,height,width, turn, depth, agentx, agenty, diamondlist, 
 
                for keyvisited, valuevisited in visited_hole.items():
                    if valuevisited[1] == 0:
-                       next_move = keyvisited
+                       next_move = (keyvisited[0],keyvisited[1])
            return value
 
        result_return = 0
        max_return_result = 0
 
        for diamond in diamondlist:
+
            d = (diamond[0], diamond[1])
            if d not in visited_diamond:
+
                visited_diamond[d] = (True, level)
                distance = dijkstra(gridmap, height, width, agentx, agenty, diamond[0], diamond[1], score_agent)
-               # print(agentx,agenty,"agentx,agenty")
-               # print(diamond[0],diamond[1],"d[0],d[1]")
-               # print(distance,"distance")
-               # print(height,"h")
-               # print(width,"w")
+
                if (distance <= remain_turn) and (level+1 <= depth):
                    if (diamond[2] == 10) and (diccolor_number_copy['y'] < 15) and ((score_agent-distance) >= 0):
                        # print("im in yellow")
                        # print(score_agent, "score_agent")
+                       # print("next agent",diamond[0],diamond[1])
                        diccolor_number_copy['y'] += 1
                        result_return = dfs(visited_diamond, visited_hole, level+1, diamond[0], diamond[1], remain_turn - distance, score_agent + 10 - distance, diccolor_number_copy)
                        diccolor_number_copy['y'] -= 1
@@ -111,16 +96,18 @@ def dfs_depth_n(gridmap,height,width, turn, depth, agentx, agenty, diamondlist, 
                        diccolor_number_copy['b'] +=1
                        result_return = dfs(visited_diamond, visited_hole, level + 1, diamond[0], diamond[1], remain_turn - distance, score_agent + 75 - distance, diccolor_number_copy)
                        diccolor_number_copy['b'] -= 1
+
                if max_return_result < result_return:
                    max_return_result = result_return
-                   print(max_return_result,"max return diamond")
+                   # print(max_return_result,"max return diamond")
                visited_diamond.pop(d, None)
 
 
        for hole in holelist:
            h = (hole[0], hole[1])
            if (h[0] != agentx) or (h[1] != agenty):
-               visited_hole[h] = (True, level) ## just for level we do not need to visit holes
+               visited_hole[(h[0],h[1],level)] = (True, level) ## just for level we do not need to visit holes
+               print(visited_hole,"visitedhole")
                current_hole = (h[0], h[1], 0)
                next_step = (agentx, agenty, 0)
                if next_step in holelist:
@@ -134,25 +121,24 @@ def dfs_depth_n(gridmap,height,width, turn, depth, agentx, agenty, diamondlist, 
                     value_hole = 0
                     for item_hole in holelist:
                         if item_hole != current_hole:
-                            print(item_hole,"item_hole")
                             ## remain_turn-distancehole-1 because hole do not have distance
                             value_hole += dfs(visited_diamond, visited_hole, level+1, item_hole[0], item_hole[1], remain_turn-distancehole-1, score_agent - distancehole-1, diccolor_number_copy)
-                            print(value_hole,"value_hole")
+                            # print(value_hole,"value_hole")
 
                     result_return = (value_hole//(len(holelist)-1))
 
-                    print(result_return, "result return")
-                    print(len(holelist)-1, "hole list-1")
-                    print(current_hole,"curhole")
+                    # print(result_return, "result return")
+                    # print(len(holelist)-1, "hole list-1")
+                    # print(current_hole,"curhole")
                     # print("value for hole", current_hole)
                     # print(result_return,"hole result")
                if max_return_result < result_return:
                      max_return_result = result_return
-                     print(current_hole,result_return,max_return_result,"current_hole,result_return,max_return_result" )
-               visited_hole.pop(h, None)
+                     # print(current_hole,result_return,max_return_result,"current_hole,result_return,max_return_result" )
+               visited_hole.pop((h[0],h[1],level), None)
 
        ## return for middel nodes max value in middel node
-       print(max_return_result,"max_returrn_koli")
+       # print(max_return_result,"max_returrn_koli")
        return max_return_result
 
 
