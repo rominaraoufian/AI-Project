@@ -60,7 +60,7 @@ def dfs_depth_n(gridmap, height, width, turn, depth, agentx, agenty, diamondlist
 
 
        if len(diamondlist) == len(visited_diamond):
-           value = (((35 * (score_agent - current_score)) + (65 * remain_turn)) // 100)
+           value = (((20 * (score_agent - current_score)) + (80 * remain_turn)) // 100)
            if value > max_value:
                max_value = value
                for keyvisited, valuevisited in visited_diamond.items():
