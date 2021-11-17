@@ -76,4 +76,6 @@ def dijkstra(gridmap,height, width, agentx,agenty, scoredij):
                   distancelist[(current_nodex , current_nodey+1)] = dist + 1
                   pq.put((dist + 1, current_nodex, current_nodey + 1))
       scoredij -= 1
+
   return array_distance
+

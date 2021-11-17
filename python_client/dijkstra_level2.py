@@ -10,7 +10,10 @@ def dij_show_way(agentx, agenty, goalx, goaly, gridmap, height, width,scoredij):
         pq.put((0, (agentx, agenty)))
         distancelist[(agentx, agenty)] = 0
 
-
+        #print(gridmap[agentx][agenty],gridmap[goalx][goaly],"dij2 sg")
+        # if gridmap[agentx][agenty] == 'TA' and gridmap[goalx][goaly] == 'T':
+        #     way.put('t')
+        #     return way
         if agentx == goalx and agenty == goaly:
             way.put('t')
             return way
@@ -21,9 +24,6 @@ def dij_show_way(agentx, agenty, goalx, goaly, gridmap, height, width,scoredij):
             current_nodex = temp[1][0]
             current_nodey = temp[1][1]
             visited[(current_nodex, current_nodey)] = True
-            if gridmap[agentx][agenty] == 'TA' and gridmap[goalx][goaly] == 'T':
-                way.put('t')
-                return way
             if current_nodex == goalx and current_nodey == goaly:
                 x = current_nodex
                 y = current_nodey
@@ -33,8 +33,10 @@ def dij_show_way(agentx, agenty, goalx, goaly, gridmap, height, width,scoredij):
                     way.put(parent[(x, y)][2])
                     currentx = parent[(x, y)][0]
                     currenty = parent[(x, y)][1]
-                    x = currentx
-                    y = currenty
+
+                    x=currentx
+                    y=currenty
+
                 return way
             # up
             if (current_nodex - 1 >= 0) and ((current_nodex - 1, current_nodey) not in visited) and (
@@ -54,7 +56,6 @@ def dij_show_way(agentx, agenty, goalx, goaly, gridmap, height, width,scoredij):
                         parent[(current_nodex - 1, current_nodey)] = (current_nodex, current_nodey, 'u')
             # down
             if (current_nodex + 1 < height) and ((current_nodex + 1, current_nodey) not in visited) and (
-
                (gridmap[current_nodex + 1][current_nodey] == 'E') or (gridmap[current_nodex + 1][current_nodey] == 'T')or(gridmap[current_nodex+1][current_nodey]=="EA") or (gridmap[current_nodex+1][current_nodey]=="TA")or(
                (current_nodex + 1 == goalx) and (current_nodey == goaly))or (gridmap[current_nodex+1][current_nodey] == '1' and scoredij-1 < 0) or (
               gridmap[current_nodex+1][current_nodey] == '2' and scoredij-1 < 15) or (gridmap[current_nodex+1][current_nodey] == '3' and scoredij-1 < 50 ) or (
@@ -71,7 +72,6 @@ def dij_show_way(agentx, agenty, goalx, goaly, gridmap, height, width,scoredij):
                         parent[(current_nodex + 1, current_nodey)] = (current_nodex, current_nodey, 'd')
             # left
             if (current_nodey - 1 >= 0) and ((current_nodex, current_nodey - 1) not in visited) and (
-
                (gridmap[current_nodex][current_nodey - 1] == 'E') or (gridmap[current_nodex][current_nodey - 1] == 'T')or(gridmap[current_nodex][current_nodey-1]=="EA") or (gridmap[current_nodex][current_nodey-1]=="TA")or (
                (current_nodex == goalx) and (current_nodey-1 == goaly))or (gridmap[current_nodex][current_nodey-1] == '1' and scoredij-1 < 0) or (
               gridmap[current_nodex][current_nodey-1] == '2' and scoredij-1 < 15) or (gridmap[current_nodex][current_nodey-1] == '3' and scoredij-1 < 50 ) or (
@@ -105,5 +105,4 @@ def dij_show_way(agentx, agenty, goalx, goaly, gridmap, height, width,scoredij):
 
 
             scoredij -= 1
-
 

@@ -61,13 +61,13 @@ def startturn(gridmap, height, width, turn, maxturn, timelimit):
     # if (walls//(height+width))*100 < 5:
     #     depth -= 1
     depth = floor(log((10 ** 4) * timelimit, max(sizedh, 2)))
-
     # print(depth,"before")
     if (walls // (height + width)) * 100 < 5 and len(hole) == 0:
         depth -= 1
 
     # print(start,"start in startturn")
-    print(depth,"depth")
+
+    # print(depth,"depth")
     # print(score,"befordfs")
     #we change maxturn-turn to maxturn-turn+1 because the first turn is 1
     next_move = dfs_depth_n(gridmap, height, width, maxturn-turn+1,depth, start[0], start[1], diamond, hole, score, diccolornumber)
@@ -96,7 +96,6 @@ def startturn(gridmap, height, width, turn, maxturn, timelimit):
 
         # print(start," start")
         # print(next_move, "next_move")
-
         way = dij_show_way(start[0], start[1], next_move[0], next_move[1], gridmap, height, width, score)
     start = next_move
     # print(score,"scoreafter")

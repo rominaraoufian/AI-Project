@@ -32,11 +32,6 @@ def dfs_depth_n(gridmap, height, width, turn, depth, agentx, agenty, diamondlist
                    if valuevisited[1] == 0:
                        next_move = (keyvisited[0], keyvisited[1])
 
-           # print("level == depth")
-           # print(value, "value")
-           # print(max_value, "max value")
-           # print(next_move, "next move")
-
            return value
 
 
@@ -55,11 +50,6 @@ def dfs_depth_n(gridmap, height, width, turn, depth, agentx, agenty, diamondlist
                    if valuevisited[1] == 0:
                        next_move = (keyvisited[0], keyvisited[1])
 
-           # print("level == depth")
-           # print(value, "value")
-           # print(max_value, "max value")
-           # print(next_move, "next move")
-
            return value
 
 
@@ -74,7 +64,7 @@ def dfs_depth_n(gridmap, height, width, turn, depth, agentx, agenty, diamondlist
                for keyvisited, valuevisited in visited_hole.items():
                    if valuevisited[1] == 0:
                        next_move = (keyvisited[0], keyvisited[1])
-                       print(next_move, "nextmovehole")
+
            return value
 
        result_return = 0
@@ -170,4 +160,6 @@ def dfs_depth_n(gridmap, height, width, turn, depth, agentx, agenty, diamondlist
 
    # print(next_move,"nextmove","******************")
    # print(max_value,"max value")
+
    return next_move
+
