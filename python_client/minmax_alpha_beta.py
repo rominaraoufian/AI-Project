@@ -1,15 +1,18 @@
 from dijkstra_level1 import dijkstra
-from hashing import hash_key
+from calculatedFunc import hash_key, sortmoves
+from queue import Queue
 import numpy as np
 
+storedHkeys = Queue()
 
-def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist, agentx, agenty, enemyx, enemyy, trapcount, depth, scoreagent, scoreenemy, diccolornumberagent,diccolornumberenemy,transpositiontable, enemytraps, agenttraps):
+def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist, agentx, agenty, enemyx, enemyy, trapcount, depth, scoreagent, scoreenemy, diccolornumberagent,diccolornumberenemy,transpositiontable, enemytraps, agenttraps,transpositionsize):
     current_score_agent = scoreagent
     current_score_enemy = scoreenemy
     visited_diamond = {}
     visited_hole = {}
     max_value = -1
     next_move = tuple()
+
 
     def alph_beta_minmax(is_max_turn, agentx, agenty, enemyx, enemyy, alpha, beta, level, remain_turn_agent, remain_turn_enemy, score_agent, score_enemy,diccolor_number_copy_agent,diccolor_number_copy_enemy):
         global current_score_agent
@@ -75,7 +78,8 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist
         best_value = float('-inf') if is_max_turn else float('inf')
         if is_max_turn:
             dicdistance = dijkstra(gridmap, height, width, agentx, agenty, score_agent, enemytraps)
-            for diamond in diamondlist:
+            sort_diamond_list = sortmoves(dicdistance, diamondlist)
+            for diamond in sort_diamond_list:
                 d = (diamond[0], diamond[1])
                 if (d not in dicdistance):
                     calculatescore = score_agent
@@ -115,11 +119,17 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist
                         if (hash_state in transpositiontable) and (transpositiontable[hash_state][3] > level):
                             transpositiontable[hash_state] = (transpositiontable[hash_state][0],best_value , transpositiontable[hash_state][2], level)
                         else:
-                            transpositiontable[hash_state] = (float('inf'), best_value, float('inf'), level)
+                            if len(transpositiontable) < transpositionsize:
+                                storedHkeys.put(hash_state)
+                                transpositiontable[hash_state] = (float('inf'), best_value, float('inf'), level)
+                            else:
+                                storedHkeys.get()
+                                storedHkeys.put(hash_state)
+                                transpositiontable[hash_state] = (float('inf'), best_value, float('inf'), level)
                         return best_value
                     visited_diamond.pop(d, None)
-
-            for hole in holelist:
+            sort_hole_list = sortmoves(dicdistance, holelist)
+            for hole in sort_hole_list:
                 h = (hole[0], hole[1])
                 if (h not in dicdistance):
                     calculatescore = score_agent
@@ -146,13 +156,20 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist
                     if (hash_state in transpositiontable) and (transpositiontable[hash_state][3] > level):
                         transpositiontable[hash_state] = (transpositiontable[hash_state][0], best_value, transpositiontable[hash_state][2], level)
                     else:
-                        transpositiontable[hash_state] = (float('inf'), best_value, float('inf'), level)
+                        if len(transpositiontable) < transpositionsize:
+                            storedHkeys.put(hash_state)
+                            transpositiontable[hash_state] = (float('inf'), best_value, float('inf'), level)
+                        else:
+                            storedHkeys.get()
+                            storedHkeys.put(hash_state)
+                            transpositiontable[hash_state] = (float('inf'), best_value, float('inf'), level)
                     return best_value
                 visited_hole.pop((h[0], h[1], level), None)
 
         else:
             dicdistanceenemy = dijkstra(gridmap, height, width, enemyx, enemyy, score_enemy, agenttraps)
-            for diamond in diamondlist:
+            sort_diamond_list = sortmoves(dicdistanceenemy, diamondlist)
+            for diamond in sort_diamond_list:
                 d = (diamond[0], diamond[1])
                 for diamond in diamondlist:
                     d = (diamond[0], diamond[1])
@@ -211,11 +228,18 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist
                         if (hash_state in transpositiontable) and (transpositiontable[hash_state][3] > level):
                             transpositiontable[hash_state] = (transpositiontable[hash_state][0], transpositiontable[hash_state][1],best_value , level)
                         else:
-                            transpositiontable[hash_state] = (float('inf'), float('inf'), best_value, level)
+                            if len(transpositiontable) < transpositionsize:
+                                storedHkeys.put(hash_state)
+                                transpositiontable[hash_state] = (float('inf'), float('inf'), best_value, level)
+                            else:
+                                storedHkeys.get()
+                                storedHkeys.put(hash_state)
+                                transpositiontable[hash_state] = (float('inf'),float('inf'), best_value, level)
+
                         return best_value
                     visited_diamond.pop(d, None)
-
-            for hole in holelist:
+            sort_hole_list = sortmoves(dicdistanceenemy, holelist)
+            for hole in sort_hole_list:
                 h = (hole[0], hole[1])
                 if (h not in dicdistanceenemy):
                     calculatescore = score_agent
@@ -245,7 +269,13 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist
                     if (hash_state in transpositiontable) and (transpositiontable[hash_state][3] > level):
                         transpositiontable[hash_state] = (transpositiontable[hash_state][0], transpositiontable[hash_state][1], best_value, level)
                     else:
-                        transpositiontable[hash_state] = (float('inf'), float('inf'), best_value, level)
+                        if len(transpositiontable) < transpositionsize:
+                            storedHkeys.put(hash_state)
+                            transpositiontable[hash_state] = (float('inf'), float('inf'), best_value, level)
+                        else:
+                            storedHkeys.get()
+                            storedHkeys.put(hash_state)
+                            transpositiontable[hash_state] = (float('inf'), float('inf'), best_value, level)
                     return best_value
                 visited_hole.pop((h[0], h[1], level), None)
 
@@ -253,7 +283,13 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist
         if (hash_state in transpositiontable) and (transpositiontable[hash_state][3] > level):
             transpositiontable[hash_state]=(best_value,transpositiontable[hash_state][1],transpositiontable[hash_state][2],level)
         else:
-            transpositiontable[hash_state] = (best_value, float('inf'), float('inf'), level)
+            if len(transpositiontable) < transpositionsize:
+                storedHkeys.put(hash_state)
+                transpositiontable[hash_state] = (best_value,float('inf'), float('inf'),  level)
+            else:
+                storedHkeys.get()
+                storedHkeys.put(hash_state)
+                transpositiontable[hash_state] = (best_value,float('inf'), float('inf'), level)
         return best_value
 
     diccolor_number_copy_agent = diccolornumberagent

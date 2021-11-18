@@ -23,6 +23,8 @@ agent_id = 0
 enemy_id = 0
 enemy_trap = []
 transposition = {}
+transposition_size = 0
+
 
 def getinfo(gridmap, height, width, character,scoreinitial):
     global diamond
@@ -154,6 +156,8 @@ def getinfophase2(gridmap, height, width, turn, maxturn, character,scoreinitial,
     global start_enemy
     global enemy_list
     global transposition
+    global transposition_size
+
     score_agent = scoreinitial
     score_enemy = scoreinitial
 
@@ -193,7 +197,7 @@ def getinfophase2(gridmap, height, width, turn, maxturn, character,scoreinitial,
 
         diamondnp = np.array(diamond)
         holenp = np.array(hole)
-
+        transposition_size = height * width - (walls+len(diamond)+len(hole))
     if turn != 0:
         previous_enemy_place = start_enemy
         prevous_enemy_score = score_enemy
@@ -232,36 +236,36 @@ def getinfophase2(gridmap, height, width, turn, maxturn, character,scoreinitial,
         if np.any(diamondnp == (start_enemy[0],start_enemy[1],10)):
             if diccolornumber_enemy['y'] < 15:
                 diccolornumber_enemy['y'] += 1
-                np.delete(diamondnp, np.where(diamondnp == (start_enemy[0],start_enemy[1],10)))
+                diamondnp = np.delete(diamondnp, np.where(diamondnp == (start_enemy[0],start_enemy[1],10)))
         if np.any(diamondnp == (start_enemy[0],start_enemy[1],25)):
             if diccolornumber_enemy['g'] < 8 and score_enemy-25 > 14:
                 diccolornumber_enemy['g'] += 1
-                np.delete(diamondnp, np.where(diamondnp == (start_enemy[0], start_enemy[1], 25)))
+                diamondnp = np.delete(diamondnp, np.where(diamondnp == (start_enemy[0], start_enemy[1], 25)))
         if np.any(diamondnp == (start_enemy[0],start_enemy[1],35)):
             if diccolornumber_enemy['r'] < 5 and score_enemy-35 > 49:
                 diccolornumber_enemy['r'] += 1
-                np.delete(diamondnp, np.where(diamondnp == (start_enemy[0], start_enemy[1], 35)))
+                diamondnp = np.delete(diamondnp, np.where(diamondnp == (start_enemy[0], start_enemy[1], 35)))
         if np.any(diamondnp == (start_enemy[0], start_enemy[1], 75)):
             if diccolornumber_enemy['b'] < 4 and score_enemy-75 > 139:
                 diccolornumber_enemy['b'] += 1
-                np.delete(diamondnp, np.where(diamondnp == (start_enemy[0], start_enemy[1], 75)))
+                diamondnp = np.delete(diamondnp, np.where(diamondnp == (start_enemy[0], start_enemy[1], 75)))
 
         if np.any(diamondnp == (start_agent[0], start_agent[1], 10)):
             if diccolornumber_agent['y'] < 15:
                 diccolornumber_agent['y'] += 1
-                np.delete(diamondnp, np.where(diamondnp == (start_agent[0], start_agent[1], 10)))
+                diamondnp = np.delete(diamondnp, np.where(diamondnp == (start_agent[0], start_agent[1], 10)))
         if np.any(diamondnp == (start_agent[0], start_agent[1], 25)):
             if diccolornumber_agent['g'] < 8 and score_agent - 25 > 14:
                 diccolornumber_agent['g'] += 1
-                np.delete(diamondnp, np.where(diamondnp == (start_agent[0], start_agent[1], 25)))
+                diamondnp = np.delete(diamondnp, np.where(diamondnp == (start_agent[0], start_agent[1], 25)))
         if np.any(diamondnp == (start_agent[0], start_agent[1], 35)):
             if diccolornumber_agent['r'] < 5 and score_agent - 35 > 49:
                 diccolornumber_agent['r'] += 1
-                np.delete(diamondnp, np.where(diamondnp == (start_agent[0], start_agent[1], 35)))
+                diamondnp = np.delete(diamondnp, np.where(diamondnp == (start_agent[0], start_agent[1], 35)))
         if np.any(diamondnp == (start_agent[0], start_agent[1], 75)):
             if diccolornumber_agent['b'] < 4 and score_agent - 75 > 139:
                 diccolornumber_agent['b'] += 1
-                np.delete(diamondnp, np.where(diamondnp == (start_agent[0], start_agent[1], 75)))
+                diamondnp = np.delete(diamondnp, np.where(diamondnp == (start_agent[0], start_agent[1], 75)))
 
     trapenemy = np.array(enemy_trap)
     agent_trap=[]
@@ -269,6 +273,6 @@ def getinfophase2(gridmap, height, width, turn, maxturn, character,scoreinitial,
 
     sizedh = len(diamond) + len(hole)
     depth = 0
-    next_move = minmax(gridmap, height, width, maxturn-turn, maxturn-turn, diamond, hole, start_agent[0], start_agent[1], start_enemy[0], start_enemy[1], trapcount, depth, score_agent, score_enemy, diccolornumber_agent,diccolornumber_enemy,transposition, trapenemy, trapagent)
+    next_move = minmax(gridmap, height, width, maxturn-turn, maxturn-turn, diamondnp, holenp, start_agent[0], start_agent[1], start_enemy[0], start_enemy[1], trapcount, depth, score_agent, score_enemy, diccolornumber_agent,diccolornumber_enemy,transposition, trapenemy, trapagent,transposition_size)
     next_action = dij_show_action(start_agent[0], start_agent[1], next_move[0], next_move[1], gridmap, height, width,score_agent)
     return next_action
