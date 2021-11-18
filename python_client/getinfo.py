@@ -24,7 +24,7 @@ enemy_id = 0
 enemy_trap = []
 transposition = {}
 transposition_size = 0
-
+max_depth=0
 
 def getinfo(gridmap, height, width, character,scoreinitial):
     global diamond
@@ -145,7 +145,7 @@ def action_state_func(gridmap, height, width, turn, maxturn, character, maxscore
     # print(prev_action,"current_action")
     return prev_action
 
-def getinfophase2(gridmap, height, width, turn, maxturn, character,scoreinitial, scores, trapcount):
+def getinfophase2(gridmap, height, width, turn, maxturn, character,scoreinitial, scores, trapcount,timelimit):
     global diamond
     global hole
     global start_agent
@@ -157,10 +157,11 @@ def getinfophase2(gridmap, height, width, turn, maxturn, character,scoreinitial,
     global enemy_list
     global transposition
     global transposition_size
+    global max_depth
 
     score_agent = scoreinitial
     score_enemy = scoreinitial
-
+    print("im in")
     if character == 'A':
         character_enemy = 'B'
         agent_id = 0
@@ -272,7 +273,16 @@ def getinfophase2(gridmap, height, width, turn, maxturn, character,scoreinitial,
     trapagent = np.array(agent_trap)
 
     sizedh = len(diamond) + len(hole)
-    depth = 0
-    next_move = minmax(gridmap, height, width, maxturn-turn, maxturn-turn, diamondnp, holenp, start_agent[0], start_agent[1], start_enemy[0], start_enemy[1], trapcount, depth, score_agent, score_enemy, diccolornumber_agent,diccolornumber_enemy,transposition, trapenemy, trapagent,transposition_size)
-    next_action = dij_show_action(start_agent[0], start_agent[1], next_move[0], next_move[1], gridmap, height, width,score_agent)
+
+    depth = floor(log((10 ** 4) * timelimit, max(sizedh, 2)))
+
+    if (walls // (height + width)) * 100 < 5 and len(hole) == 0:
+        depth -= 1
+    depth = max(max_depth, depth)
+
+    if depth % 2:
+        depth = max(depth-1, 2)
+
+    next_move,max_depth = minmax(gridmap, height, width, maxturn-turn, maxturn-turn, diamondnp, holenp, start_agent[0], start_agent[1], start_enemy[0], start_enemy[1], trapcount, depth, score_agent, score_enemy, diccolornumber_agent,diccolornumber_enemy,transposition, trapenemy, trapagent,transposition_size,max_depth)
+    next_action = dij_show_action(start_agent[0], start_agent[1], next_move[0], next_move[1], gridmap, height, width,score_agent,trapenemy)
     return next_action

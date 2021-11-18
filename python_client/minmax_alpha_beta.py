@@ -5,20 +5,21 @@ import numpy as np
 
 storedHkeys = Queue()
 
-def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist, agentx, agenty, enemyx, enemyy, trapcount, depth, scoreagent, scoreenemy, diccolornumberagent,diccolornumberenemy,transpositiontable, enemytraps, agenttraps,transpositionsize):
+def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist, agentx, agenty, enemyx, enemyy, trapcount, depth, scoreagent, scoreenemy, diccolornumberagent,diccolornumberenemy,transpositiontable, enemytraps, agenttraps,transpositionsize,max_depth):
     current_score_agent = scoreagent
     current_score_enemy = scoreenemy
     visited_diamond = {}
     visited_hole = {}
     max_value = -1
     next_move = tuple()
-
+    max_depth_new=max_depth
 
     def alph_beta_minmax(is_max_turn, agentx, agenty, enemyx, enemyy, alpha, beta, level, remain_turn_agent, remain_turn_enemy, score_agent, score_enemy,diccolor_number_copy_agent,diccolor_number_copy_enemy):
         global current_score_agent
         global current_score_enemy
         global max_value
         global next_move
+        global max_depth_new
         hash_state=hash_key(visited_diamond,visited_hole,agentx,agenty,enemyx,enemyy,remain_turn_agent,remain_turn_enemy,score_agent,score_enemy)
         #transposition value (exact,lowerbound,upperbound,depth)
         #transpositiontable[hash_state][3] >= level or transpositiontable[hash_state][3] <= level because position of  add value
@@ -117,8 +118,10 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist
                     alpha = max(alpha, best_value)
                     if beta <= alpha:
                         if (hash_state in transpositiontable) and (transpositiontable[hash_state][3] > level):
+                            max_depth_new=max(max_depth_new,level)
                             transpositiontable[hash_state] = (transpositiontable[hash_state][0],best_value , transpositiontable[hash_state][2], level)
                         else:
+                            max_depth_new = max(max_depth_new, level)
                             if len(transpositiontable) < transpositionsize:
                                 storedHkeys.put(hash_state)
                                 transpositiontable[hash_state] = (float('inf'), best_value, float('inf'), level)
@@ -154,8 +157,10 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist
                 alpha = max(alpha, best_value)
                 if beta <= alpha:
                     if (hash_state in transpositiontable) and (transpositiontable[hash_state][3] > level):
+                        max_depth_new = max(max_depth_new, level)
                         transpositiontable[hash_state] = (transpositiontable[hash_state][0], best_value, transpositiontable[hash_state][2], level)
                     else:
+                        max_depth_new = max(max_depth_new, level)
                         if len(transpositiontable) < transpositionsize:
                             storedHkeys.put(hash_state)
                             transpositiontable[hash_state] = (float('inf'), best_value, float('inf'), level)
@@ -226,8 +231,10 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist
                     beta = max(beta, best_value)
                     if beta <= alpha:
                         if (hash_state in transpositiontable) and (transpositiontable[hash_state][3] > level):
+                            max_depth_new = max(max_depth_new, level)
                             transpositiontable[hash_state] = (transpositiontable[hash_state][0], transpositiontable[hash_state][1],best_value , level)
                         else:
+                            max_depth_new = max(max_depth_new, level)
                             if len(transpositiontable) < transpositionsize:
                                 storedHkeys.put(hash_state)
                                 transpositiontable[hash_state] = (float('inf'), float('inf'), best_value, level)
@@ -267,8 +274,10 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist
                 beta = max(beta, best_value)
                 if beta <= alpha:
                     if (hash_state in transpositiontable) and (transpositiontable[hash_state][3] > level):
+                        max_depth_new = max(max_depth_new, level)
                         transpositiontable[hash_state] = (transpositiontable[hash_state][0], transpositiontable[hash_state][1], best_value, level)
                     else:
+                        max_depth_new = max(max_depth_new, level)
                         if len(transpositiontable) < transpositionsize:
                             storedHkeys.put(hash_state)
                             transpositiontable[hash_state] = (float('inf'), float('inf'), best_value, level)
@@ -281,8 +290,10 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist
 
         #check size for this transposition for update
         if (hash_state in transpositiontable) and (transpositiontable[hash_state][3] > level):
+            max_depth_new = max(max_depth_new, level)
             transpositiontable[hash_state]=(best_value,transpositiontable[hash_state][1],transpositiontable[hash_state][2],level)
         else:
+            max_depth_new = max(max_depth_new, level)
             if len(transpositiontable) < transpositionsize:
                 storedHkeys.put(hash_state)
                 transpositiontable[hash_state] = (best_value,float('inf'), float('inf'),  level)
@@ -295,4 +306,4 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist
     diccolor_number_copy_agent = diccolornumberagent
     diccolor_number_copy_enemy=diccolornumberenemy
     alph_beta_minmax(True, agentx, agenty, enemyx, enemyy, float('-inf'), float('inf'), 0, turn_agent,turn_enemy, scoreagent, scoreenemy, diccolor_number_copy_agent,diccolor_number_copy_enemy)
-    return next_move
+    return (next_move,max_depth_new)
