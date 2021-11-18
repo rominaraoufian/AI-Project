@@ -1,8 +1,9 @@
 from dijkstra_level1 import dijkstra
+from hashing import hash_key
 import numpy as np
 
 
-def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist, agentx, agenty, enemyx, enemyy, trapcount, depth, scoreagent, scoreenemy, diccolornumberagent,diccolornumberenemy,transformtable, enemytraps, agenttraps):
+def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist, agentx, agenty, enemyx, enemyy, trapcount, depth, scoreagent, scoreenemy, diccolornumberagent,diccolornumberenemy,transpositiontable, enemytraps, agenttraps):
     current_score_agent = scoreagent
     current_score_enemy = scoreenemy
     visited_diamond = {}
@@ -15,6 +16,20 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist
         global current_score_enemy
         global max_value
         global next_move
+        hash_state=hash_key(visited_diamond,visited_hole,agentx,agenty,enemyx,enemyy,remain_turn_agent,remain_turn_enemy,score_agent,score_enemy)
+        #transposition value (exact,lowerbound,upperbound,depth)
+        #transpositiontable[hash_state][3] >= level or transpositiontable[hash_state][3] <= level because position of  add value
+        if (hash_state in transpositiontable) and (transpositiontable[hash_state][3] <= level):
+            if transpositiontable[hash_state][0] != float('inf'):
+                return transpositiontable[hash_state][0]
+            if (transpositiontable[hash_state][1] != float('inf')) and (is_max_turn) :
+                if transpositiontable[hash_state][1] <= beta:
+                    return  transpositiontable[hash_state][1]
+            if (transpositiontable[hash_state][2] != float('inf')) and (not is_max_turn):
+                if transpositiontable[hash_state][2] >= alpha:
+                    return  transpositiontable[hash_state][2]
+
+
         if level == depth:
             if len(visited_diamond) == 0:
                 value = ((20 * ((score_agent - current_score_agent)-(score_enemy-current_score_enemy))) + (remain_turn_agent - remain_turn_enemy) * 80) // 100
@@ -97,6 +112,10 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist
                     best_value = max(best_value, result_return)
                     alpha = max(alpha, best_value)
                     if beta <= alpha:
+                        if (hash_state in transpositiontable) and (transpositiontable[hash_state][3] > level):
+                            transpositiontable[hash_state] = (transpositiontable[hash_state][0],best_value , transpositiontable[hash_state][2], level)
+                        else:
+                            transpositiontable[hash_state] = (float('inf'), best_value, float('inf'), level)
                         return best_value
                     visited_diamond.pop(d, None)
 
@@ -124,6 +143,10 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist
                 best_value = max(best_value, result_return)
                 alpha = max(alpha, best_value)
                 if beta <= alpha:
+                    if (hash_state in transpositiontable) and (transpositiontable[hash_state][3] > level):
+                        transpositiontable[hash_state] = (transpositiontable[hash_state][0], best_value, transpositiontable[hash_state][2], level)
+                    else:
+                        transpositiontable[hash_state] = (float('inf'), best_value, float('inf'), level)
                     return best_value
                 visited_hole.pop((h[0], h[1], level), None)
 
@@ -185,6 +208,10 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist
                     best_value = max(best_value, result_return)
                     beta = max(beta, best_value)
                     if beta <= alpha:
+                        if (hash_state in transpositiontable) and (transpositiontable[hash_state][3] > level):
+                            transpositiontable[hash_state] = (transpositiontable[hash_state][0], transpositiontable[hash_state][1],best_value , level)
+                        else:
+                            transpositiontable[hash_state] = (float('inf'), float('inf'), best_value, level)
                         return best_value
                     visited_diamond.pop(d, None)
 
@@ -215,9 +242,19 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist
                 best_value = max(best_value, result_return)
                 beta = max(beta, best_value)
                 if beta <= alpha:
+                    if (hash_state in transpositiontable) and (transpositiontable[hash_state][3] > level):
+                        transpositiontable[hash_state] = (transpositiontable[hash_state][0], transpositiontable[hash_state][1], best_value, level)
+                    else:
+                        transpositiontable[hash_state] = (float('inf'), float('inf'), best_value, level)
                     return best_value
                 visited_hole.pop((h[0], h[1], level), None)
 
+        #check size for this transposition for update
+        if (hash_state in transpositiontable) and (transpositiontable[hash_state][3] > level):
+            transpositiontable[hash_state]=(best_value,transpositiontable[hash_state][1],transpositiontable[hash_state][2],level)
+        else:
+            transpositiontable[hash_state] = (best_value, float('inf'), float('inf'), level)
+        return best_value
 
     diccolor_number_copy_agent = diccolornumberagent
     diccolor_number_copy_enemy=diccolornumberenemy

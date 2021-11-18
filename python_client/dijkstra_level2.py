@@ -107,3 +107,5 @@ def dij_show_way(agentx, agenty, goalx, goaly, gridmap, height, width,scoredij):
             scoredij -= 1
 
 
+def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width,scoredij):
+    pass

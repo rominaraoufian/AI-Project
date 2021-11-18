@@ -1,7 +1,8 @@
 from dfs_depth_n import dfs_depth_n
 from math import log, floor
-from dijkstra_level2 import dij_show_way
+from dijkstra_level2 import dij_show_way,dij_show_action
 from queue import LifoQueue
+from minmax_alpha_beta import minmax
 import numpy as np
 
 diamond = []
@@ -21,6 +22,7 @@ start_enemy = tuple()
 agent_id = 0
 enemy_id = 0
 enemy_trap = []
+transposition = {}
 
 def getinfo(gridmap, height, width, character,scoreinitial):
     global diamond
@@ -151,6 +153,7 @@ def getinfophase2(gridmap, height, width, turn, maxturn, character,scoreinitial,
     global walls
     global start_enemy
     global enemy_list
+    global transposition
     score_agent = scoreinitial
     score_enemy = scoreinitial
 
@@ -261,5 +264,11 @@ def getinfophase2(gridmap, height, width, turn, maxturn, character,scoreinitial,
                 np.delete(diamondnp, np.where(diamondnp == (start_agent[0], start_agent[1], 75)))
 
     trapenemy = np.array(enemy_trap)
-    #trap_egent
+    agent_trap=[]
+    trapagent = np.array(agent_trap)
+
     sizedh = len(diamond) + len(hole)
+    depth = 0
+    next_move = minmax(gridmap, height, width, maxturn-turn, maxturn-turn, diamond, hole, start_agent[0], start_agent[1], start_enemy[0], start_enemy[1], trapcount, depth, score_agent, score_enemy, diccolornumber_agent,diccolornumber_enemy,transposition, trapenemy, trapagent)
+    next_action = dij_show_action(start_agent[0], start_agent[1], next_move[0], next_move[1], gridmap, height, width,score_agent)
+    return next_action
