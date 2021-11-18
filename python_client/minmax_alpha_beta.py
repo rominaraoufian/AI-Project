@@ -4,6 +4,8 @@ from queue import Queue
 import numpy as np
 
 storedHkeys = Queue()
+max_value = -1
+next_move = tuple()
 
 def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist, agentx, agenty, enemyx, enemyy, trapcount, depth, scoreagent, scoreenemy, diccolornumberagent,diccolornumberenemy,transpositiontable, enemytraps, agenttraps,transpositionsize,max_depth):
     current_score_agent = scoreagent
@@ -15,8 +17,8 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist
     max_depth_new=max_depth
 
     def alph_beta_minmax(is_max_turn, agentx, agenty, enemyx, enemyy, alpha, beta, level, remain_turn_agent, remain_turn_enemy, score_agent, score_enemy,diccolor_number_copy_agent,diccolor_number_copy_enemy):
-        global current_score_agent
-        global current_score_enemy
+        # global current_score_agent
+        # global current_score_enemy
         global max_value
         global next_move
         global max_depth_new

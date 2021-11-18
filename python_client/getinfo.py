@@ -25,6 +25,8 @@ enemy_trap = []
 transposition = {}
 transposition_size = 0
 max_depth=0
+diamondnp = np.array([])
+holenp = np.array([])
 
 def getinfo(gridmap, height, width, character,scoreinitial):
     global diamond
@@ -158,10 +160,11 @@ def getinfophase2(gridmap, height, width, turn, maxturn, character,scoreinitial,
     global transposition
     global transposition_size
     global max_depth
-
+    global diamondnp
+    global holenp
     score_agent = scoreinitial
     score_enemy = scoreinitial
-    print("im in")
+
     if character == 'A':
         character_enemy = 'B'
         agent_id = 0
@@ -284,5 +287,8 @@ def getinfophase2(gridmap, height, width, turn, maxturn, character,scoreinitial,
         depth = max(depth-1, 2)
 
     next_move,max_depth = minmax(gridmap, height, width, maxturn-turn, maxturn-turn, diamondnp, holenp, start_agent[0], start_agent[1], start_enemy[0], start_enemy[1], trapcount, depth, score_agent, score_enemy, diccolornumber_agent,diccolornumber_enemy,transposition, trapenemy, trapagent,transposition_size,max_depth)
-    next_action = dij_show_action(start_agent[0], start_agent[1], next_move[0], next_move[1], gridmap, height, width,score_agent,trapenemy)
-    return next_action
+    if not next_move == ():
+       next_action = dij_show_action(start_agent[0], start_agent[1], next_move[0], next_move[1], gridmap, height, width,score_agent,trapenemy)
+       return next_action
+    else:
+        return 'n'
