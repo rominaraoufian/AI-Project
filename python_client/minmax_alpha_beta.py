@@ -37,11 +37,13 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist
 
 
         if level == depth:
+            print("im in level = depth")
             if len(visited_diamond) == 0:
                 value = ((20 * ((score_agent - current_score_agent)-(score_enemy-current_score_enemy))) + (remain_turn_agent - remain_turn_enemy) * 80) // 100
             else:
                 value = (((20 * ((score_agent - current_score_agent)-(score_enemy-current_score_enemy))) + (80 * (remain_turn_agent - remain_turn_enemy))) // 100)
             if value > max_value:
+                print("im in value > maxvalue")
                 max_value = value
                 for keyvisited, valuevisited in visited_diamond.items():
                     if valuevisited[1] == 0:
@@ -52,6 +54,7 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist
             return value
 
         if remain_turn_agent == 0:
+            print("im in turn agent = 0")
             if len(visited_diamond) == 0:
                 value = ((20 * ((score_agent - current_score_agent) - (score_enemy - current_score_enemy))) + (remain_turn_agent - remain_turn_enemy) * 80) // 100
             else:
@@ -67,6 +70,7 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist
             return value
 
         if len(diamondlist) == len(visited_diamond):
+
             value = (((20 * ((score_agent - current_score_agent)-(score_enemy-current_score_enemy))) + (80 * (remain_turn_agent - remain_turn_enemy))) // 100)
             if value > max_value:
                 max_value = value
@@ -76,7 +80,7 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist
                 for keyvisited, valuevisited in visited_hole.items():
                     if valuevisited[1] == 0:
                         next_move = (keyvisited[0], keyvisited[1])
-
+            print("im in len(diamondlist) == len(visited_diamond) ", value, " ", next_move)
             return value
         best_value = float('-inf') if is_max_turn else float('inf')
         if is_max_turn:

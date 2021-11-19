@@ -178,7 +178,7 @@ def getinfophase2(gridmap, height, width, turn, maxturn, character,scoreinitial,
         score_enemy = scores[0]
         score_agent = scores[1]
 
-    if turn == 0:
+    if turn == 1:
         for i in range(0, height):
             for j in range(0, width):
                 s = str(gridmap[i][j])
@@ -202,6 +202,7 @@ def getinfophase2(gridmap, height, width, turn, maxturn, character,scoreinitial,
         diamondnp = np.array(diamond)
         holenp = np.array(hole)
         transposition_size = height * width - (walls+len(diamond)+len(hole))
+        sizedh = len(diamond) + len(hole)
     if turn != 0:
         previous_enemy_place = start_enemy
         prevous_enemy_score = score_enemy
@@ -275,18 +276,18 @@ def getinfophase2(gridmap, height, width, turn, maxturn, character,scoreinitial,
     agent_trap=[]
     trapagent = np.array(agent_trap)
 
-    sizedh = len(diamond) + len(hole)
+    # sizedh = len(diamond) + len(hole)
 
     depth = floor(log((10 ** 4) * timelimit, max(sizedh, 2)))
 
     if (walls // (height + width)) * 100 < 5 and len(hole) == 0:
         depth -= 1
+    #print(depth, " depth")
     depth = max(max_depth, depth)
-
     if depth % 2:
         depth = max(depth-1, 2)
 
-    next_move,max_depth = minmax(gridmap, height, width, maxturn-turn, maxturn-turn, diamondnp, holenp, start_agent[0], start_agent[1], start_enemy[0], start_enemy[1], trapcount, depth, score_agent, score_enemy, diccolornumber_agent,diccolornumber_enemy,transposition, trapenemy, trapagent,transposition_size,max_depth)
+    next_move,max_depth = minmax(gridmap, height, width, maxturn-turn+1, maxturn-turn+1, diamondnp, holenp, start_agent[0], start_agent[1], start_enemy[0], start_enemy[1], trapcount, depth, score_agent, score_enemy, diccolornumber_agent,diccolornumber_enemy,transposition, trapenemy, trapagent,transposition_size,max_depth)
     if not next_move == ():
        next_action = dij_show_action(start_agent[0], start_agent[1], next_move[0], next_move[1], gridmap, height, width,score_agent,trapenemy)
        return next_action
