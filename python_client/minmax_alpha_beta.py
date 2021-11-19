@@ -4,8 +4,10 @@ from queue import Queue
 import numpy as np
 
 storedHkeys = Queue()
+max_value = -1
+next_move = tuple()
 
-def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist, agentx, agenty, enemyx, enemyy, trapcount, depth, scoreagent, scoreenemy, diccolornumberagent,diccolornumberenemy,transpositiontable, enemytraps, agenttraps,transpositionsize,max_depth):
+def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist, agentx, agenty, enemyx, enemyy, trapcount, depth, scoreagent, scoreenemy, diccolornumberagent,diccolornumberenemy,transpositiontable, enemytraps, agenttraps,transpositionsize,max_depth,character,character_enemy):
     current_score_agent = scoreagent
     current_score_enemy = scoreenemy
     visited_diamond = {}
@@ -15,8 +17,8 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist
     max_depth_new=max_depth
 
     def alph_beta_minmax(is_max_turn, agentx, agenty, enemyx, enemyy, alpha, beta, level, remain_turn_agent, remain_turn_enemy, score_agent, score_enemy,diccolor_number_copy_agent,diccolor_number_copy_enemy):
-        global current_score_agent
-        global current_score_enemy
+        # global current_score_agent
+        # global current_score_enemy
         global max_value
         global next_move
         global max_depth_new
@@ -78,7 +80,8 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist
             return value
         best_value = float('-inf') if is_max_turn else float('inf')
         if is_max_turn:
-            dicdistance = dijkstra(gridmap, height, width, agentx, agenty, score_agent, enemytraps)
+            dicdistance = dijkstra(gridmap, height, width, agentx, agenty, score_agent, enemytraps,character)
+            print(dicdistance,"dijkstra")
             sort_diamond_list = sortmoves(dicdistance, diamondlist)
             for diamond in sort_diamond_list:
                 d = (diamond[0], diamond[1])
@@ -172,7 +175,7 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamondlist, holelist
                 visited_hole.pop((h[0], h[1], level), None)
 
         else:
-            dicdistanceenemy = dijkstra(gridmap, height, width, enemyx, enemyy, score_enemy, agenttraps)
+            dicdistanceenemy = dijkstra(gridmap, height, width, enemyx, enemyy, score_enemy, agenttraps,character_enemy)
             sort_diamond_list = sortmoves(dicdistanceenemy, diamondlist)
             for diamond in sort_diamond_list:
                 d = (diamond[0], diamond[1])

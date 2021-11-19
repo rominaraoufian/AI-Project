@@ -14,6 +14,7 @@ diccolornumber_agent = {'y': 0, 'g': 0, 'r': 0, 'b': 0}
 diccolornumber_enemy = {'y': 0, 'g': 0, 'r': 0, 'b': 0}
 actions = LifoQueue()
 sizedh = 0
+sizedh_minmax=0
 prev_action = ''
 walls = 0
 score_agent = 0
@@ -25,6 +26,8 @@ enemy_trap = []
 transposition = {}
 transposition_size = 0
 max_depth=0
+diamondnp = np.array([])
+holenp = np.array([])
 
 def getinfo(gridmap, height, width, character,scoreinitial):
     global diamond
@@ -58,7 +61,7 @@ def getinfo(gridmap, height, width, character,scoreinitial):
     # print(hole,"hole")
 
 
-def startturn(gridmap, height, width, turn, maxturn, timelimit):
+def startturn(gridmap, height, width, turn, maxturn, timelimit,character):
     global diamond
     global hole
     global diccolornumber
@@ -68,12 +71,9 @@ def startturn(gridmap, height, width, turn, maxturn, timelimit):
     global walls
     way = LifoQueue()
 
-    # depth = floor(log((10**5) * timelimit, max(sizedh * len(hole) - walls, 2)))
-    # print(depth, "depth")
-    # if (walls//(height+width))*100 < 5:
-    #     depth -= 1
+
     depth = floor(log((10 ** 4) * timelimit, max(sizedh, 2)))
-    # print(depth,"before")
+
     if (walls // (height + width)) * 100 < 5 and len(hole) == 0:
         depth -= 1
 
@@ -108,7 +108,7 @@ def startturn(gridmap, height, width, turn, maxturn, timelimit):
 
         # print(start," start")
         # print(next_move, "next_move")
-        way = dij_show_way(start_agent[0], start_agent[1], next_move[0], next_move[1], gridmap, height, width, score)
+        way = dij_show_way(start_agent[0], start_agent[1], next_move[0], next_move[1], gridmap, height, width, score,character)
     start_agent = next_move
     # print(score,"scoreafter")
     # while not way.empty():
@@ -125,7 +125,7 @@ def action_state_func(gridmap, height, width, turn, maxturn, character, maxscore
     global start_agent
     if turn == 1 and actions.empty():
         getinfo(gridmap, height, width, character, maxscore)
-        actions = startturn(gridmap, height, width, turn, maxturn, time)
+        actions = startturn(gridmap, height, width, turn, maxturn, time,character)
         size_action = actions.qsize()
     if actions.empty():
         score -= size_action
@@ -134,7 +134,7 @@ def action_state_func(gridmap, height, width, turn, maxturn, character, maxscore
                 if gridmap[item_hole[0]][item_hole[1]] == 'T'+character:
                     start_agent = (item_hole[0], item_hole[1])
                     # print(start,"start hole")
-        actions = startturn(gridmap, height, width, turn, maxturn, time)
+        actions = startturn(gridmap, height, width, turn, maxturn, time,character)
         # print(actions)
         size_action = actions.qsize()
 
@@ -151,17 +151,18 @@ def getinfophase2(gridmap, height, width, turn, maxturn, character,scoreinitial,
     global start_agent
     global score_agent
     global score_enemy
-    global sizedh
+    global sizedh_minmax
     global walls
     global start_enemy
     global enemy_list
     global transposition
     global transposition_size
     global max_depth
-
+    global diamondnp
+    global holenp
     score_agent = scoreinitial
     score_enemy = scoreinitial
-    print("im in")
+
     if character == 'A':
         character_enemy = 'B'
         agent_id = 0
@@ -175,7 +176,7 @@ def getinfophase2(gridmap, height, width, turn, maxturn, character,scoreinitial,
         score_enemy = scores[0]
         score_agent = scores[1]
 
-    if turn == 0:
+    if turn == 1:
         for i in range(0, height):
             for j in range(0, width):
                 s = str(gridmap[i][j])
@@ -197,9 +198,11 @@ def getinfophase2(gridmap, height, width, turn, maxturn, character,scoreinitial,
                     start_enemy = (i, j)
 
         diamondnp = np.array(diamond)
+        print(diamondnp,"dimoanng")
         holenp = np.array(hole)
         transposition_size = height * width - (walls+len(diamond)+len(hole))
-    if turn != 0:
+        sizedh_minmax = len(diamond) + len(hole)
+    if turn != 1:
         previous_enemy_place = start_enemy
         prevous_enemy_score = score_enemy
         for i in range(0, height):
@@ -272,17 +275,23 @@ def getinfophase2(gridmap, height, width, turn, maxturn, character,scoreinitial,
     agent_trap=[]
     trapagent = np.array(agent_trap)
 
-    sizedh = len(diamond) + len(hole)
 
-    depth = floor(log((10 ** 4) * timelimit, max(sizedh, 2)))
 
+    depth_minmax = floor(log((10 ** 4) * timelimit, max(sizedh_minmax, 2)))
+    print(depth_minmax, "depth1")
+    print(sizedh_minmax,"sizedh")
     if (walls // (height + width)) * 100 < 5 and len(hole) == 0:
-        depth -= 1
-    depth = max(max_depth, depth)
-
-    if depth % 2:
-        depth = max(depth-1, 2)
-
-    next_move,max_depth = minmax(gridmap, height, width, maxturn-turn, maxturn-turn, diamondnp, holenp, start_agent[0], start_agent[1], start_enemy[0], start_enemy[1], trapcount, depth, score_agent, score_enemy, diccolornumber_agent,diccolornumber_enemy,transposition, trapenemy, trapagent,transposition_size,max_depth)
-    next_action = dij_show_action(start_agent[0], start_agent[1], next_move[0], next_move[1], gridmap, height, width,score_agent,trapenemy)
-    return next_action
+        depth_minmax -= 1
+    print(depth_minmax, "depth2")
+    depth_minmax = max(max_depth, depth_minmax)
+    print(depth_minmax, "depth3")
+    if depth_minmax % 2:
+        depth_minmax = max(depth_minmax-1, 2)
+    print(depth_minmax,"depth4")
+    print(max_depth,"max_depth")
+    next_move,max_depth = minmax(gridmap, height, width, maxturn-turn+1, maxturn-turn+1, diamondnp, holenp, start_agent[0], start_agent[1], start_enemy[0], start_enemy[1], trapcount, depth_minmax, score_agent, score_enemy, diccolornumber_agent,diccolornumber_enemy,transposition, trapenemy, trapagent,transposition_size,max_depth,character,character_enemy)
+    if not next_move == ():
+       next_action = dij_show_action(start_agent[0], start_agent[1], next_move[0], next_move[1], gridmap, height, width,score_agent,trapenemy,character)
+       return next_action
+    else:
+        return 'n'
