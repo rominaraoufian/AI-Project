@@ -155,7 +155,7 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width,scoredi
                         gridmap[current_nodex - 1][current_nodey] == "E"+character) or (
                         gridmap[current_nodex - 1][current_nodey] == "T"+character) or (
                         (current_nodex - 1 == goalx) and (current_nodey == goaly)) or (
-                        gridmap[current_nodex - 1][current_nodey] == '1' and scoredij - 1 < 0) or (
+                        gridmap[current_nodex - 1][current_nodey] != '1') or (
                         gridmap[current_nodex - 1][current_nodey] == '2' and scoredij - 1 < 15) or (
                         gridmap[current_nodex - 1][current_nodey] == '3' and scoredij - 1 < 50) or (
                         gridmap[current_nodex - 1][current_nodey] == '4' and scoredij - 1 < 140)or flag):
@@ -193,7 +193,7 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width,scoredi
                         gridmap[current_nodex + 1][current_nodey] == "E"+character) or (
                         gridmap[current_nodex + 1][current_nodey] == "T"+character) or (
                         (current_nodex + 1 == goalx) and (current_nodey == goaly)) or (
-                        gridmap[current_nodex + 1][current_nodey] == '1' and scoredij - 1 < 0) or (
+                        gridmap[current_nodex + 1][current_nodey] != '1') or (
                         gridmap[current_nodex + 1][current_nodey] == '2' and scoredij - 1 < 15) or (
                         gridmap[current_nodex + 1][current_nodey] == '3' and scoredij - 1 < 50) or (
                         gridmap[current_nodex + 1][current_nodey] == '4' and scoredij - 1 < 140)or flag):
@@ -230,7 +230,7 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width,scoredi
                         gridmap[current_nodex][current_nodey - 1] == "E"+character) or (
                         gridmap[current_nodex][current_nodey - 1] == "T"+character) or (
                         (current_nodex == goalx) and (current_nodey - 1 == goaly)) or (
-                        gridmap[current_nodex][current_nodey - 1] == '1' and scoredij - 1 < 0) or (
+                        gridmap[current_nodex][current_nodey - 1] != '1') or (
                         gridmap[current_nodex][current_nodey - 1] == '2' and scoredij - 1 < 15) or (
                         gridmap[current_nodex][current_nodey - 1] == '3' and scoredij - 1 < 50) or (
                         gridmap[current_nodex][current_nodey - 1] == '4' and scoredij - 1 < 140)or flag):
@@ -267,7 +267,7 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width,scoredi
                         gridmap[current_nodex][current_nodey + 1] == "E"+character) or (
                         gridmap[current_nodex][current_nodey + 1] == "T"+character) or (
                         (current_nodex == goalx) and (current_nodey + 1 == goaly)) or (
-                        gridmap[current_nodex][current_nodey + 1] == '1' and scoredij - 1 < 0) or (
+                        gridmap[current_nodex][current_nodey + 1] != '1') or (
                         gridmap[current_nodex][current_nodey + 1] == '2' and scoredij - 1 < 15) or (
                         gridmap[current_nodex][current_nodey + 1] == '3' and scoredij - 1 < 50) or (
                         gridmap[current_nodex][current_nodey + 1] == '4' and scoredij - 1 < 140)or flag):
