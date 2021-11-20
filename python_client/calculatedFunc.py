@@ -32,13 +32,10 @@ def sortmoves(dijkstradic, movesnp):
 
          move_list.append(maxlocation)
          scores[maxlocation] = float('-inf')
-         print(maxlocation,"maxlocation")
-         movesnp = np.delete(movesnp, np.where(movesnp == maxlocation))
-         print(movesnp)
+         movesnp = np.delete(movesnp, np.where(movesnp == maxlocation),axis=0)
          movesnp = movesnp.reshape(np.size(movesnp) // 3, 3)
-         print(movesnp,"movenp")
+
 
     move_listnp=np.array(move_list)
-    # print( move_listnp)
-    # print(movesnp.reshape(np.size(movesnp)//3,3))
+
     return np.concatenate((move_listnp,movesnp), axis=0)

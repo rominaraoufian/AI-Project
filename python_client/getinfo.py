@@ -278,17 +278,15 @@ def getinfophase2(gridmap, height, width, turn, maxturn, character,scoreinitial,
 
 
     depth_minmax = floor(log((10 ** 4) * timelimit, max(sizedh_minmax, 2)))
-    print(depth_minmax, "depth1")
-    print(sizedh_minmax,"sizedh")
+
     if (walls // (height + width)) * 100 < 5 and len(hole) == 0:
         depth_minmax -= 1
-    print(depth_minmax, "depth2")
+
     depth_minmax = max(max_depth, depth_minmax)
-    print(depth_minmax, "depth3")
+
     if depth_minmax % 2:
         depth_minmax = max(depth_minmax-1, 2)
-    print(depth_minmax,"depth4")
-    print(max_depth,"max_depth")
+
     next_move,max_depth = minmax(gridmap, height, width, maxturn-turn+1, maxturn-turn+1, diamondnp, holenp, start_agent[0], start_agent[1], start_enemy[0], start_enemy[1], trapcount, depth_minmax, score_agent, score_enemy, diccolornumber_agent,diccolornumber_enemy,transposition, trapenemy, trapagent,transposition_size,max_depth,character,character_enemy)
     if not next_move == ():
        next_action = dij_show_action(start_agent[0], start_agent[1], next_move[0], next_move[1], gridmap, height, width,score_agent,trapenemy,character)
