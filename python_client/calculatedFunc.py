@@ -11,9 +11,9 @@ def sortmoves(dijkstradic, moves):
 
     scores = {}
     move_list = []
-
+    move_key = list(moves.keys())
     # maybe sort all values are better
-    for item in moves:
+    for item in move_key:
         d=(item[0], item[1])
         if (d not in dijkstradic):
             calculatedistance = float('-inf')
@@ -34,12 +34,12 @@ def sortmoves(dijkstradic, moves):
 
          move_list.append(maxlocation)
         # print(maxlocation, " max_location")
-         moves.pop(maxlocation)
+         move_key.remove(maxlocation)
 
          scores[maxlocation] = float('-inf')
 
 
-    move_list.extend(moves.keys())
+    move_list.extend(move_key)
     return move_list
 
 

@@ -26,7 +26,7 @@ def dijkstra(gridmap,height, width, agentx,agenty, scoredij,trap,character):
       array_distance[(current_nodex,current_nodey)] = (actual_dist, scoredij)
       #up
       if (current_nodex-1 >= 0):
-          if (current_nodex-1,current_nodey) in trap:
+          if (current_nodex-1, current_nodey) in trap:
             flag = True
       if (current_nodex-1 >= 0) and ((current_nodex-1,current_nodey) not in visited) and (
          (gridmap[current_nodex-1][current_nodey] == 'E') or (gridmap[current_nodex-1][current_nodey] == 'T')or(gridmap[current_nodex-1][current_nodey]=="E"+character) or(gridmap[current_nodex-1][current_nodey]=="T"+character) or (gridmap[current_nodex-1][current_nodey] == '1' and scoredij-1 < 0) or (
@@ -43,7 +43,7 @@ def dijkstra(gridmap,height, width, agentx,agenty, scoredij,trap,character):
 
           else:
               if flag:
-                  if dist + 41 < distancelist[(current_nodex-1,current_nodey)]:
+                  if dist + 41 < distancelist[(current_nodex-1, current_nodey)]:
                       distancelist[(current_nodex - 1, current_nodey)] = dist + 41
                       pq.put((dist + 41, current_nodex - 1, current_nodey, dist+1, scoredij-41))
               else:
@@ -129,4 +129,5 @@ def dijkstra(gridmap,height, width, agentx,agenty, scoredij,trap,character):
                       distancelist[(current_nodex, current_nodey + 1)] = dist + 1
                       pq.put((dist + 1, current_nodex, current_nodey + 1, dist + 1, scoredij - 1))
 
+  print (array_distance)
   return array_distance
