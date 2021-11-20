@@ -1,5 +1,5 @@
 from queue import PriorityQueue,  LifoQueue
-import numpy as np
+
 
 def dij_show_way(agentx, agenty, goalx, goaly, gridmap, height, width,scoredij,character):
         visited = {}
@@ -106,7 +106,7 @@ def dij_show_way(agentx, agenty, goalx, goaly, gridmap, height, width,scoredij,c
             scoredij -= 1
 
 
-def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width,scoredij,traps,character):
+def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width,scoredij,trap,character):
     visited = {}
     distancelist = {}
     parent = {}
@@ -147,7 +147,8 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width,scoredi
 
         # up
         if current_nodex - 1 >= 0:
-           flag = np.any(traps == gridmap[current_nodex - 1][current_nodey])
+            if (current_nodex - 1, current_nodey) in trap:
+                flag = True
         if (current_nodex - 1 >= 0) and ((current_nodex - 1, current_nodey) not in visited) and (
                 (gridmap[current_nodex - 1][current_nodey] == 'E') or (
                 gridmap[current_nodex - 1][current_nodey] == 'T') or (
@@ -183,7 +184,8 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width,scoredi
 
         # down
         if current_nodex + 1 < height:
-           flag = np.any(traps == gridmap[current_nodex + 1][current_nodey])
+            if (current_nodex + 1, current_nodey) in trap:
+                flag = True
         if (current_nodex + 1 < height) and ((current_nodex + 1, current_nodey) not in visited) and (
 
                 (gridmap[current_nodex + 1][current_nodey] == 'E') or (
@@ -219,7 +221,8 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width,scoredi
 
         # left
         if current_nodey - 1 >= 0:
-           flag = np.any(traps == gridmap[current_nodex][current_nodey-1])
+            if (current_nodex , current_nodey - 1) in trap:
+                flag = True
         if (current_nodey - 1 >= 0) and ((current_nodex, current_nodey - 1) not in visited) and (
 
                 (gridmap[current_nodex][current_nodey - 1] == 'E') or (
@@ -256,7 +259,8 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width,scoredi
 
         # right
         if current_nodey + 1 < width:
-           flag = np.any(traps == gridmap[current_nodex][current_nodey+1])
+            if (current_nodex , current_nodey + 1) in trap:
+                flag = True
         if (current_nodey + 1 < width) and ((current_nodex, current_nodey + 1) not in visited) and (
                 (gridmap[current_nodex][current_nodey + 1] == 'E') or (
                 gridmap[current_nodex][current_nodey + 1] == 'T') or (

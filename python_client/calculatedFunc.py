@@ -7,35 +7,44 @@ def hash_key(visiteddiamond,visitedhole,agentx,agenty,enemyx,enemyy,remain_turn_
     return  tuple(hash_key_list)
 
 
-def sortmoves(dijkstradic, movesnp):
+def sortmoves(dijkstradic, moves):
 
     scores = {}
     move_list = []
-
+    move_key=list(moves.keys())
     # maybe sort all values are better
-    for item in movesnp:
+    print(move_key,"movekey")
+    for item in move_key:
         d=(item[0], item[1])
         if (d not in dijkstradic):
             calculatedistance = float('-inf')
+            calculatescore = float('-inf')
         else:
             calculatedistance = dijkstradic[d][0]
-        value = (20 * item[2] + 80 * calculatedistance) / 100
+            calculatescore = dijkstradic[(d)][1]
+        value = (20 * calculatescore + 80 * calculatedistance) / 100
         scores[(item[0],item[1],item[2])] = value
-
+        print((item[0],item[1],item[2]),value,"scorevale")
+    print(len(scores),"sizescores")
     for i in range(min(6, len(scores))):
          max = float('-inf')
-         maxlocation = float('-inf')
+         maxlocation = tuple()
          for j in scores:
              if scores[j] > max:
+                 #print(j, " j ", scores[j], " scores j")
                  max = scores[j]
                  maxlocation = j
 
          move_list.append(maxlocation)
+        # print(maxlocation, " max_location")
+         move_key.remove(maxlocation)
+         # moves.pop(maxlocation)
          scores[maxlocation] = float('-inf')
-         movesnp = np.delete(movesnp, np.where(movesnp == maxlocation),axis=0)
-         movesnp = movesnp.reshape(np.size(movesnp) // 3, 3)
 
 
-    move_listnp=np.array(move_list)
+    move_list.extend(move_key)
+    print(move_list,"movelist")
+    return move_list
 
-    return np.concatenate((move_listnp,movesnp), axis=0)
+
+
