@@ -165,7 +165,7 @@ def getinfophase2(gridmap, height, width, turn, maxturn, character,scoreinitial,
         agent_id = 0
         enemy_id = 1
         score_agent = scores[0]
-        score_enemy = score_enemy[1]
+        score_enemy = scores[1]
     else:
         character_enemy = 'A'
         agent_id = 1
@@ -210,7 +210,8 @@ def getinfophase2(gridmap, height, width, turn, maxturn, character,scoreinitial,
                     start_enemy = (i, j)
 
         if start_enemy == previous_enemy_place:
-            enemy_trap.append(start_enemy)
+            if start_enemy not in enemy_trap:
+              enemy_trap.append(start_enemy)
 
         # score_enemy -= 1
         # score_agent -= 1
@@ -287,6 +288,9 @@ def getinfophase2(gridmap, height, width, turn, maxturn, character,scoreinitial,
     depth_minmax = max(max_depth, depth_minmax)
     if depth_minmax % 2:
         depth_minmax = max(depth_minmax-1, 2)
+    print("-"*15)
+    print(maxturn-turn+1)
+    print("-" * 15)
     next_move,max_depth = minmax(gridmap, height, width, maxturn-turn+1, maxturn-turn+1, diamond, hole, start_agent[0], start_agent[1], start_enemy[0], start_enemy[1], trapcount, depth_minmax, score_agent, score_enemy, diccolornumber_agent,diccolornumber_enemy,transposition, enemy_trap, agent_trap,transposition_size,max_depth,character,character_enemy)
     print(next_move,"next_moove")
     if not next_move == ():

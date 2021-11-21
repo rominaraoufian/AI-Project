@@ -46,7 +46,7 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic, 
                 value = ((20 * ((score_agent - current_score_agent)-(score_enemy-current_score_enemy))) + ((remain_turn_agent - remain_turn_enemy) * 80)) // 100
             else:
                 value = (((20 * ((score_agent - current_score_agent)-(score_enemy-current_score_enemy))) + ((80 * (remain_turn_agent - remain_turn_enemy)))) // 100)
-            # print(value,max_value,"value, max_value")
+           # print(value,max_value,"value, max_value")
             if value > max_value:
                 max_value = value
                 for keyvisited, valuevisited in visited_diamond.items():
@@ -99,6 +99,23 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic, 
                         print("next move", next_move)
 
             return value
+        if len(dicdistance) == 0:
+            print("im in len(dicdistance) == 0")
+            value = (((20 * ((score_agent - current_score_agent) - (score_enemy - current_score_enemy))) + (
+                (80 * (remain_turn_agent - remain_turn_enemy)))) // 100)
+            # value = (((20 * ((score_agent - current_score_agent)-(score_enemy-current_score_enemy))) + (80 * (remain_turn_agent - remain_turn_enemy))) // 100)
+            if value > max_value:
+                max_value = value
+                for keyvisited, valuevisited in visited_diamond.items():
+                    if valuevisited[1] == 0:
+                        next_move = keyvisited
+                        print("next move", next_move)
+                for keyvisited, valuevisited in visited_hole.items():
+                    if valuevisited[1] == 0:
+                        next_move = (keyvisited[0], keyvisited[1])
+                        print("next move", next_move)
+            return value
+
         best_value = float('-inf') if is_max_turn else float('inf')
         result_return = float('-inf') if is_max_turn else float('inf')
         print(is_max_turn,"is_max_turn")
@@ -120,17 +137,17 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic, 
                 if (initial_diamond[2] == 75) and (score_agent - manhatan_distance >= 140) and (diccolor_number_copy_agent['b'] < 4):
                     tuple_distance = dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, score_agent, enemytraps,character,diccolor_number_copy_agent)
                     dicdistance[(goalx, goaly,75)] = tuple_distance
-            print(dicdistance,"dicdistance")
+            # print(dicdistance,"dicdistance")
 
             # print(diamonddic,"dic_diamond")
             # we dont pass diamonddic in sortmoves check if okey or not
             sort_diamond_list = sortmoves(dicdistance,remain_turn_agent)
-            print(sort_diamond_list,"sort_diamond_list")
+            # print(sort_diamond_list,"sort_diamond_list")
 
             for diamond in sort_diamond_list:
                 d = (diamond[0], diamond[1])
-                print(diamond,"diamond")
-                print(dicdistance[diamond],"dicdistance[diamond]")
+                # print(diamond,"diamond")
+                # print(dicdistance[diamond],"dicdistance[diamond]")
                 calculatescore = dicdistance[diamond][1]
                 calculatedistance = dicdistance[diamond][0]
                 # print(calculatedistance,"calculatedistance")
@@ -142,8 +159,13 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic, 
                 if d not in visited_diamond:
                     visited_diamond[d] = (True, level)
                     print(diccolor_number_copy_agent, "dic color number")
+                    print(calculatedistance,"calculatedistance")
+                    print(remain_turn_agent, "remainturnagent")
+                    print(level,"level")
+                    print(depth,"depth")
+                    print(score_agent, " score agent " , calculatescore, " calculatescore")
                     if (calculatedistance <= remain_turn_agent) and (level + 1 <= depth):
-                        print("im in if ")
+                        # print("im in if ")
                         if (diamond[2] == 10) and (diccolor_number_copy_agent['y'] < 15):
                             print("im in y diamond")
                             diccolor_number_copy_agent['y'] += 1
