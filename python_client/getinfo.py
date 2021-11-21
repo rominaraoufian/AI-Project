@@ -290,7 +290,7 @@ def getinfophase2(gridmap, height, width, turn, maxturn, character,scoreinitial,
     next_move,max_depth = minmax(gridmap, height, width, maxturn-turn+1, maxturn-turn+1, diamond, hole, start_agent[0], start_agent[1], start_enemy[0], start_enemy[1], trapcount, depth_minmax, score_agent, score_enemy, diccolornumber_agent,diccolornumber_enemy,transposition, enemy_trap, agent_trap,transposition_size,max_depth,character,character_enemy)
     print(next_move,"next_moove")
     if not next_move == ():
-       next_action = dij_show_action(start_agent[0], start_agent[1], next_move[0], next_move[1], gridmap, height, width,score_agent,enemy_trap,character)
+       next_action = dij_show_action(start_agent[0], start_agent[1], next_move[0], next_move[1], gridmap, height, width,score_agent,enemy_trap,character,diccolornumber_agent)
        return next_action
     else:
         return 'n'

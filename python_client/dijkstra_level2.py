@@ -106,7 +106,7 @@ def dij_show_way(agentx, agenty, goalx, goaly, gridmap, height, width,scoredij,c
             scoredij -= 1
 
 
-def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width,scoredij,trap,character):
+def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width,scoredij,trap,character, diccolornumber):
     visited = {}
     distancelist = {}
     parent = {}
@@ -155,10 +155,14 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width,scoredi
                         gridmap[current_nodex - 1][current_nodey] == "E"+character) or (
                         gridmap[current_nodex - 1][current_nodey] == "T"+character) or (
                         (current_nodex - 1 == goalx) and (current_nodey == goaly)) or (
-                        gridmap[current_nodex - 1][current_nodey] != '1') or (
-                        gridmap[current_nodex - 1][current_nodey] == '2' and scoredij - 1 < 15) or (
-                        gridmap[current_nodex - 1][current_nodey] == '3' and scoredij - 1 < 50) or (
-                        gridmap[current_nodex - 1][current_nodey] == '4' and scoredij - 1 < 140)or flag):
+                gridmap[current_nodex - 1][current_nodey] == '1' and diccolornumber['y'] == 15) or (
+                        gridmap[current_nodex - 1][current_nodey] == '2' and (
+                        scoredij - 1 < 15 or diccolornumber['g'] == 8)) or (
+                        gridmap[current_nodex - 1][current_nodey] == '3' and (
+                        scoredij - 1 < 50 or diccolornumber['r'] == 5)) or (
+                        gridmap[current_nodex - 1][current_nodey] == '4' and (
+                        scoredij - 1 < 140 or diccolornumber['b'] == 4)) or flag):
+
             if (current_nodex - 1, current_nodey) not in distancelist:
                 if flag:
                     distancelist[(current_nodex - 1, current_nodey)] = dist + 41
@@ -193,10 +197,13 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width,scoredi
                         gridmap[current_nodex + 1][current_nodey] == "E"+character) or (
                         gridmap[current_nodex + 1][current_nodey] == "T"+character) or (
                         (current_nodex + 1 == goalx) and (current_nodey == goaly)) or (
-                        gridmap[current_nodex + 1][current_nodey] != '1') or (
-                        gridmap[current_nodex + 1][current_nodey] == '2' and scoredij - 1 < 15) or (
-                        gridmap[current_nodex + 1][current_nodey] == '3' and scoredij - 1 < 50) or (
-                        gridmap[current_nodex + 1][current_nodey] == '4' and scoredij - 1 < 140)or flag):
+                gridmap[current_nodex + 1][current_nodey] == '1' and diccolornumber['y'] == 15) or (
+                        gridmap[current_nodex + 1][current_nodey] == '2' and (
+                        scoredij - 1 < 15 or diccolornumber['g'] == 8)) or (
+                        gridmap[current_nodex + 1][current_nodey] == '3' and (
+                        scoredij - 1 < 50 or diccolornumber['r'] == 5)) or (
+                        gridmap[current_nodex + 1][current_nodey] == '4' and (
+                        scoredij - 1 < 140 or diccolornumber['b'] == 4)) or flag):
             if (current_nodex + 1, current_nodey) not in distancelist:
                 if flag:
                     distancelist[(current_nodex + 1, current_nodey)] = dist + 41
@@ -230,10 +237,13 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width,scoredi
                         gridmap[current_nodex][current_nodey - 1] == "E"+character) or (
                         gridmap[current_nodex][current_nodey - 1] == "T"+character) or (
                         (current_nodex == goalx) and (current_nodey - 1 == goaly)) or (
-                        gridmap[current_nodex][current_nodey - 1] != '1') or (
-                        gridmap[current_nodex][current_nodey - 1] == '2' and scoredij - 1 < 15) or (
-                        gridmap[current_nodex][current_nodey - 1] == '3' and scoredij - 1 < 50) or (
-                        gridmap[current_nodex][current_nodey - 1] == '4' and scoredij - 1 < 140)or flag):
+                gridmap[current_nodex][current_nodey - 1] == '1' and diccolornumber['y'] == 15) or (
+                        gridmap[current_nodex ][current_nodey -1 ] == '2' and (
+                        scoredij - 1 < 15 or diccolornumber['g'] == 8)) or (
+                        gridmap[current_nodex ][current_nodey -1] == '3' and (
+                        scoredij - 1 < 50 or diccolornumber['r'] == 5)) or (
+                        gridmap[current_nodex ][current_nodey -1] == '4' and (
+                        scoredij - 1 < 140 or diccolornumber['b'] == 4)) or flag):
             if (current_nodex, current_nodey - 1) not in distancelist:
                 if flag:
                     distancelist[(current_nodex, current_nodey - 1)] = dist + 41
@@ -267,10 +277,13 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width,scoredi
                         gridmap[current_nodex][current_nodey + 1] == "E"+character) or (
                         gridmap[current_nodex][current_nodey + 1] == "T"+character) or (
                         (current_nodex == goalx) and (current_nodey + 1 == goaly)) or (
-                        gridmap[current_nodex][current_nodey + 1] != '1') or (
-                        gridmap[current_nodex][current_nodey + 1] == '2' and scoredij - 1 < 15) or (
-                        gridmap[current_nodex][current_nodey + 1] == '3' and scoredij - 1 < 50) or (
-                        gridmap[current_nodex][current_nodey + 1] == '4' and scoredij - 1 < 140)or flag):
+                gridmap[current_nodex ][current_nodey+1] == '1' and diccolornumber['y'] == 15) or (
+                        gridmap[current_nodex][current_nodey+1] == '2' and (
+                        scoredij - 1 < 15 or diccolornumber['g'] == 8)) or (
+                        gridmap[current_nodex ][current_nodey+1] == '3' and (
+                        scoredij - 1 < 50 or diccolornumber['r'] == 5)) or (
+                        gridmap[current_nodex ][current_nodey+1] == '4' and (
+                        scoredij - 1 < 140 or diccolornumber['b'] == 4)) or flag):
             if (current_nodex, current_nodey + 1) not in distancelist:
                 if flag:
                     distancelist[(current_nodex, current_nodey + 1)] = dist + 41

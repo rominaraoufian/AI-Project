@@ -43,9 +43,9 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic, 
         if level == depth:
             print("im in depth == level")
             if len(visited_diamond) == 0:
-                value = ((35 * ((score_agent - current_score_agent)-(score_enemy-current_score_enemy))) + ((remain_turn_agent - remain_turn_enemy) * 65)) // 100
+                value = ((20 * ((score_agent - current_score_agent)-(score_enemy-current_score_enemy))) + ((remain_turn_agent - remain_turn_enemy) * 80)) // 100
             else:
-                value = (((35 * ((score_agent - current_score_agent)-(score_enemy-current_score_enemy))) + ((65 * (remain_turn_agent - remain_turn_enemy)))) // 100)
+                value = (((20 * ((score_agent - current_score_agent)-(score_enemy-current_score_enemy))) + ((80 * (remain_turn_agent - remain_turn_enemy)))) // 100)
             # print(value,max_value,"value, max_value")
             if value > max_value:
                 max_value = value
@@ -63,12 +63,12 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic, 
         if (remain_turn_agent == 0 and is_max_turn) or (remain_turn_enemy==0 and (not is_max_turn)):
             print("im in remain turn")
             if len(visited_diamond) == 0:
-                value=(((35 * ((score_agent - current_score_agent) - (score_enemy - current_score_enemy))) + (
-                (65 * (remain_turn_agent - remain_turn_enemy)))) // 100)
+                value=(((20 * ((score_agent - current_score_agent) - (score_enemy - current_score_enemy))) + (
+                (80 * (remain_turn_agent - remain_turn_enemy)))) // 100)
                 # value = ((20 * ((score_agent - current_score_agent) - (score_enemy - current_score_enemy))) + (remain_turn_agent - remain_turn_enemy) * 80) // 100
             else:
-                value = (((35 * ((score_agent - current_score_agent) - (score_enemy - current_score_enemy))) + (
-                    (65 * (remain_turn_agent - remain_turn_enemy)))) // 100)
+                value = (((20 * ((score_agent - current_score_agent) - (score_enemy - current_score_enemy))) + (
+                    (80 * (remain_turn_agent - remain_turn_enemy)))) // 100)
                 # value = (((20 * ((score_agent - current_score_agent)-(score_enemy-current_score_enemy))) + (80 * (remain_turn_agent-remain_turn_enemy))) // 100)
             if value > max_value:
                 max_value = value
@@ -84,8 +84,8 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic, 
 
         if len(diamonddic) == len(visited_diamond):
             print("im in len diamond visited diamond")
-            value = (((35 * ((score_agent - current_score_agent) - (score_enemy - current_score_enemy))) + (
-                (65 * (remain_turn_agent - remain_turn_enemy)))) // 100)
+            value = (((20 * ((score_agent - current_score_agent) - (score_enemy - current_score_enemy))) + (
+                (80 * (remain_turn_agent - remain_turn_enemy)))) // 100)
             # value = (((20 * ((score_agent - current_score_agent)-(score_enemy-current_score_enemy))) + (80 * (remain_turn_agent - remain_turn_enemy))) // 100)
             if value > max_value:
                 max_value = value
@@ -109,16 +109,16 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic, 
                 goaly = initial_diamond[1]
                 manhatan_distance = (abs(goalx-agentx)+abs(goaly-agenty))
                 if (initial_diamond[2] == 10) and (diccolor_number_copy_agent['y'] < 15):
-                    tuple_distance = dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, score_agent,enemytraps, character)
+                    tuple_distance = dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, score_agent,enemytraps, character, diccolor_number_copy_agent)
                     dicdistance[(goalx, goaly,10)] = tuple_distance
                 if (initial_diamond[2] == 25) and (score_agent - manhatan_distance >= 15) and (diccolor_number_copy_agent['g'] < 8):
-                    tuple_distance = dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, score_agent,enemytraps, character)
+                    tuple_distance = dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, score_agent,enemytraps, character,diccolor_number_copy_agent)
                     dicdistance[(goalx, goaly,25)] = tuple_distance
                 if (initial_diamond[2] == 35) and (score_agent - manhatan_distance >= 50) and (diccolor_number_copy_agent['r'] < 5):
-                    tuple_distance = dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, score_agent,enemytraps, character)
+                    tuple_distance = dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, score_agent,enemytraps, character,diccolor_number_copy_agent)
                     dicdistance[(goalx, goaly,35)] = tuple_distance
                 if (initial_diamond[2] == 75) and (score_agent - manhatan_distance >= 140) and (diccolor_number_copy_agent['b'] < 4):
-                    tuple_distance = dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, score_agent, enemytraps,character)
+                    tuple_distance = dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, score_agent, enemytraps,character,diccolor_number_copy_agent)
                     dicdistance[(goalx, goaly,75)] = tuple_distance
             print(dicdistance,"dicdistance")
 
@@ -141,7 +141,9 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic, 
                 # print(diamond[2],"diamond[2]")
                 if d not in visited_diamond:
                     visited_diamond[d] = (True, level)
+                    print(diccolor_number_copy_agent, "dic color number")
                     if (calculatedistance <= remain_turn_agent) and (level + 1 <= depth):
+                        print("im in if ")
                         if (diamond[2] == 10) and (diccolor_number_copy_agent['y'] < 15):
                             print("im in y diamond")
                             diccolor_number_copy_agent['y'] += 1
@@ -190,7 +192,7 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic, 
             for initial_hole in holedic:
                 goalx=initial_hole[0]
                 goaly=initial_hole[1]
-                tuple_distance = dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, score_agent, enemytraps,character)
+                tuple_distance = dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, score_agent, enemytraps,character,diccolor_number_copy_agent)
                 dicdistancehole[(goalx, goaly,0)] = tuple_distance
 
             sort_hole_list = sortmoves(dicdistancehole,remain_turn_agent)
@@ -238,19 +240,19 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic, 
                 goaly = initial_diamond[1]
                 manhatan_distance = (abs(goalx - agentx) + abs(goaly - agenty))
                 if (initial_diamond[2] == 10) and (diccolor_number_copy_agent['y'] < 15):
-                    tuple_distance = dijkstra(gridmap, height, width, enemyx, enemyy, goalx, goaly, score_enemy, agenttraps, character_enemy)
+                    tuple_distance = dijkstra(gridmap, height, width, enemyx, enemyy, goalx, goaly, score_enemy, agenttraps, character_enemy,diccolor_number_copy_enemy)
                     dicdistanceenemy[(goalx, goaly,10)] = tuple_distance
                 if (initial_diamond[2] == 25) and (score_agent - manhatan_distance >= 15) and (
                         diccolor_number_copy_agent['g'] < 8):
-                    tuple_distance = dijkstra(gridmap, height, width, enemyx, enemyy, goalx, goaly, score_enemy,agenttraps, character_enemy)
+                    tuple_distance = dijkstra(gridmap, height, width, enemyx, enemyy, goalx, goaly, score_enemy,agenttraps, character_enemy,diccolor_number_copy_enemy)
                     dicdistanceenemy[(goalx, goaly,25)] = tuple_distance
                 if (initial_diamond[2] == 35) and (score_agent - manhatan_distance >= 50) and (
                         diccolor_number_copy_agent['r'] < 5):
-                    tuple_distance = dijkstra(gridmap, height, width, enemyx, enemyy, goalx, goaly, score_enemy, agenttraps, character_enemy)
+                    tuple_distance = dijkstra(gridmap, height, width, enemyx, enemyy, goalx, goaly, score_enemy, agenttraps, character_enemy,diccolor_number_copy_enemy)
                     dicdistanceenemy[(goalx, goaly,35)] = tuple_distance
                 if (initial_diamond[2] == 75) and (score_agent - manhatan_distance >= 140) and (
                         diccolor_number_copy_agent['b'] < 4):
-                    tuple_distance = dijkstra(gridmap, height, width, enemyx, enemyy, goalx, goaly, score_enemy, agenttraps, character_enemy)
+                    tuple_distance = dijkstra(gridmap, height, width, enemyx, enemyy, goalx, goaly, score_enemy, agenttraps, character_enemy,diccolor_number_copy_enemy)
                     dicdistanceenemy[(goalx, goaly,75)] = tuple_distance
 
             sort_diamond_list = sortmoves(dicdistanceenemy,remain_turn_enemy)
@@ -329,7 +331,7 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic, 
             for initial_hole in holedic:
                 goalx = initial_hole[0]
                 goaly = initial_hole[1]
-                tuple_distance = dijkstra(gridmap, height, width, enemyx, enemyy, goalx, goaly, score_enemy, agenttraps,character_enemy)
+                tuple_distance = dijkstra(gridmap, height, width, enemyx, enemyy, goalx, goaly, score_enemy, agenttraps,character_enemy,diccolor_number_copy_enemy)
                 dicdistanceenemyhole[(goalx, goaly,0)] = tuple_distance
 
             sort_hole_list = sortmoves(dicdistanceenemyhole,remain_turn_enemy)
