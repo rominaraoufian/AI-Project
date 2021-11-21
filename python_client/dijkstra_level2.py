@@ -146,6 +146,7 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width,scoredi
             return way.get()
 
         # up
+        flag = False
         if current_nodex - 1 >= 0:
             if (current_nodex - 1, current_nodey) in trap:
                 flag = True
@@ -166,27 +167,28 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width,scoredi
             if (current_nodex - 1, current_nodey) not in distancelist:
                 if flag:
                     distancelist[(current_nodex - 1, current_nodey)] = dist + 41
-                    pq.put((dist + 41, current_nodex - 1, current_nodey, dist + 1, scoredij - 41))
+                    pq.put((dist + 41, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 41))
                     parent[(current_nodex - 1, current_nodey)] = (current_nodex, current_nodey, 'u')
                 else:
                     distancelist[(current_nodex - 1, current_nodey)] = dist + 1
-                    pq.put((dist + 1, current_nodex - 1, current_nodey, dist + 1, scoredij - 1))
+                    pq.put((dist + 1, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 1))
                     parent[(current_nodex - 1, current_nodey)] = (current_nodex, current_nodey, 'u')
 
             else:
                 if flag:
                     if dist + 41 < distancelist[(current_nodex - 1, current_nodey)]:
                         distancelist[(current_nodex - 1, current_nodey)] = dist + 41
-                        pq.put((dist + 41, current_nodex - 1, current_nodey, dist + 1, scoredij - 41))
+                        pq.put((dist + 41, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 41))
                         parent[(current_nodex - 1, current_nodey)] = (current_nodex, current_nodey, 'u')
                 else:
                     if dist + 1 < distancelist[(current_nodex - 1, current_nodey)]:
                         distancelist[(current_nodex - 1, current_nodey)] = dist + 1
-                        pq.put((dist + 1, current_nodex - 1, current_nodey, dist + 1, scoredij - 1))
+                        pq.put((dist + 1, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 1))
                         parent[(current_nodex - 1, current_nodey)] = (current_nodex, current_nodey, 'u')
 
 
         # down
+        flag = False
         if current_nodex + 1 < height:
             if (current_nodex + 1, current_nodey) in trap:
                 flag = True
@@ -207,26 +209,27 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width,scoredi
             if (current_nodex + 1, current_nodey) not in distancelist:
                 if flag:
                     distancelist[(current_nodex + 1, current_nodey)] = dist + 41
-                    pq.put((dist + 41, current_nodex + 1, current_nodey, dist + 1, scoredij - 41))
+                    pq.put((dist + 41, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 41))
                     parent[(current_nodex + 1, current_nodey)] = (current_nodex, current_nodey, 'd')
                 else:
                     distancelist[(current_nodex + 1, current_nodey)] = dist + 1
-                    pq.put((dist + 1, current_nodex + 1, current_nodey, dist + 1, scoredij - 1))
+                    pq.put((dist + 1, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 1))
                     parent[(current_nodex + 1, current_nodey)] = (current_nodex, current_nodey, 'd')
 
             else:
                 if flag:
                     if dist + 41 < distancelist[(current_nodex + 1, current_nodey)]:
                         distancelist[(current_nodex + 1, current_nodey)] = dist + 41
-                        pq.put((dist + 41, current_nodex + 1, current_nodey, dist + 1, scoredij - 41))
+                        pq.put((dist + 41, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 41))
                         parent[(current_nodex + 1, current_nodey)] = (current_nodex, current_nodey, 'd')
                 else:
                     if dist + 1 < distancelist[(current_nodex + 1, current_nodey)]:
                         distancelist[(current_nodex + 1, current_nodey)] = dist + 1
-                        pq.put((dist + 1, current_nodex + 1, current_nodey, dist + 1, scoredij - 1))
+                        pq.put((dist + 1, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 1))
                         parent[(current_nodex + 1, current_nodey)] = (current_nodex, current_nodey, 'd')
 
         # left
+        flag = False
         if current_nodey - 1 >= 0:
             if (current_nodex , current_nodey - 1) in trap:
                 flag = True
@@ -247,27 +250,28 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width,scoredi
             if (current_nodex, current_nodey - 1) not in distancelist:
                 if flag:
                     distancelist[(current_nodex, current_nodey - 1)] = dist + 41
-                    pq.put((dist + 41, current_nodex, current_nodey - 1, dist + 1, scoredij - 41))
+                    pq.put((dist + 41, current_nodex, current_nodey - 1, actual_dist + 1, scoredij - 41))
                     parent[(current_nodex, current_nodey - 1)] = (current_nodex, current_nodey, 'l')
                 else:
                     distancelist[(current_nodex, current_nodey - 1)] = dist + 1
-                    pq.put((dist + 1, current_nodex, current_nodey - 1, dist + 1, scoredij - 1))
+                    pq.put((dist + 1, current_nodex, current_nodey - 1, actual_dist + 1, scoredij - 1))
                     parent[(current_nodex, current_nodey - 1)] = (current_nodex, current_nodey, 'l')
 
             else:
                 if flag:
                     if dist + 41 < distancelist[(current_nodex, current_nodey - 1)]:
                         distancelist[(current_nodex, current_nodey - 1)] = dist + 41
-                        pq.put((dist + 41, current_nodex, current_nodey - 1, dist + 1, scoredij - 41))
+                        pq.put((dist + 41, current_nodex, current_nodey - 1, actual_dist + 1, scoredij - 41))
                         parent[(current_nodex, current_nodey - 1)] = (current_nodex, current_nodey, 'l')
                 else:
                     if dist + 1 < distancelist[(current_nodex, current_nodey - 1)]:
                         distancelist[(current_nodex, current_nodey - 1)] = dist + 1
-                        pq.put((dist + 1, current_nodex, current_nodey - 1, dist + 1, scoredij - 1))
+                        pq.put((dist + 1, current_nodex, current_nodey - 1, actual_dist + 1, scoredij - 1))
                         parent[(current_nodex, current_nodey - 1)] = (current_nodex, current_nodey, 'l')
 
 
         # right
+        flag = False
         if current_nodey + 1 < width:
             if (current_nodex , current_nodey + 1) in trap:
                 flag = True
@@ -287,23 +291,23 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width,scoredi
             if (current_nodex, current_nodey + 1) not in distancelist:
                 if flag:
                     distancelist[(current_nodex, current_nodey + 1)] = dist + 41
-                    pq.put((dist + 41, current_nodex, current_nodey + 1, dist + 1, scoredij - 41))
+                    pq.put((dist + 41, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 41))
                     parent[(current_nodex, current_nodey + 1)] = (current_nodex, current_nodey, 'r')
                 else:
                     distancelist[(current_nodex, current_nodey + 1)] = dist + 1
-                    pq.put((dist + 1, current_nodex, current_nodey + 1, dist + 1, scoredij - 1))
+                    pq.put((dist + 1, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 1))
                     parent[(current_nodex, current_nodey + 1)] = (current_nodex, current_nodey, 'r')
 
             else:
                 if flag:
                     if dist + 41 < distancelist[(current_nodex, current_nodey + 1)]:
                         distancelist[(current_nodex, current_nodey + 1)] = dist + 41
-                        pq.put((dist + 41, current_nodex, current_nodey + 1, dist + 1, scoredij - 41))
+                        pq.put((dist + 41, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 41))
                         parent[(current_nodex, current_nodey + 1)] = (current_nodex, current_nodey, 'r')
                 else:
                     if dist + 1 < distancelist[(current_nodex, current_nodey + 1)]:
                         distancelist[(current_nodex, current_nodey + 1)] = dist + 1
-                        pq.put((dist + 1, current_nodex, current_nodey + 1, dist + 1, scoredij - 1))
+                        pq.put((dist + 1, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 1))
                         parent[(current_nodex, current_nodey + 1)] = (current_nodex, current_nodey, 'r')
 
 

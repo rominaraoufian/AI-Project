@@ -104,7 +104,9 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic, 
         print(is_max_turn,"is_max_turn")
         if is_max_turn:
             dicdistance = {}
+            print(enemytraps, "enemytraps")
             for initial_diamond in diamonddic:
+
                 goalx = initial_diamond[0]
                 goaly = initial_diamond[1]
                 manhatan_distance = (abs(goalx-agentx)+abs(goaly-agenty))
@@ -142,6 +144,11 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic, 
                 if d not in visited_diamond:
                     visited_diamond[d] = (True, level)
                     print(diccolor_number_copy_agent, "dic color number")
+                    print(calculatedistance,"calculatedistance")
+                    print(calculatescore,"calculatescore")
+                    print(remain_turn_agent,"remain_turn_agent")
+                    print(level,"level")
+                    print(depth,"depth")
                     if (calculatedistance <= remain_turn_agent) and (level + 1 <= depth):
                         print("im in if ")
                         if (diamond[2] == 10) and (diccolor_number_copy_agent['y'] < 15):

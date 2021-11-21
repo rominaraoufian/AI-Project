@@ -165,7 +165,7 @@ def getinfophase2(gridmap, height, width, turn, maxturn, character,scoreinitial,
         agent_id = 0
         enemy_id = 1
         score_agent = scores[0]
-        score_enemy = score_enemy[1]
+        score_enemy = scores[1]
     else:
         character_enemy = 'A'
         agent_id = 1
@@ -209,7 +209,7 @@ def getinfophase2(gridmap, height, width, turn, maxturn, character,scoreinitial,
                 if s.find(character_enemy) != -1:
                     start_enemy = (i, j)
 
-        if start_enemy == previous_enemy_place:
+        if start_enemy == previous_enemy_place and (start_enemy not in enemy_trap):
             enemy_trap.append(start_enemy)
 
         # score_enemy -= 1
@@ -274,10 +274,8 @@ def getinfophase2(gridmap, height, width, turn, maxturn, character,scoreinitial,
 
     agent_trap=[]
 
-
-
-
-
+    print(character_enemy,"character enemy")
+    print(character,"character")
     depth_minmax = floor(log((10 ** 4) * timelimit, max(sizedh_minmax, 2)))
 
     if (walls // (height + width)) * 100 < 5 and len(hole) == 0:
