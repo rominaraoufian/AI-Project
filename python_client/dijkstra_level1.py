@@ -3,10 +3,6 @@ from math import inf
 
 
 def dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, scoredij,trap, character, diccolornumber):
-        # array_distance_initial = np.empty(height*width)
-        # array_distance_initial.fill(inf)
-        # array_distance = array_distance_initial.reshape((height, width))  # ***
-        array_distance = {}
         visited = {}
         distancelist = {}
         pq = PriorityQueue()
@@ -26,23 +22,23 @@ def dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, scoredij,trap
             # print(dist," ", actual_dist , "dist and actual")
             # print(scoredij, " scoredij")
             if (current_nodex == goalx) and (current_nodey == goaly):
-                return (actual_dist, scoredij)
-            # print(dist,current_nodex,current_nodey)
+                return actual_dist, scoredij
+
             # up
             flag = False
             if current_nodex - 1 >= 0:
                 if (current_nodex - 1, current_nodey) in trap:
                     flag = True
             if (current_nodex - 1 >= 0) and ((current_nodex - 1, current_nodey) not in visited) and (
-                    (((current_nodex-1) == goalx) and ((current_nodey)==goaly)) or
+                    (((current_nodex-1) == goalx) and (current_nodey == goaly)) or
                     (gridmap[current_nodex - 1][current_nodey] == 'E') or (
                     gridmap[current_nodex - 1][current_nodey] == 'T') or (
-                            gridmap[current_nodex - 1][current_nodey] == "E" + character) or (
-                            gridmap[current_nodex - 1][current_nodey] == "T" + character) or (
-                            gridmap[current_nodex - 1][current_nodey] == '1' and diccolornumber['y'] == 15) or (
-                            gridmap[current_nodex - 1][current_nodey] == '2' and (scoredij - 1 < 15 or diccolornumber['g'] == 8)) or (
-                            gridmap[current_nodex - 1][current_nodey] == '3' and (scoredij - 1 < 50 or diccolornumber['r'] == 5)) or (
-                            gridmap[current_nodex - 1][current_nodey] == '4' and (scoredij - 1 < 140 or diccolornumber['b'] == 4)) or flag):
+                    gridmap[current_nodex - 1][current_nodey] == 'E' + character) or (
+                    gridmap[current_nodex - 1][current_nodey] == 'T' + character) or (
+                    gridmap[current_nodex - 1][current_nodey] == '1' and diccolornumber['y'] == 15) or (
+                    gridmap[current_nodex - 1][current_nodey] == '2' and (scoredij - 1 < 15 or diccolornumber['g'] == 8)) or (
+                    gridmap[current_nodex - 1][current_nodey] == '3' and (scoredij - 1 < 50 or diccolornumber['r'] == 5)) or (
+                    gridmap[current_nodex - 1][current_nodey] == '4' and (scoredij - 1 < 140 or diccolornumber['b'] == 4)) or flag):
 
                 if (current_nodex - 1, current_nodey) not in distancelist:
                     if flag:
@@ -63,22 +59,20 @@ def dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, scoredij,trap
                             pq.put((dist + 1, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 1))
             # down
             flag = False
-            if (current_nodex + 1 < height):
+
+            if current_nodex + 1 < height:
                 if (current_nodex + 1, current_nodey) in trap:
                     flag = True
             if (current_nodex + 1 < height) and ((current_nodex + 1, current_nodey) not in visited) and (
-                    (((current_nodex + 1) == goalx) and ((current_nodey) == goaly)) or
+                    (((current_nodex + 1) == goalx) and (current_nodey == goaly)) or
                     (gridmap[current_nodex + 1][current_nodey] == 'E') or (
                     gridmap[current_nodex + 1][current_nodey] == 'T') or (
-                            gridmap[current_nodex + 1][current_nodey] == "E" + character) or (
-                            gridmap[current_nodex + 1][current_nodey] == "T" + character) or (
-                            gridmap[current_nodex + 1][current_nodey] == '1' and diccolornumber['y'] == 15) or (
-                            gridmap[current_nodex + 1][current_nodey] == '2' and (
-                            scoredij - 1 < 15 or diccolornumber['g'] == 8)) or (
-                            gridmap[current_nodex + 1][current_nodey] == '3' and (
-                            scoredij - 1 < 50 or diccolornumber['r'] == 5)) or (
-                            gridmap[current_nodex + 1][current_nodey] == '4' and (
-                            scoredij - 1 < 140 or diccolornumber['b'] == 4)) or flag):
+                    gridmap[current_nodex + 1][current_nodey] == "E" + character) or (
+                    gridmap[current_nodex + 1][current_nodey] == "T" + character) or (
+                    gridmap[current_nodex + 1][current_nodey] == '1' and diccolornumber['y'] == 15) or (
+                    gridmap[current_nodex + 1][current_nodey] == '2' and (scoredij - 1 < 15 or diccolornumber['g'] == 8)) or (
+                    gridmap[current_nodex + 1][current_nodey] == '3' and (scoredij - 1 < 50 or diccolornumber['r'] == 5)) or (
+                    gridmap[current_nodex + 1][current_nodey] == '4' and (scoredij - 1 < 140 or diccolornumber['b'] == 4)) or flag):
 
                 if (current_nodex + 1, current_nodey) not in distancelist:
                     if flag:
@@ -99,23 +93,20 @@ def dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, scoredij,trap
                             pq.put((dist + 1, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 1))
             # left
             flag = False
-            if (current_nodey - 1 >= 0):
 
+            if current_nodey - 1 >= 0:
                 if (current_nodex, current_nodey - 1) in trap:
                     flag = True
             if (current_nodey - 1 >= 0) and ((current_nodex, current_nodey - 1) not in visited) and (
-                    (((current_nodex) == goalx) and ((current_nodey -1 ) == goaly)) or
+                    ((current_nodex == goalx) and ((current_nodey -1) == goaly)) or
                     (gridmap[current_nodex][current_nodey - 1] == 'E') or (
                     gridmap[current_nodex][current_nodey - 1] == 'T') or (
-                            gridmap[current_nodex][current_nodey - 1] == "E" + character) or (
-                            gridmap[current_nodex][current_nodey - 1] == "T" + character) or (
-                            gridmap[current_nodex ][current_nodey -1] == '1' and diccolornumber['y'] == 15) or (
-                            gridmap[current_nodex][current_nodey -1] == '2' and (
-                            scoredij - 1 < 15 or diccolornumber['g'] == 8)) or (
-                            gridmap[current_nodex ][current_nodey-1] == '3' and (
-                            scoredij - 1 < 50 or diccolornumber['r'] == 5)) or (
-                            gridmap[current_nodex][current_nodey-1] == '4' and (
-                            scoredij - 1 < 140 or diccolornumber['b'] == 4)) or flag):
+                    gridmap[current_nodex][current_nodey - 1] == "E" + character) or (
+                    gridmap[current_nodex][current_nodey - 1] == "T" + character) or (
+                    gridmap[current_nodex][current_nodey - 1] == '1' and diccolornumber['y'] == 15) or (
+                    gridmap[current_nodex][current_nodey - 1] == '2' and (scoredij - 1 < 15 or diccolornumber['g'] == 8)) or (
+                    gridmap[current_nodex][current_nodey-1] == '3' and (scoredij - 1 < 50 or diccolornumber['r'] == 5)) or (
+                    gridmap[current_nodex][current_nodey-1] == '4' and (scoredij - 1 < 140 or diccolornumber['b'] == 4)) or flag):
                 if (current_nodex, current_nodey - 1) not in distancelist:
                     if flag:
                         distancelist[(current_nodex, current_nodey - 1)] = dist + 41
@@ -139,18 +130,15 @@ def dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, scoredij,trap
                 if (current_nodex, current_nodey + 1) in trap:
                     flag = True
             if (current_nodey + 1 < width) and ((current_nodex, current_nodey + 1) not in visited) and (
-                    (((current_nodex) == goalx) and ((current_nodey+1) == goaly)) or
+                    ((current_nodex == goalx) and ((current_nodey+1) == goaly)) or
                     (gridmap[current_nodex][current_nodey + 1] == 'E') or (
                     gridmap[current_nodex][current_nodey + 1] == 'T') or (
-                            gridmap[current_nodex][current_nodey + 1] == "E" + character) or (
-                            gridmap[current_nodex][current_nodey + 1] == "T" + character) or (
-                            gridmap[current_nodex][current_nodey+1] == '1' and diccolornumber['y'] == 15) or (
-                            gridmap[current_nodex ][current_nodey+1] == '2' and (
-                            scoredij - 1 < 15 or diccolornumber['g'] == 8)) or (
-                            gridmap[current_nodex ][current_nodey+1] == '3' and (
-                            scoredij - 1 < 50 or diccolornumber['r'] == 5)) or (
-                            gridmap[current_nodex][current_nodey+1] == '4' and (
-                            scoredij - 1 < 140 or diccolornumber['b'] == 4)) or flag):
+                    gridmap[current_nodex][current_nodey + 1] == "E" + character) or (
+                    gridmap[current_nodex][current_nodey + 1] == "T" + character) or (
+                    gridmap[current_nodex][current_nodey + 1] == '1' and diccolornumber['y'] == 15) or (
+                    gridmap[current_nodex][current_nodey + 1] == '2' and (scoredij - 1 < 15 or diccolornumber['g'] == 8)) or (
+                    gridmap[current_nodex][current_nodey + 1] == '3' and (scoredij - 1 < 50 or diccolornumber['r'] == 5)) or (
+                    gridmap[current_nodex][current_nodey + 1] == '4' and (scoredij - 1 < 140 or diccolornumber['b'] == 4)) or flag):
 
                 if (current_nodex, current_nodey + 1) not in distancelist:
                     if flag:
