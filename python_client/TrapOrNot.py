@@ -12,11 +12,12 @@ def trapornot(gridmap,height, width, next_move_agent, next_move_enemy, maxvalue,
     nextmove = tuple() if next_move_agent == tuple() else next_move_agent
     while not enemyway.empty():
         place = enemyway.get()
-        place_togo = dicforall[place[0]][place[1]][0]
+        #print(place , "*" * 20)
         if place == ():
             continue
-        if place_togo == inf:
+        if dicforall[place[0]][place[1]] == inf:
             continue
+        place_togo = dicforall[place[0]][place[1]][0]
         if gridmap[place[0]][place[1]] == 'E':
             if ((place_togo + 2) <= place[2]) and ((score_agent-(place_togo+1)) >= leastscore):
                 value = (40 - place_togo + 2) * (4/10)

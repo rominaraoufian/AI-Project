@@ -29,6 +29,7 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
         global max_value
         global next_move
         global max_depth_new
+        global next_move_enemy
         hash_state=hash_key(visited_diamond,visited_hole,agentx,agenty,enemyx,enemyy,remain_turn_agent,remain_turn_enemy,score_agent,score_enemy)
         #transposition value (exact,lowerbound,upperbound,depth)
         #transpositiontable[hash_state][3] >= level or transpositiontable[hash_state][3] <= level because position of  add value
