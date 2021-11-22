@@ -21,6 +21,7 @@ class Agent(BaseAgent):
             return Action.TELEPORT
         if action_state == 'n':
             return Action.NOOP
+        print("p")
         if action_state == 'p':
            return Action.TRAP
 

@@ -12,44 +12,46 @@ def trapornot(gridmap,height, width, next_move_agent, next_move_enemy, maxvalue,
     nextmove = tuple() if next_move_agent == tuple() else next_move_agent
     while not enemyway.empty():
         place = enemyway.get()
+        place_togo = dicforall[place[0]][place[1]][0]
         if place == ():
             continue
-        if dicforall[place[0]][place[1]] == inf:
+        if place_togo == inf:
             continue
         if gridmap[place[0]][place[1]] == 'E':
-            if (dicforall[place[0]][place[1]]+2 <= place[3]) and ((score_agent-(dicforall[place[0]][place[1]]+1)) >= leastscore):
-                value = (40-dicforall[place[0]][place[1]]+2)* (4/10)
+            if ((place_togo + 2) <= place[2]) and ((score_agent-(place_togo+1)) >= leastscore):
+                value = (40 - place_togo + 2) * (4/10)
                 if value > maxvaluefortrap:
                     maxvaluefortrap = value
                     nextmove = (place[0],place[1])
         if (gridmap[place[0]][place[1]] == '1') and (diccolornumber_agent['y'] < 15) and (place[0] != next_move_enemy[0]) and (place[1] != next_move_enemy[1]):
-            if ((dicforall[place[0]][place[1]] + 2) <= place[3]) and (((score_agent + 10) - (dicforall[place[0]][ place[1]] + 1)) >= leastscore):
-                value = (40-dicforall[place[0]][place[1]]+2)* (4/10) + 10
+            if ((place_togo + 2) <= place[2]) and (((score_agent + 10) - (place_togo + 1)) >= leastscore):
+                value = (40 - place_togo + 2) * (4/10) + 10
                 if value > maxvaluefortrap:
                     maxvaluefortrap = value
                     nextmove = (place[0], place[1])
+                    print("im in trap 1")
         if (gridmap[place[0]][place[1]] == '2') and (diccolornumber_agent['g'] < 8) and (
                 place[0] != next_move_enemy[0]) and (place[1] != next_move_enemy[1]):
-            if ((dicforall[place[0]][place[1]] + 2) <= place[3]) and (
-                    ((score_agent + 25) - (dicforall[place[0]][place[1]] + 1)) >= leastscore):
-                value = (40 - dicforall[place[0]][place[1]] + 2) * (4 / 10) + 25
+            if ((place_togo + 2) <= place[2]) and (
+                    ((score_agent + 25) - (place_togo+ 1)) >= leastscore):
+                value = (40 - place_togo + 2) * (4 / 10) + 25
                 if value > maxvaluefortrap:
                     maxvaluefortrap = value
                     nextmove = (place[0], place[1])
         if (gridmap[place[0]][place[1]] == '3') and (diccolornumber_agent['r'] < 5) and (
                 place[0] != next_move_enemy[0]) and (place[1] != next_move_enemy[1]):
-            if ((dicforall[place[0]][place[1]] + 2) <= place[3]) and (
-                    ((score_agent + 35) - (dicforall[place[0]][place[1]] + 1)) >= leastscore):
-                value = (40 - dicforall[place[0]][place[1]] + 2) * (4 / 10) + 35
+            if ((place_togo + 2) <= place[2]) and (
+                    ((score_agent + 35) - (place_togo + 1)) >= leastscore):
+                value = (40 - place_togo + 2) * (4 / 10) + 35
                 if value > maxvaluefortrap:
                     maxvaluefortrap = value
                     nextmove = (place[0], place[1])
 
         if (gridmap[place[0]][place[1]] == '4') and (diccolornumber_agent['b'] < 4) and (
                 place[0] != next_move_enemy[0]) and (place[1] != next_move_enemy[1]):
-            if ((dicforall[place[0]][place[1]] + 2) <= place[3]) and (
-                    ((score_agent + 75) - (dicforall[place[0]][place[1]] + 1)) >= leastscore):
-                value = (40 - dicforall[place[0]][place[1]] + 2) * (4 / 10) + 75
+            if ((place_togo + 2) <= place[2]) and (
+                    ((score_agent + 75) - (place_togo + 1)) >= leastscore):
+                value = (40 - place_togo + 2) * (4 / 10) + 75
                 if value > maxvaluefortrap:
                     maxvaluefortrap = value
                     nextmove = (place[0], place[1])

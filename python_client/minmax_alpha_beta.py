@@ -338,8 +338,8 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic, 
                                                              diccolor_number_copy_enemy)
                             diccolor_number_copy_enemy['b'] -= 1
 
-                    best_value = max(best_value, result_return)
-                    beta = max(beta, best_value)
+                    best_value = min(best_value, result_return)
+                    beta = min(beta, best_value)
                     if beta <= alpha:
                         if (hash_state in transpositiontable) and (transpositiontable[hash_state][3] > level):
                             max_depth_new = max(max_depth_new, level)
@@ -386,8 +386,8 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic, 
 
                     result_return = (value_hole // (len(holedic) - 1))
 
-                best_value = max(best_value, result_return)
-                beta = max(beta, best_value)
+                best_value = min(best_value, result_return)
+                beta = min(beta, best_value)
                 if beta <= alpha:
                     if (hash_state in transpositiontable) and (transpositiontable[hash_state][3] > level):
                         max_depth_new = max(max_depth_new, level)
@@ -409,8 +409,8 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic, 
             if (result_return == float('inf')) and (level+1 <= depth):
                  print("im in (result_return == -1) and (level+1 <= depth)")
                  result_return = alph_beta_minmax(not is_max_turn, agentx, agenty, enemyx, enemyy,alpha, beta, level + 1, remain_turn_agent,remain_turn_enemy, score_agent, score_enemy, diccolor_number_copy_agent, diccolor_number_copy_enemy)
-                 best_value = max(best_value, result_return)
-                 beta = max(beta, best_value)
+                 best_value = min(best_value, result_return)
+                 beta = min(beta, best_value)
                  if beta <= alpha:
                      if (hash_state in transpositiontable) and (transpositiontable[hash_state][3] > level):
                          max_depth_new = max(max_depth_new, level)
