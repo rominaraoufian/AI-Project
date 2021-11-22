@@ -3,8 +3,10 @@ from math import inf
 
 
 def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,trap,character,diccolornumber):
+
   # array_distance = [[inf]*width]*height
   array_distance= [[(inf,inf) for i in range(width)] for j in range(height)]
+
   dicdistance_diamond = {}
   dicdistance_hole = {}
   visited = {}
@@ -42,7 +44,6 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,trap,character
               gridmap[current_nodex][current_nodey] == '2' and (not((scoredij-1 < 15 or diccolornumber['g'] == 8))))or (gridmap[current_nodex][current_nodey] == '3' and (not (scoredij-1 < 50 or diccolornumber['r']==5))) or (
               gridmap[current_nodex][current_nodey] == '4' and (not((scoredij-1 < 140 or diccolornumber['b'] == 4)))):
 
-          # print("im in continue")
           continue
       #up
 
