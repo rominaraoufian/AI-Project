@@ -278,8 +278,8 @@ def getinfophase2(gridmap, height, width, turn, maxturn, character,scoreinitial,
 
     agent_trap=[]
 
-    print(character_enemy,"character enemy")
-    print(character,"character")
+    # print(character_enemy,"character enemy")
+    # print(character,"character")
     depth_minmax = floor(log((10 ** 4) * timelimit, max(sizedh_minmax, 2)))
 
     if (walls // (height + width)) * 100 < 5 and len(hole) == 0:
@@ -289,11 +289,11 @@ def getinfophase2(gridmap, height, width, turn, maxturn, character,scoreinitial,
     depth_minmax = max(max_depth, depth_minmax)
     if depth_minmax % 2:
         depth_minmax = max(depth_minmax-1, 2)
-    print("-"*15)
-    print(maxturn-turn+1)
-    print("-" * 15)
+    # print("-"*15)
+    # print(maxturn-turn+1)
+    # print("-" * 15)
     next_move,max_depth = minmax(gridmap, height, width, maxturn-turn+1, maxturn-turn+1, diamond, hole, start_agent[0], start_agent[1], start_enemy[0], start_enemy[1], trapcount, depth_minmax, score_agent, score_enemy, diccolornumber_agent,diccolornumber_enemy,transposition, enemy_trap, agent_trap,transposition_size,max_depth,character,character_enemy)
-    print(next_move,"next_moove")
+    # print(next_move,"next_moove")
     if not next_move == ():
        next_action = dij_show_action(start_agent[0], start_agent[1], next_move[0], next_move[1], gridmap, height, width,score_agent,enemy_trap,character,diccolornumber_agent)
        return next_action
@@ -414,8 +414,8 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
 
     agent_trap=[]
 
-    print(character_enemy,"character enemy")
-    print(character,"character")
+    # print(character_enemy,"character enemy")
+    # print(character,"character")
     depth_minmax = floor(log((10 ** 4) * timelimit, max(sizedh_minmax, 2)))
 
     if (walls // (height + width)) * 100 < 5 and len(hole) == 0:
@@ -425,11 +425,14 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
     depth_minmax = max(max_depth, depth_minmax)
     if depth_minmax % 2:
         depth_minmax = max(depth_minmax-1, 2)
-    print("-"*15)
-    print(maxturn-turn+1)
-    print("-" * 15)
+    # print("-"*15)
+    # print(maxturn-turn+1)
+    # print("-" * 15)
+    print(start_enemy,"start_enemy")
+    print(start_agent,"start_agent")
+    print(turn,"turn")
     next_move,next_move_enemy,max_depth,maxvalue = minmax1(gridmap, height, width, maxturn-turn+1, maxturn-turn+1, diamond, hole, start_agent[0], start_agent[1], start_enemy[0], start_enemy[1], trapcount, depth_minmax, score_agent, score_enemy, diccolornumber_agent,diccolornumber_enemy,transposition, enemy_trap, agent_trap,transposition_size,max_depth,character,character_enemy)
-    print(next_move,"next_moove")
+    # print(next_move,"next_moove")
     trapsize = len(agent_trap)
     if not next_move_enemy == ():
         if trapsize == 0 and score_agent > 35:
