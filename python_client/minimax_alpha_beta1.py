@@ -122,11 +122,12 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
         result_return = float('-inf') if is_max_turn else float('inf')
         print(is_max_turn,"is_max_turn")
         if is_max_turn:
+            print(agenty,agenty,"agentx,agenty")
             dicdistanceall, dicdistancediamond, dicdistancehole = dijkstraforall(gridmap,height, width, agentx,agenty, score_agent,enemytraps,character,diccolor_number_copy_agent)
-            print(dicdistancediamond, " dicdistancefordiamond")
-            print(enemytraps, "enemytraps")
-            print(dicdistancediamond,"dicdistancediamond")
-            print(dicdistancehole,"dicdistancehole")
+            # print(dicdistancediamond, " dicdistancefordiamond")
+            # print(enemytraps, "enemytraps")
+            # print(dicdistancediamond,"dicdistancediamond")
+            # print(dicdistancehole,"dicdistancehole")
             # we dont pass diamonddic in sortmoves check if okey or not
             sort_diamond_list = sortmoves(dicdistancediamond, remain_turn_agent, diccolor_number_copy_agent)
             # print(sort_diamond_list,"sort_diamond_list")
@@ -145,13 +146,13 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
                 # print(diamond[2],"diamond[2]")
                 if d not in visited_diamond:
                     visited_diamond[d] = (True, level)
-                    print(diccolor_number_copy_agent, "dic color number")
-                    print(calculatedistance,"calculatedistance")
-
-                    print(calculatescore,"calculatescore")
-                    print(remain_turn_agent,"remain_turn_agent")
-                    print(level,"level")
-                    print(depth,"depth")
+                    # print(diccolor_number_copy_agent, "dic color number")
+                    # print(calculatedistance,"calculatedistance")
+                    #
+                    # print(calculatescore,"calculatescore")
+                    # print(remain_turn_agent,"remain_turn_agent")
+                    # print(level,"level")
+                    # print(depth,"depth")
                     if (calculatedistance <= remain_turn_agent) and (level + 1 <= depth):
                         # print("im in if ")
                         if (diamond[2] == 10) and (diccolor_number_copy_agent['y'] < 15):
@@ -376,7 +377,7 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
                 visited_hole.pop((h[0], h[1], level), None)
 
             if (result_return == float('inf')) and (level+1 <= depth):
-                 print("im in (result_return == -1) and (level+1 <= depth)")
+                 # print("im in (result_return == -1) and (level+1 <= depth)")
                  result_return = alph_beta_minmax(not is_max_turn, agentx, agenty, enemyx, enemyy,alpha, beta, level + 1, remain_turn_agent,remain_turn_enemy, score_agent, score_enemy, diccolor_number_copy_agent, diccolor_number_copy_enemy)
                  best_value = min(best_value, result_return)
                  beta = min(beta, best_value)
