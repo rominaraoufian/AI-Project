@@ -3,7 +3,7 @@ from math import inf
 
 
 def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,trap,character,diccolornumber):
-  array_distance = [[inf]*width]*height
+  array_distance = [[(inf,inf) for  i in range (width)] for j in range(height)]
   dicdistance_diamond = {}
   dicdistance_hole = {}
   visited = {}
@@ -38,7 +38,7 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,trap,character
               gridmap[current_nodex][current_nodey] == '2' and (not((scoredij-1 < 15 or diccolornumber['g'] == 8))))or (gridmap[current_nodex][current_nodey] == '3' and (not (scoredij-1 < 50 or diccolornumber['r']==5))) or (
               gridmap[current_nodex][current_nodey] == '4' and (not((scoredij-1 < 140 or diccolornumber['b'] == 4)))):
 
-          print("im in continue")
+
           continue
       #up
 
@@ -114,10 +114,10 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,trap,character
           if (current_nodex , current_nodey-1) not in distancelist:
               if flag:
                   distancelist[(current_nodex , current_nodey-1)] = dist + 41
-                  pq.put((dist + 41, current_nodex, current_nodey-1, actual_dist, scoredij - 41))
+                  pq.put((dist + 41, current_nodex, current_nodey-1, actual_dist+1, scoredij - 41))
               else:
                   distancelist[(current_nodex, current_nodey-1)] = dist + 1
-                  pq.put((dist + 1, current_nodex , current_nodey-1, actual_dist, scoredij - 1))
+                  pq.put((dist + 1, current_nodex , current_nodey-1, actual_dist+1, scoredij - 1))
 
           else:
               if flag:
@@ -156,6 +156,6 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,trap,character
                       distancelist[(current_nodex, current_nodey + 1)] = dist + 1
                       pq.put((dist + 1, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 1))
 
-  for item in array_distance:
-      print(item)
+  # for item in array_distance:
+  #     print(item)
   return (array_distance, dicdistance_diamond,dicdistance_hole)

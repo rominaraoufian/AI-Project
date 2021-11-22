@@ -7,7 +7,7 @@ def hash_key(visiteddiamond,visitedhole,agentx,agenty,enemyx,enemyy,remain_turn_
     return  tuple(hash_key_list)
 
 
-def sortmoves(dijkstradic,remain_turn):
+def sortmoves(dijkstradic,remain_turn, diccolor_number):
 
     scores = {}
     move_list = []
@@ -16,9 +16,11 @@ def sortmoves(dijkstradic,remain_turn):
 
     for item in dijkstradic:
         #also we can use manhatani distance in if
-      #  if ((s[2] == 10) and (diccolor_number['y'] < 15)) or ((s[2] == 25)  and (score_agent >= 15) or (s['g'] < 8))
-        value = (20 * (dijkstradic[item][1]+item[2]) + 80 * (remain_turn - dijkstradic[item][0])) / 100
-        scores[item] = value
+        s = item[2]
+        if ((s == 10) and (diccolor_number['y'] < 15)) or ((s == 25)  and ((dijkstradic[item][1] >= 15) and (diccolor_number['g'] < 8))) or (
+                (s == 35) and ((dijkstradic[item][1] >= 50) and (diccolor_number['g'] < 5))) or ((s== 75) and ((dijkstradic[item][1] >= 140) and (diccolor_number['g'] < 4))):
+           value = (20 * (dijkstradic[item][1]+item[2]) + 80 * (remain_turn - dijkstradic[item][0])) / 100
+           scores[item] = value
     #     print(item,value,"scorevale")
     # print(len(scores),"sizescores")
     for i in range(min(6, len(scores))):

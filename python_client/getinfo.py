@@ -351,7 +351,8 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
                     start_agent = (i, j)
                 if s.find(character_enemy) != -1:
                     start_enemy = (i, j)
-
+        print(start_enemy,"start enemy")
+        print(start_agent, "start_agent")
 
         transposition_size = height * width - (walls+len(diamond)+len(hole))
 
