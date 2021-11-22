@@ -106,9 +106,8 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic, 
         print(is_max_turn,"is_max_turn")
         if is_max_turn:
             dicdistance = {}
-            print(enemytraps, "enemytraps")
+            print(diamonddic,"diamond dic")
             for initial_diamond in diamonddic:
-
                 goalx = initial_diamond[0]
                 goaly = initial_diamond[1]
                 manhatan_distance = (abs(goalx-agentx)+abs(goaly-agenty))
@@ -133,16 +132,9 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic, 
 
             for diamond in sort_diamond_list:
                 d = (diamond[0], diamond[1])
-                # print(diamond,"diamond")
-                # print(dicdistance[diamond],"dicdistance[diamond]")
                 calculatescore = dicdistance[diamond][1]
                 calculatedistance = dicdistance[diamond][0]
-                # print(calculatedistance,"calculatedistance")
-                # print(calculatescore,"calculatescore")
-                # print(remain_turn_agent,"remain_turn_agent")
-                # print(level,"level")
-                # print(depth,"depth")
-                # print(diamond[2],"diamond[2]")
+
                 if d not in visited_diamond:
                     visited_diamond[d] = (True, level)
                     print(diccolor_number_copy_agent, "dic color number")
@@ -155,7 +147,7 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic, 
                     if (calculatedistance <= remain_turn_agent) and (level + 1 <= depth):
                         # print("im in if ")
                         if (diamond[2] == 10) and (diccolor_number_copy_agent['y'] < 15):
-                            print("im in y diamond")
+                            print("im in y diamond",diamond[0],diamond[1])
                             diccolor_number_copy_agent['y'] += 1
                             result_return = alph_beta_minmax(not is_max_turn, diamond[0],diamond[1], enemyx, enemyy, alpha, beta, level+1, remain_turn_agent-calculatedistance,remain_turn_enemy, 10+calculatescore , score_enemy,diccolor_number_copy_agent,diccolor_number_copy_enemy)
                             diccolor_number_copy_agent['y'] -= 1
@@ -242,6 +234,28 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic, 
                     return best_value
                 visited_hole.pop((h[0], h[1], level), None)
 
+            if (result_return == float('-inf')) and (level + 1 <= depth):
+                result_return = alph_beta_minmax(not is_max_turn, agentx, agenty, enemyx, enemyy, alpha, beta,
+                                                 level + 1, remain_turn_agent, remain_turn_enemy, score_agent,
+                                                 score_enemy, diccolor_number_copy_agent, diccolor_number_copy_enemy)
+                best_value = max(best_value, result_return)
+                alpha = max(alpha, best_value)
+                if beta <= alpha:
+                    if (hash_state in transpositiontable) and (transpositiontable[hash_state][3] > level):
+                        max_depth_new = max(max_depth_new, level)
+                        transpositiontable[hash_state] = (
+                        transpositiontable[hash_state][0], best_value, transpositiontable[hash_state][2], level)
+                    else:
+                        max_depth_new = max(max_depth_new, level)
+                        if len(transpositiontable) < transpositionsize:
+                            storedHkeys.put(hash_state)
+                            transpositiontable[hash_state] = (float('inf'), best_value, float('inf'), level)
+                        else:
+                            storedHkeys.get()
+                            storedHkeys.put(hash_state)
+                            transpositiontable[hash_state] = (float('inf'), best_value, float('inf'), level)
+                    return best_value
+
         else:
             print("im in enemy")
             dicdistanceenemy = {}
@@ -265,16 +279,21 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic, 
                     tuple_distance = dijkstra(gridmap, height, width, enemyx, enemyy, goalx, goaly, score_enemy, agenttraps, character_enemy,diccolor_number_copy_enemy)
                     dicdistanceenemy[(goalx, goaly,75)] = tuple_distance
 
-            sort_diamond_list = sortmoves(dicdistanceenemy,remain_turn_enemy)
-
+            sort_diamond_list = sortmoves(dicdistanceenemy, remain_turn_enemy)
+            print(sort_diamond_list,"sort_diamond_list")
+            print(dicdistanceenemy,"dicdistanceenemy")
             for diamond in sort_diamond_list:
                 d = (diamond[0], diamond[1])
-
                 calculatescore = dicdistanceenemy[diamond][1]
                 calculatedistance = dicdistanceenemy[diamond][0]
                 if d not in visited_diamond:
                     visited_diamond[d] = (True, level)
-
+                    print(diccolor_number_copy_agent, "dic color number")
+                    print(calculatedistance, "calculatedistance")
+                    print(calculatescore, "calculatescore")
+                    print(remain_turn_agent, "remain_turn_agent")
+                    print(level, "level")
+                    print(depth, "depth")
                     if (calculatedistance <= remain_turn_enemy) and (level + 1 <= depth):
                         if (diamond[2] == 10) and (diccolor_number_copy_enemy['y'] < 15):
                             print("im in enemy y")
@@ -337,6 +356,8 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic, 
 
                         return best_value
                     visited_diamond.pop(d, None)
+
+
             dicdistanceenemyhole = {}
             for initial_hole in holedic:
                 goalx = initial_hole[0]
@@ -382,6 +403,29 @@ def minmax(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic, 
                             transpositiontable[hash_state] = (float('inf'), float('inf'), best_value, level)
                     return best_value
                 visited_hole.pop((h[0], h[1], level), None)
+            print(result_return,"result rreturn")
+            print(level,"level")
+            print(depth,"depth")
+            if (result_return == float('inf')) and (level+1 <= depth):
+                 print("im in (result_return == -1) and (level+1 <= depth)")
+                 result_return = alph_beta_minmax(not is_max_turn, agentx, agenty, enemyx, enemyy,alpha, beta, level + 1, remain_turn_agent,remain_turn_enemy, score_agent, score_enemy, diccolor_number_copy_agent, diccolor_number_copy_enemy)
+                 best_value = max(best_value, result_return)
+                 beta = max(beta, best_value)
+                 if beta <= alpha:
+                     if (hash_state in transpositiontable) and (transpositiontable[hash_state][3] > level):
+                         max_depth_new = max(max_depth_new, level)
+                         transpositiontable[hash_state] = (
+                         transpositiontable[hash_state][0], transpositiontable[hash_state][1], best_value, level)
+                     else:
+                         max_depth_new = max(max_depth_new, level)
+                         if len(transpositiontable) < transpositionsize:
+                             storedHkeys.put(hash_state)
+                             transpositiontable[hash_state] = (float('inf'), float('inf'), best_value, level)
+                         else:
+                             storedHkeys.get()
+                             storedHkeys.put(hash_state)
+                             transpositiontable[hash_state] = (float('inf'), float('inf'), best_value, level)
+                     return best_value
 
         #check size for this transposition for update
         if (hash_state in transpositiontable) and (transpositiontable[hash_state][3] > level):
