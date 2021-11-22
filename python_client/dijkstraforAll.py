@@ -39,7 +39,7 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,trap,character
           print("im in continue")
           continue
       #up
-      print("im in up")
+
       flag = False
       if (current_nodex-1 >= 0):
           if (current_nodex-1, current_nodey) in trap:
