@@ -153,7 +153,8 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width, scored
                 x = currentx
                 y = currenty
             way_return = way.get()
-            print(way_return,"wayreturn")
+            # while not way.empty():
+            #    print(way.get(),"wayreturn")
             return way_return
 
         # up

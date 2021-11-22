@@ -18,7 +18,7 @@ def sortmoves(dijkstradic,remain_turn, diccolor_number):
         #also we can use manhatani distance in if
         s = item[2]
         if ((s == 10) and (diccolor_number['y'] < 15)) or ((s == 25)  and ((dijkstradic[item][1] >= 15) and (diccolor_number['g'] < 8))) or (
-                (s == 35) and ((dijkstradic[item][1] >= 50) and (diccolor_number['g'] < 5))) or ((s== 75) and ((dijkstradic[item][1] >= 140) and (diccolor_number['g'] < 4))):
+                (s == 35) and ((dijkstradic[item][1] >= 50) and (diccolor_number['r'] < 5))) or ((s== 75) and ((dijkstradic[item][1] >= 140) and (diccolor_number['b'] < 4))):
            value = (20 * (dijkstradic[item][1]+item[2]) + 80 * (remain_turn - dijkstradic[item][0])) / 100
            scores[item] = value
     #     print(item,value,"scorevale")
