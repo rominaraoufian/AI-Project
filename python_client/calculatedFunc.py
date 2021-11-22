@@ -17,8 +17,8 @@ def sortmoves(dijkstradic,remain_turn):
     for item in dijkstradic:
         value = (20 * (dijkstradic[item][1]+item[2]) + 80 * (remain_turn - dijkstradic[item][0])) / 100
         scores[item] = value
-        print(item,value,"scorevale")
-    print(len(scores),"sizescores")
+    #     print(item,value,"scorevale")
+    # print(len(scores),"sizescores")
     for i in range(min(6, len(scores))):
          max = float('-inf')
          maxlocation = tuple()
@@ -32,7 +32,7 @@ def sortmoves(dijkstradic,remain_turn):
          dijkstradic_copy.pop(maxlocation)
         # print(maxlocation, " max_location")
          scores[maxlocation] = float('-inf')
-    print(dijkstradic,"dijkstradic")
+    # print(dijkstradic,"dijkstradic")
     move_list.extend(list(dijkstradic_copy.keys()))
     return move_list
 
