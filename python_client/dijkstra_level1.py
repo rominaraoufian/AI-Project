@@ -9,6 +9,7 @@ def dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, scoredij,trap
         pq.put((0, agentx, agenty, 0, scoredij))
         distancelist[(agentx, agenty)] = 0
         flag = False
+        print(trap, "trap")
         while not pq.empty():
             temp = pq.get()
             dist = temp[0]
@@ -17,6 +18,9 @@ def dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, scoredij,trap
             scoredij = temp[4]
             actual_dist = temp[3]
             visited[(current_nodex, current_nodey)] = True
+            # print(current_nodex , " " , current_nodey,"current node")
+            # print(dist," ", actual_dist , "dist and actual")
+            # print(scoredij, " scoredij")
             if (current_nodex == goalx) and (current_nodey == goaly):
                 return actual_dist, scoredij
 
@@ -55,6 +59,7 @@ def dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, scoredij,trap
                             pq.put((dist + 1, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 1))
             # down
             flag = False
+
             if current_nodex + 1 < height:
                 if (current_nodex + 1, current_nodey) in trap:
                     flag = True
@@ -88,6 +93,7 @@ def dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, scoredij,trap
                             pq.put((dist + 1, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 1))
             # left
             flag = False
+
             if current_nodey - 1 >= 0:
                 if (current_nodex, current_nodey - 1) in trap:
                     flag = True
