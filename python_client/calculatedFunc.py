@@ -15,6 +15,8 @@ def sortmoves(dijkstradic,remain_turn):
     dijkstradic_copy = dijkstradic.copy()
 
     for item in dijkstradic:
+        #also we can use manhatani distance in if
+      #  if ((s[2] == 10) and (diccolor_number['y'] < 15)) or ((s[2] == 25)  and (score_agent >= 15) or (s['g'] < 8))
         value = (20 * (dijkstradic[item][1]+item[2]) + 80 * (remain_turn - dijkstradic[item][0])) / 100
         scores[item] = value
     #     print(item,value,"scorevale")
