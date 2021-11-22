@@ -121,6 +121,7 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
         print(is_max_turn,"is_max_turn")
         if is_max_turn:
             dicdistanceall, dicdistancediamond, dicdistancehole = dijkstraforall(gridmap,height, width, agentx,agenty, score_agent,enemytraps,character,diccolor_number_copy_agent)
+            print(dicdistancediamond, " dicdistancefordiamond")
             print(enemytraps, "enemytraps")
             # we dont pass diamonddic in sortmoves check if okey or not
             sort_diamond_list = sortmoves(dicdistancediamond,remain_turn_agent)
