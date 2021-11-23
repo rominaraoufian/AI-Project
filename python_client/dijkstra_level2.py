@@ -38,7 +38,7 @@ def dij_show_way(agentx, agenty, goalx, goaly, gridmap, height, width,scoredij,c
                 return way
             # up
             if (current_nodex - 1 >= 0) and ((current_nodex - 1, current_nodey) not in visited) and (
-               (gridmap[current_nodex - 1][current_nodey] == 'E') or (gridmap[current_nodex - 1][current_nodey] == 'T')or(gridmap[current_nodex-1][current_nodey]=="E"+character) or (gridmap[current_nodex-1][current_nodey]=="T"+character)or(
+               (gridmap[current_nodex - 1][current_nodey] == 'E') or (gridmap[current_nodex - 1][current_nodey] == 'T')or(gridmap[current_nodex-1][current_nodey]=="E"+character)  or (gridmap[current_nodex-1][current_nodey]=="E"+character) or (gridmap[current_nodex-1][current_nodey]=="T"+character)or(
                (current_nodex - 1 == goalx) and (current_nodey == goaly)) or (gridmap[current_nodex-1][current_nodey] == '1' and scoredij-1 < 0) or (
               gridmap[current_nodex-1][current_nodey] == '2' and scoredij-1 < 15) or (gridmap[current_nodex-1][current_nodey] == '3' and scoredij-1 < 50 ) or (
               gridmap[current_nodex-1][current_nodey] == '4' and scoredij-1 < 140)):
@@ -130,7 +130,7 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width, scored
     if agentx == goalx and agenty == goaly:
         way.put('p')
         way_return = way.get()
-        print(way_return, "wayreturn")
+        print("action p choose", "*" * 20)
         return way_return
     flag = False
     while not pq.empty():
@@ -321,7 +321,7 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width, scored
                         parent[(current_nodex, current_nodey + 1)] = (current_nodex, current_nodey, 'r')
 
 
-def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scoredij,character,diccolornumber, trap):
+def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scoredij,character,diccolornumber, trap, characterenemy):
     visited = {}
     distancelist = {}
     parent = {}
@@ -369,6 +369,7 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
                 (gridmap[current_nodex - 1][current_nodey] == 'E') or (
                 gridmap[current_nodex - 1][current_nodey] == 'T') or (
                         gridmap[current_nodex - 1][current_nodey] == "E" + character) or (
+                        gridmap[current_nodex - 1][current_nodey] == "E" + characterenemy) or (
                         gridmap[current_nodex - 1][current_nodey] == "T" + character) or (
                         (current_nodex - 1 == goalx) and (current_nodey == goaly)) or (
                         gridmap[current_nodex - 1][current_nodey] == '1' and diccolornumber['y'] == 15) or (
@@ -412,6 +413,7 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
                 gridmap[current_nodex + 1][current_nodey] == 'T') or (
                         gridmap[current_nodex + 1][current_nodey] == "E" + character) or (
                         gridmap[current_nodex + 1][current_nodey] == "T" + character) or (
+                        gridmap[current_nodex - 1][current_nodey] == "E" + characterenemy) or (
                         (current_nodex + 1 == goalx) and (current_nodey == goaly)) or (
                         gridmap[current_nodex + 1][current_nodey] == '1' and diccolornumber['y'] == 15) or (
                         gridmap[current_nodex + 1][current_nodey] == '2' and (
@@ -453,6 +455,7 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
                 gridmap[current_nodex][current_nodey - 1] == 'T') or (
                         gridmap[current_nodex][current_nodey - 1] == "E" + character) or (
                         gridmap[current_nodex][current_nodey - 1] == "T" + character) or (
+                        gridmap[current_nodex - 1][current_nodey] == "E" + characterenemy) or (
                         (current_nodex == goalx) and (current_nodey - 1 == goaly)) or (
                         gridmap[current_nodex][current_nodey - 1] == '1' and diccolornumber['y'] == 15) or (
                         gridmap[current_nodex][current_nodey - 1] == '2' and (
@@ -493,6 +496,7 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
                 gridmap[current_nodex][current_nodey + 1] == 'T') or (
                         gridmap[current_nodex][current_nodey + 1] == "E" + character) or (
                         gridmap[current_nodex][current_nodey + 1] == "T" + character) or (
+                        gridmap[current_nodex - 1][current_nodey] == "E" + characterenemy) or (
                         (current_nodex == goalx) and (current_nodey + 1 == goaly)) or (
                         gridmap[current_nodex][current_nodey + 1] == '1' and diccolornumber['y'] == 15) or (
                         gridmap[current_nodex][current_nodey + 1] == '2' and (
