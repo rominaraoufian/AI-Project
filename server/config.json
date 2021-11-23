@@ -1,10 +1,7 @@
 {
 
-<<<<<<< HEAD
+
   "map": "map1_9.txt",
-=======
-  "map": "map1_4.txt",
->>>>>>> 697d213e64ae01aef46dd54f60c0ccbee5ef4396
   "server_ip": "127.0.0.1",
   "server_port": 9921,
   "player_count": 2,

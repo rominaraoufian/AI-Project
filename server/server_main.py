@@ -1,9 +1,10 @@
 import argparse
 import json
+from pathlib import Path
+
+from logics import Exceptions
 from logics.game import Game, Map
 from logics.network import Socket
-from logics import Exceptions
-from pathlib import Path
 from logics.utils import bcolors
 
 
