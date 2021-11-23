@@ -107,7 +107,7 @@ def dij_show_way(agentx, agenty, goalx, goaly, gridmap, height, width,scoredij,c
             scoredij -= 1
 
 
-def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width, scoredij, trap, character, diccolornumber):
+def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width, scoredij,score_enemy, trap, character,character_enemy, diccolornumber):
     visited = {}
     distancelist = {}
     parent = {}
@@ -158,6 +158,9 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width, scored
             return way_return
 
         # up
+        flag_hit = False
+        if current_nodex - 1 >= 0 and gridmap[current_nodex - 1][current_nodey] == 'E' + character_enemy:
+            flag_hit = True
         flag = False
         if current_nodex - 1 >= 0:
             if (current_nodex - 1, current_nodey) in trap:
@@ -174,24 +177,44 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width, scored
                   gridmap[current_nodex - 1][current_nodey] == '3' and (
                         scoredij - 1 < 50 or diccolornumber['r'] == 5)) or (
                   gridmap[current_nodex - 1][current_nodey] == '4' and (
-                        scoredij - 1 < 140 or diccolornumber['b'] == 4)) or flag):
+                        scoredij - 1 < 140 or diccolornumber['b'] == 4)) or flag or flag_hit):
 
             if (current_nodex - 1, current_nodey) not in distancelist:
-                if flag:
+                if flag and (not flag_hit):
                     distancelist[(current_nodex - 1, current_nodey)] = dist + 41
                     pq.put((dist + 41, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 41))
                     parent[(current_nodex - 1, current_nodey)] = (current_nodex, current_nodey, 'u')
+                elif flag_hit:
+                    if scoredij - 1 < score_enemy:
+                        distancelist[(current_nodex - 1, current_nodey)] = dist + 21
+                        pq.put((dist + 21, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 21))
+                        parent[(current_nodex - 1, current_nodey)] = (current_nodex, current_nodey, 'u')
+                    elif scoredij - 1 >= score_enemy:
+                        distancelist[(current_nodex - 1, current_nodey)] = dist + 1
+                        pq.put((dist + 1, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 1))
+                        parent[(current_nodex - 1, current_nodey)] = (current_nodex, current_nodey, 'u')
                 else:
                     distancelist[(current_nodex - 1, current_nodey)] = dist + 1
                     pq.put((dist + 1, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 1))
                     parent[(current_nodex - 1, current_nodey)] = (current_nodex, current_nodey, 'u')
 
             else:
-                if flag:
+                if flag and (not flag_hit):
                     if dist + 41 < distancelist[(current_nodex - 1, current_nodey)]:
                         distancelist[(current_nodex - 1, current_nodey)] = dist + 41
                         pq.put((dist + 41, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 41))
                         parent[(current_nodex - 1, current_nodey)] = (current_nodex, current_nodey, 'u')
+                elif flag_hit:
+                    if scoredij - 1 < score_enemy:
+                        if dist + 21 < distancelist[(current_nodex - 1, current_nodey)]:
+                            distancelist[(current_nodex - 1, current_nodey)] = dist + 21
+                            pq.put((dist + 21, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 21))
+                            parent[(current_nodex - 1, current_nodey)] = (current_nodex, current_nodey, 'u')
+                    elif scoredij - 1 >= score_enemy:
+                        if dist + 1 < distancelist[(current_nodex - 1, current_nodey)]:
+                            distancelist[(current_nodex - 1, current_nodey)] = dist + 1
+                            pq.put((dist + 1, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 1))
+                            parent[(current_nodex - 1, current_nodey)] = (current_nodex, current_nodey, 'u')
                 else:
                     if dist + 1 < distancelist[(current_nodex - 1, current_nodey)]:
                         distancelist[(current_nodex - 1, current_nodey)] = dist + 1
@@ -201,6 +224,9 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width, scored
 
         # down
         flag = False
+        flag_hit = False
+        if current_nodex + 1 < height and gridmap[current_nodex + 1][current_nodey] == 'E' + character_enemy:
+            flag_hit = True
         if current_nodex + 1 < height:
             if (current_nodex + 1, current_nodey) in trap:
                 flag = True
@@ -216,23 +242,43 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width, scored
                 gridmap[current_nodex + 1][current_nodey] == '3' and (
                     scoredij - 1 < 50 or diccolornumber['r'] == 5)) or (
                 gridmap[current_nodex + 1][current_nodey] == '4' and (
-                    scoredij - 1 < 140 or diccolornumber['b'] == 4)) or flag):
+                    scoredij - 1 < 140 or diccolornumber['b'] == 4)) or flag or flag_hit):
             if (current_nodex + 1, current_nodey) not in distancelist:
-                if flag:
+                if flag and (not flag_hit):
                     distancelist[(current_nodex + 1, current_nodey)] = dist + 41
                     pq.put((dist + 41, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 41))
                     parent[(current_nodex + 1, current_nodey)] = (current_nodex, current_nodey, 'd')
+                elif flag_hit:
+                    if scoredij - 1 < score_enemy:
+                        distancelist[(current_nodex + 1, current_nodey)] = dist + 21
+                        pq.put((dist + 21, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 21))
+                        parent[(current_nodex + 1, current_nodey)] = (current_nodex, current_nodey, 'd')
+                    elif scoredij - 1 >= score_enemy:
+                        distancelist[(current_nodex + 1, current_nodey)] = dist + 1
+                        pq.put((dist + 1, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 1))
+                        parent[(current_nodex + 1, current_nodey)] = (current_nodex, current_nodey, 'd')
                 else:
                     distancelist[(current_nodex + 1, current_nodey)] = dist + 1
                     pq.put((dist + 1, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 1))
                     parent[(current_nodex + 1, current_nodey)] = (current_nodex, current_nodey, 'd')
 
             else:
-                if flag:
+                if flag and (not flag_hit):
                     if dist + 41 < distancelist[(current_nodex + 1, current_nodey)]:
                         distancelist[(current_nodex + 1, current_nodey)] = dist + 41
                         pq.put((dist + 41, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 41))
                         parent[(current_nodex + 1, current_nodey)] = (current_nodex, current_nodey, 'd')
+                elif flag_hit:
+                    if scoredij - 1 < score_enemy:
+                        if dist + 21 < distancelist[(current_nodex + 1, current_nodey)]:
+                            distancelist[(current_nodex + 1, current_nodey)] = dist + 21
+                            pq.put((dist + 21, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 21))
+                            parent[(current_nodex + 1, current_nodey)] = (current_nodex, current_nodey, 'd')
+                    elif scoredij - 1 >= score_enemy:
+                        if dist + 1 < distancelist[(current_nodex + 1, current_nodey)]:
+                            distancelist[(current_nodex + 1, current_nodey)] = dist + 1
+                            pq.put((dist + 1, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 1))
+                            parent[(current_nodex + 1, current_nodey)] = (current_nodex, current_nodey, 'd')
                 else:
                     if dist + 1 < distancelist[(current_nodex + 1, current_nodey)]:
                         distancelist[(current_nodex + 1, current_nodey)] = dist + 1
@@ -241,6 +287,9 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width, scored
 
         # left
         flag = False
+        flag_hit = False
+        if current_nodey - 1 >= 0 and gridmap[current_nodex][current_nodey - 1] == 'E' + character_enemy:
+            flag_hit = True
         if current_nodey - 1 >= 0:
             if (current_nodex, current_nodey - 1) in trap:
                 flag = True
@@ -256,11 +305,15 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width, scored
                 gridmap[current_nodex][current_nodey - 1] == '3' and (
                 scoredij - 1 < 50 or diccolornumber['r'] == 5)) or (
                 gridmap[current_nodex][current_nodey - 1] == '4' and (
-                scoredij - 1 < 140 or diccolornumber['b'] == 4)) or flag):
+                scoredij - 1 < 140 or diccolornumber['b'] == 4)) or flag or flag_hit):
             if (current_nodex, current_nodey - 1) not in distancelist:
-                if flag:
+                if flag and (not flag_hit):
                     distancelist[(current_nodex, current_nodey - 1)] = dist + 41
                     pq.put((dist + 41, current_nodex, current_nodey - 1, actual_dist + 1, scoredij - 41))
+                    parent[(current_nodex, current_nodey - 1)] = (current_nodex, current_nodey, 'l')
+                elif flag_hit:
+                    distancelist[(current_nodex, current_nodey - 1)] = dist + 21
+                    pq.put((dist + 21, current_nodex, current_nodey - 1, actual_dist + 1, scoredij - 21))
                     parent[(current_nodex, current_nodey - 1)] = (current_nodex, current_nodey, 'l')
                 else:
                     distancelist[(current_nodex, current_nodey - 1)] = dist + 1
@@ -268,11 +321,22 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width, scored
                     parent[(current_nodex, current_nodey - 1)] = (current_nodex, current_nodey, 'l')
 
             else:
-                if flag:
+                if flag and (not flag_hit):
                     if dist + 41 < distancelist[(current_nodex, current_nodey - 1)]:
                         distancelist[(current_nodex, current_nodey - 1)] = dist + 41
                         pq.put((dist + 41, current_nodex, current_nodey - 1, actual_dist + 1, scoredij - 41))
                         parent[(current_nodex, current_nodey - 1)] = (current_nodex, current_nodey, 'l')
+                elif flag_hit:
+                    if scoredij - 1 < score_enemy:
+                        if dist + 21 < distancelist[(current_nodex, current_nodey - 1)]:
+                            distancelist[(current_nodex, current_nodey - 1)] = dist + 21
+                            pq.put((dist + 21, current_nodex, current_nodey - 1, actual_dist + 1, scoredij - 21))
+                            parent[(current_nodex, current_nodey - 1)] = (current_nodex, current_nodey, 'l')
+                    elif scoredij - 1 >= score_enemy:
+                        if dist + 1 < distancelist[(current_nodex, current_nodey - 1)]:
+                            distancelist[(current_nodex, current_nodey - 1)] = dist + 1
+                            pq.put((dist + 1, current_nodex, current_nodey - 1, actual_dist + 1, scoredij - 1))
+                            parent[(current_nodex, current_nodey - 1)] = (current_nodex, current_nodey, 'l')
                 else:
                     if dist + 1 < distancelist[(current_nodex, current_nodey - 1)]:
                         distancelist[(current_nodex, current_nodey - 1)] = dist + 1
@@ -282,6 +346,9 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width, scored
 
         # right
         flag = False
+        flag_hit = False
+        if current_nodey + 1 < width and gridmap[current_nodex][current_nodey + 1] == 'E' + character_enemy:
+            flag_hit = True
         if current_nodey + 1 < width:
             if (current_nodex, current_nodey + 1) in trap:
                 flag = True
@@ -297,23 +364,43 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width, scored
                 gridmap[current_nodex][current_nodey+1] == '3' and (
                 scoredij - 1 < 50 or diccolornumber['r'] == 5)) or (
                 gridmap[current_nodex][current_nodey+1] == '4' and (
-                scoredij - 1 < 140 or diccolornumber['b'] == 4)) or flag):
+                scoredij - 1 < 140 or diccolornumber['b'] == 4)) or flag or flag_hit):
             if (current_nodex, current_nodey + 1) not in distancelist:
-                if flag:
+                if flag and (not flag_hit):
                     distancelist[(current_nodex, current_nodey + 1)] = dist + 41
                     pq.put((dist + 41, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 41))
                     parent[(current_nodex, current_nodey + 1)] = (current_nodex, current_nodey, 'r')
+                elif flag_hit:
+                    if scoredij - 1 < score_enemy:
+                        distancelist[(current_nodex, current_nodey + 1)] = dist + 21
+                        pq.put((dist + 21, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 21))
+                        parent[(current_nodex, current_nodey + 1)] = (current_nodex, current_nodey, 'r')
+                    elif scoredij - 1 >= score_enemy:
+                        distancelist[(current_nodex, current_nodey + 1)] = dist + 1
+                        pq.put((dist + 1, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 1))
+                        parent[(current_nodex, current_nodey + 1)] = (current_nodex, current_nodey, 'r')
                 else:
                     distancelist[(current_nodex, current_nodey + 1)] = dist + 1
                     pq.put((dist + 1, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 1))
                     parent[(current_nodex, current_nodey + 1)] = (current_nodex, current_nodey, 'r')
 
             else:
-                if flag:
+                if flag and (not flag_hit):
                     if dist + 41 < distancelist[(current_nodex, current_nodey + 1)]:
                         distancelist[(current_nodex, current_nodey + 1)] = dist + 41
                         pq.put((dist + 41, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 41))
                         parent[(current_nodex, current_nodey + 1)] = (current_nodex, current_nodey, 'r')
+                elif flag_hit:
+                    if scoredij - 1 < score_enemy:
+                        if dist + 21 < distancelist[(current_nodex, current_nodey + 1)]:
+                            distancelist[(current_nodex, current_nodey + 1)] = dist + 21
+                            pq.put((dist + 21, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 21))
+                            parent[(current_nodex, current_nodey + 1)] = (current_nodex, current_nodey, 'r')
+                    elif scoredij - 1 >= score_enemy:
+                        if dist + 1 < distancelist[(current_nodex, current_nodey + 1)]:
+                            distancelist[(current_nodex, current_nodey + 1)] = dist + 1
+                            pq.put((dist + 1, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 1))
+                            parent[(current_nodex, current_nodey + 1)] = (current_nodex, current_nodey, 'r')
                 else:
                     if dist + 1 < distancelist[(current_nodex, current_nodey + 1)]:
                         distancelist[(current_nodex, current_nodey + 1)] = dist + 1
@@ -321,7 +408,9 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width, scored
                         parent[(current_nodex, current_nodey + 1)] = (current_nodex, current_nodey, 'r')
 
 
+
 def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scoredij,character,diccolornumber, trap, characterenemy):
+
     visited = {}
     distancelist = {}
     parent = {}
@@ -362,6 +451,9 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
 
         # up
         flag = False
+        flag_hit = False
+        # if current_nodex - 1 >= 0 and gridmap[current_nodex - 1][current_nodey] == 'E' + character_enemy:
+        #     flag_hit = True
         if current_nodex - 1 >= 0:
             if (current_nodex - 1, current_nodey) in trap:
                 flag = True
@@ -378,13 +470,17 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
                         gridmap[current_nodex - 1][current_nodey] == '3' and (
                         scoredij - 1 < 50 or diccolornumber['r'] == 5)) or (
                         gridmap[current_nodex - 1][current_nodey] == '4' and (
-                        scoredij - 1 < 140 or diccolornumber['b'] == 4)) or flag):
+                        scoredij - 1 < 140 or diccolornumber['b'] == 4)) or flag or flag_hit):
 
             if (current_nodex - 1, current_nodey) not in distancelist:
                 if flag:
                     distancelist[(current_nodex - 1, current_nodey)] = dist + 41
                     pq.put((dist + 41, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 41))
                     parent[(current_nodex - 1, current_nodey)] = (current_nodex, current_nodey, (current_nodex - 1, current_nodey,actual_dist + 1))
+                # elif flag_hit:
+                #     distancelist[(current_nodex - 1, current_nodey)] = dist + 21
+                #     pq.put((dist + 21, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 21))
+                #     parent[(current_nodex - 1, current_nodey)] = (current_nodex, current_nodey, (current_nodex - 1, current_nodey, actual_dist + 1))
                 else:
                     distancelist[(current_nodex - 1, current_nodey)] = dist + 1
                     pq.put((dist + 1, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 1))
@@ -396,6 +492,11 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
                         distancelist[(current_nodex - 1, current_nodey)] = dist + 41
                         pq.put((dist + 41, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 41))
                         parent[(current_nodex - 1, current_nodey)] = (current_nodex, current_nodey, (current_nodex - 1, current_nodey,actual_dist + 1))
+                # elif flag_hit:
+                #     if dist + 21 < distancelist[(current_nodex - 1, current_nodey)]:
+                #         distancelist[(current_nodex - 1, current_nodey)] = dist + 21
+                #         pq.put((dist + 21, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 21))
+                #         parent[(current_nodex - 1, current_nodey)] = (current_nodex, current_nodey, (current_nodex - 1, current_nodey, actual_dist + 1))
                 else:
                     if dist + 1 < distancelist[(current_nodex - 1, current_nodey)]:
                         distancelist[(current_nodex - 1, current_nodey)] = dist + 1
@@ -404,6 +505,9 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
 
         # down
         flag = False
+        flag_hit = False
+        # if current_nodex + 1 < height and gridmap[current_nodex + 1][current_nodey] == 'E' + character_enemy:
+        #     flag_hit = True
         if current_nodex + 1 < height:
             if (current_nodex + 1, current_nodey) in trap:
                 flag = True
@@ -421,12 +525,16 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
                         gridmap[current_nodex + 1][current_nodey] == '3' and (
                         scoredij - 1 < 50 or diccolornumber['r'] == 5)) or (
                         gridmap[current_nodex + 1][current_nodey] == '4' and (
-                        scoredij - 1 < 140 or diccolornumber['b'] == 4)) or flag):
+                        scoredij - 1 < 140 or diccolornumber['b'] == 4)) or flag or flag_hit):
             if (current_nodex + 1, current_nodey) not in distancelist:
                 if flag:
                     distancelist[(current_nodex + 1, current_nodey)] = dist + 41
                     pq.put((dist + 41, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 41))
                     parent[(current_nodex + 1, current_nodey)] = (current_nodex, current_nodey, (current_nodex + 1, current_nodey,actual_dist + 1))
+                # elif flag_hit:
+                #     distancelist[(current_nodex + 1, current_nodey)] = dist + 21
+                #     pq.put((dist + 21, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 21))
+                #     parent[(current_nodex + 1, current_nodey)] = (current_nodex, current_nodey, (current_nodex + 1, current_nodey, actual_dist + 1))
                 else:
                     distancelist[(current_nodex + 1, current_nodey)] = dist + 1
                     pq.put((dist + 1, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 1))
@@ -438,6 +546,11 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
                         distancelist[(current_nodex + 1, current_nodey)] = dist + 41
                         pq.put((dist + 41, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 41))
                         parent[(current_nodex + 1, current_nodey)] = (current_nodex, current_nodey, (current_nodex + 1, current_nodey,actual_dist + 1))
+                # elif flag_hit:
+                #     if dist + 21 < distancelist[(current_nodex + 1, current_nodey)]:
+                #         distancelist[(current_nodex + 1, current_nodey)] = dist + 21
+                #         pq.put((dist + 21, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 21))
+                #         parent[(current_nodex + 1, current_nodey)] = (current_nodex, current_nodey, (current_nodex + 1, current_nodey, actual_dist + 1))
                 else:
                     if dist + 1 < distancelist[(current_nodex + 1, current_nodey)]:
                         distancelist[(current_nodex + 1, current_nodey)] = dist + 1
@@ -446,6 +559,9 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
 
         # left
         flag = False
+        flag_hit = False
+        # if current_nodey - 1 >= 0 and gridmap[current_nodex][current_nodey - 1] == 'E' + character_enemy:
+        #     flag_hit = True
         if current_nodey - 1 >= 0:
             if (current_nodex, current_nodey - 1) in trap:
                 flag = True
@@ -463,12 +579,16 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
                         gridmap[current_nodex][current_nodey - 1] == '3' and (
                         scoredij - 1 < 50 or diccolornumber['r'] == 5)) or (
                         gridmap[current_nodex][current_nodey - 1] == '4' and (
-                        scoredij - 1 < 140 or diccolornumber['b'] == 4)) or flag):
+                        scoredij - 1 < 140 or diccolornumber['b'] == 4)) or flag or flag_hit):
             if (current_nodex, current_nodey - 1) not in distancelist:
                 if flag:
                     distancelist[(current_nodex, current_nodey - 1)] = dist + 41
                     pq.put((dist + 41, current_nodex, current_nodey - 1, actual_dist + 1, scoredij - 41))
                     parent[(current_nodex, current_nodey - 1)] = (current_nodex, current_nodey, (current_nodex, current_nodey - 1,actual_dist + 1))
+                # elif flag_hit:
+                #     distancelist[(current_nodex, current_nodey - 1)] = dist + 21
+                #     pq.put((dist + 21, current_nodex, current_nodey - 1, actual_dist + 1, scoredij - 21))
+                #     parent[(current_nodex, current_nodey - 1)] = (current_nodex, current_nodey, (current_nodex, current_nodey - 1, actual_dist + 1))
                 else:
                     distancelist[(current_nodex, current_nodey - 1)] = dist + 1
                     pq.put((dist + 1, current_nodex, current_nodey - 1, actual_dist + 1, scoredij - 1))
@@ -480,6 +600,11 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
                         distancelist[(current_nodex, current_nodey - 1)] = dist + 41
                         pq.put((dist + 41, current_nodex, current_nodey - 1, actual_dist + 1, scoredij - 41))
                         parent[(current_nodex, current_nodey - 1)] = (current_nodex, current_nodey, (current_nodex, current_nodey - 1,actual_dist + 1))
+                # elif flag_hit:
+                #     if dist + 21 < distancelist[(current_nodex, current_nodey - 1)]:
+                #         distancelist[(current_nodex, current_nodey - 1)] = dist + 21
+                #         pq.put((dist + 21, current_nodex, current_nodey - 1, actual_dist + 1, scoredij - 21))
+                #         parent[(current_nodex, current_nodey - 1)] = (current_nodex, current_nodey, (current_nodex, current_nodey - 1, actual_dist + 1))
                 else:
                     if dist + 1 < distancelist[(current_nodex, current_nodey - 1)]:
                         distancelist[(current_nodex, current_nodey - 1)] = dist + 1
@@ -488,6 +613,9 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
 
         # right
         flag = False
+        flag_hit = False
+        # if current_nodey + 1 < width and gridmap[current_nodex][current_nodey + 1] == 'E' + character_enemy:
+        #     flag_hit = True
         if current_nodey + 1 < width:
             if (current_nodex, current_nodey + 1) in trap:
                 flag = True
@@ -504,12 +632,16 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
                         gridmap[current_nodex][current_nodey + 1] == '3' and (
                         scoredij - 1 < 50 or diccolornumber['r'] == 5)) or (
                         gridmap[current_nodex][current_nodey + 1] == '4' and (
-                        scoredij - 1 < 140 or diccolornumber['b'] == 4)) or flag):
+                        scoredij - 1 < 140 or diccolornumber['b'] == 4)) or flag or flag_hit):
             if (current_nodex, current_nodey + 1) not in distancelist:
                 if flag:
                     distancelist[(current_nodex, current_nodey + 1)] = dist + 41
                     pq.put((dist + 41, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 41))
                     parent[(current_nodex, current_nodey + 1)] = (current_nodex, current_nodey, (current_nodex, current_nodey + 1,actual_dist + 1))
+                # elif flag_hit:
+                #     distancelist[(current_nodex, current_nodey + 1)] = dist + 21
+                #     pq.put((dist + 21, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 21))
+                #     parent[(current_nodex, current_nodey + 1)] = (current_nodex, current_nodey, (current_nodex, current_nodey + 1, actual_dist + 1))
                 else:
                     distancelist[(current_nodex, current_nodey + 1)] = dist + 1
                     pq.put((dist + 1, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 1))
@@ -521,6 +653,11 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
                         distancelist[(current_nodex, current_nodey + 1)] = dist + 41
                         pq.put((dist + 41, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 41))
                         parent[(current_nodex, current_nodey + 1)] = (current_nodex, current_nodey, (current_nodex, current_nodey + 1,actual_dist + 1))
+                # elif flag_hit:
+                #     if dist + 21 < distancelist[(current_nodex, current_nodey + 1)]:
+                #         distancelist[(current_nodex, current_nodey + 1)] = dist + 21
+                #         pq.put((dist + 21, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 21))
+                #         parent[(current_nodex, current_nodey + 1)] = (current_nodex, current_nodey, (current_nodex, current_nodey + 1, actual_dist + 1))
                 else:
                     if dist + 1 < distancelist[(current_nodex, current_nodey + 1)]:
                         distancelist[(current_nodex, current_nodey + 1)] = dist + 1
