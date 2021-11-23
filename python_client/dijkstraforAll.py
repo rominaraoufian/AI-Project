@@ -11,7 +11,7 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,score_enemy,tr
   pq = PriorityQueue()
   pq.put((0, agentx, agenty,0, scoredij))
   distancelist[(agentx, agenty)] = 0
-  print(agentx,agenty,"agentx,y dijkstraforall")
+  #print(agentx,agenty,"agentx,y dijkstraforall")
   array_distance[agentx][agenty] = (0,scoredij)
   flag = False
   while not pq.empty():
@@ -204,7 +204,7 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,score_enemy,tr
               else:
                   distancelist[(current_nodex, current_nodey + 1)] = dist + 1
                   pq.put((dist + 1, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 1))
-                  print("im in right", (dist + 1, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 1))
+
 
 
           else:
@@ -225,7 +225,7 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,score_enemy,tr
                   if dist + 1 < distancelist[(current_nodex, current_nodey + 1)]:
                       distancelist[(current_nodex, current_nodey + 1)] = dist + 1
                       pq.put((dist + 1, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 1))
-                      print("im in right2", (dist + 1, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 1))
+                      #print("im in right2", (dist + 1, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 1))
 
   # for item in array_distance:
   #     print(item)

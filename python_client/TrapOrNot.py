@@ -13,8 +13,8 @@ def trapornot(gridmap, height, width, next_move_agent, next_move_enemy, maxvalue
 
     dicforall, dicfordiamond, dicforhole = dijkstraforall(gridmap,height, width, start_agent[0],start_agent[1], score_agent,score_enemy,enemy_trap,character,character_enemy,diccolornumber_agent)
 
-    maxvaluefortrap = maxvalue
-    nextmove = tuple() if next_move_agent == tuple() else next_move_agent
+    maxvaluefortrap = -inf
+    nextmove = tuple()
 
     while not enemyway.empty():
         place = enemyway.get()
@@ -35,14 +35,14 @@ def trapornot(gridmap, height, width, next_move_agent, next_move_enemy, maxvalue
                 else:
                     value = (40 - place_togo + 2) * (4 // 10)
 
-                if value > maxvaluefortrap:
+                if value >= maxvaluefortrap:
                     print("i choose trap0.............")
                     maxvaluefortrap = value
                     nextmove = (place[0],place[1])
         if (gridmap[place[0]][place[1]] == '1') and (diccolornumber_agent['y'] < 15) and (place[0] != next_move_enemy[0]) and (place[1] != next_move_enemy[1]):
             if ((place_togo + 2) < place[2]) and (((score_agent + 10) - (place_togo + 1)) >= leastscore):
                 value =((40 - place_togo + 2) * (4//10) + 10)
-                if value > maxvaluefortrap:
+                if value >= maxvaluefortrap:
                     maxvaluefortrap = value
                     nextmove = (place[0], place[1])
                     print("i choose trap1.............")
@@ -52,7 +52,7 @@ def trapornot(gridmap, height, width, next_move_agent, next_move_enemy, maxvalue
             if ((place_togo + 2) < place[2]) and (((score_agent + 25) - (place_togo+ 1)) >= leastscore):
                 value = ((40 - place_togo + 2) * (4//10) + 25)
 
-                if value > maxvaluefortrap:
+                if value >= maxvaluefortrap:
                     print("i choose trap2.............")
                     maxvaluefortrap = value
                     nextmove = (place[0], place[1])
@@ -65,7 +65,7 @@ def trapornot(gridmap, height, width, next_move_agent, next_move_enemy, maxvalue
 
                     ((score_agent + 35) - (place_togo + 1)) >= leastscore):
                 value = ((40 - place_togo + 2) * (4//10) + 35)
-                if value > maxvaluefortrap:
+                if value >= maxvaluefortrap:
                     print("i choose trap3.............")
                     maxvaluefortrap = value
                     nextmove = (place[0], place[1])
@@ -79,7 +79,7 @@ def trapornot(gridmap, height, width, next_move_agent, next_move_enemy, maxvalue
                 value = ((40 - place_togo + 2) * (4 // 10) + 75)
 
 
-                if value > maxvaluefortrap:
+                if value >= maxvaluefortrap:
                     print("i choose trap4.............")
                     maxvaluefortrap = value
                     nextmove = (place[0], place[1])
