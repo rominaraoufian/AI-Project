@@ -437,23 +437,26 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
     trapsize = len(agent_trap)
     if not next_move_enemy == ():
         if trapsize == 0 and score_agent > 35:
-            next_move_trap,maxvaluefortrap = trapornot(gridmap,height, width, next_move, next_move_enemy, maxvalue, score_agent, score_enemy, start_agent, start_enemy, 35, maxturn-turn+1, diccolornumber_agent, diccolornumber_enemy, agent_trap, enemy_trap, character, character_enemy)
-            print(next_move_trap, "nextmovetrap", maxvaluefortrap, "maxvaluefortrap", maxvalue,"maxvale")
+            next_move,maxvaluefortrap = trapornot(gridmap,height, width, next_move, next_move_enemy, maxvalue, score_agent, score_enemy, start_agent, start_enemy, 35, maxturn-turn+1, diccolornumber_agent, diccolornumber_enemy, agent_trap, enemy_trap, character, character_enemy)
+            print(next_move, "nextmovetrap", maxvaluefortrap, "maxvaluefortrap", maxvalue,"maxvale")
         elif trapsize == 1 and score_agent > (35*2):
-            next_move_trap,maxvaluefortrap = trapornot(gridmap, height, width, next_move, next_move_enemy, maxvalue, score_agent,
+            next_move,maxvaluefortrap = trapornot(gridmap, height, width, next_move, next_move_enemy, maxvalue, score_agent,
                                   score_enemy, start_agent, start_enemy, (35*2), maxturn - turn + 1, diccolornumber_agent,
                                   diccolornumber_enemy, agent_trap, enemy_trap, character, character_enemy)
-            print(next_move_trap, "nextmovetrap", maxvaluefortrap, "maxvaluefortrap", maxvalue,"maxvale")
+            print(next_move, "nextmovetrap", maxvaluefortrap, "maxvaluefortrap", maxvalue,"maxvale")
         elif trapsize == 2 and score_agent > (35 * 3):
 
-            next_move_trap,maxvaluefortrap = trapornot(gridmap, height, width, next_move, next_move_enemy, maxvalue, score_agent,
+            next_move,maxvaluefortrap = trapornot(gridmap, height, width, next_move, next_move_enemy, maxvalue, score_agent,
                                   score_enemy, start_agent, start_enemy, (35*3), maxturn - turn + 1, diccolornumber_agent,
                                   diccolornumber_enemy, agent_trap, enemy_trap, character, character_enemy)
-            print(next_move_trap, "nextmovetrap",maxvaluefortrap,"maxvaluefortrap",maxvalue,"maxvale")
+            print(next_move, "nextmovetrap",maxvaluefortrap,"maxvaluefortrap",maxvalue,"maxvale")
+    print(start_agent,'**************************************startagent')
+    print("**************************move",next_move)
     if not next_move == ():
        next_action = dij_show_action(start_agent[0], start_agent[1], next_move[0], next_move[1], gridmap, height, width,score_agent,enemy_trap,character,diccolornumber_agent)
        print(next_action, "next_action")
        if next_action == 'p':
+           print("*****************************p**************************************")
            agent_trap.append(next_move)
        return next_action
     else:

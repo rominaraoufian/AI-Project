@@ -30,6 +30,7 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
         global next_move
         global next_move_enemy
         global max_depth_new
+        global next_move_enemy
         hash_state=hash_key(visited_diamond,visited_hole,agentx,agenty,enemyx,enemyy,remain_turn_agent,remain_turn_enemy,score_agent,score_enemy)
         #transposition value (exact,lowerbound,upperbound,depth)
         #transpositiontable[hash_state][3] >= level or transpositiontable[hash_state][3] <= level because position of  add value
@@ -54,20 +55,20 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
             if value > max_value:
                 max_value = value
                 for keyvisited, valuevisited in visited_diamond.items():
-                    print(keyvisited,valuevisited,"keyvisited , valuevisited")
+                    # print(keyvisited,valuevisited,"keyvisited , valuevisited")
                     if valuevisited[1] == 0:
                         next_move = keyvisited
                     if valuevisited[1] == 1:
                         next_move_enemy = keyvisited
 
-                        print("next move", next_move)
+                        # print("next move", next_move)
                 for keyvisited, valuevisited in visited_hole.items():
                     if valuevisited[1] == 0:
                         next_move = (keyvisited[0], keyvisited[1])
                     if valuevisited[1] == 1:
                         next_move_enemy = (keyvisited[0], keyvisited[1])
 
-                        print("next move", next_move)
+                        # print("next move", next_move)
 
             print(value, "value")
             return value
@@ -111,14 +112,14 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
                         next_move = keyvisited
                     if valuevisited[1] == 1:
                         next_move_enemy = keyvisited
-                        print("next move", next_move)
+                        # print("next move", next_move)
                 for keyvisited, valuevisited in visited_hole.items():
                     if valuevisited[1] == 0:
                         next_move = (keyvisited[0], keyvisited[1])
                     if valuevisited[1] == 1:
                         next_move_enemy = (keyvisited[0], keyvisited[1])
 
-                        print("next move", next_move)
+                        # print("next move", next_move)
             print(value, "value")
             return value
         #if dicdistance is empty
@@ -128,7 +129,7 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
         print(is_max_turn,"is_max_turn")
         if is_max_turn:
 
-            print(agenty,agenty,"agentx,agenty")
+            # print(agenty,agenty,"agentx,agenty")
             dicdistanceall, dicdistancediamond, dicdistancehole = dijkstraforall(gridmap,height, width, agentx,agenty, score_agent,enemytraps,character,diccolor_number_copy_agent)
             # print(dicdistancediamond, " dicdistancefordiamond")
             # print(enemytraps, "enemytraps")
