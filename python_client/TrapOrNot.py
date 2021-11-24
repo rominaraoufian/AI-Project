@@ -1,5 +1,6 @@
 from dijkstra_level2 import dijkstrawayenemy
 from dijkstraforAll import dijkstraforall
+from dijkstra_level1 import dijkstra
 from queue import LifoQueue
 from math import inf
 #maybe we can check collision here
@@ -8,14 +9,36 @@ from math import inf
 
 def trapornot(gridmap, height, width, next_move_agent, next_move_enemy, maxvalue, score_agent, score_enemy, start_agent, start_enemy, leastscore, remainturn, diccolornumber_agent, diccolornumber_enemy, agent_trap, enemy_trap, character, character_enemy):
 
-    print("im wanna fill enemy way")
-    print(start_agent , " im start agent in trap or not")
-    print(start_enemy , " im start enemy in trap or not")
+    # print("im wanna fill enemy way")
+    # print(start_agent , " im start agent in trap or not")
+    # print(start_enemy , " im start enemy in trap or not")
+    dicforall, dicfordiamond, dicforhole = dijkstraforall(gridmap, height, width, start_agent[0], start_agent[1], score_agent, score_enemy, enemy_trap, character,character_enemy, diccolornumber_agent)
+    distance=float('inf')
+    if next_move_enemy == () and next_move_agent != ():
+        if gridmap[next_move_agent[0]][next_move_agent[1]] == '1' and diccolornumber_enemy['y'] < 15:
+           distance,scorenemy = dijkstra(gridmap, height, width, start_enemy[0], start_enemy[1], next_move_agent[0], next_move_agent[1], score_enemy,score_agent,agent_trap,character_enemy,character,diccolornumber_enemy)
+
+        if gridmap[next_move_agent[0]][next_move_agent[1]] == '2' and diccolornumber_enemy['g'] < 8 and score_enemy >= 15:
+            distance, scorenemy = dijkstra(gridmap, height, width, start_enemy[0], start_enemy[1], next_move_agent[0],next_move_agent[1], score_enemy, score_agent, agent_trap, character_enemy, character, diccolornumber_enemy)
+
+        if gridmap[next_move_agent[0]][next_move_agent[1]] == '3' and diccolornumber_enemy['r'] < 5 and score_enemy >= 50:
+            distance, scorenemy = dijkstra(gridmap, height, width, start_enemy[0], start_enemy[1], next_move_agent[0],  next_move_agent[1], score_enemy, score_agent, agent_trap, character_enemy, character, diccolornumber_enemy)
+
+        if gridmap[next_move_agent[0]][next_move_agent[1]] == '4' and diccolornumber_enemy['b'] < 4 and score_enemy >= 140:
+            distance, scorenemy = dijkstra(gridmap, height, width, start_enemy[0], start_enemy[1], next_move_agent[0],next_move_agent[1], score_enemy, score_agent, agent_trap, character_enemy,character, diccolornumber_enemy)
+
+        #check for hole
+        if distance > dicforall[next_move_agent[0]][next_move_agent[1]][0]:
+            next_move_enemy = next_move_agent
+
+    if next_move_enemy == ():
+        return (),float('-inf')
+
     enemyway = dijkstrawayenemy(start_enemy[0], start_enemy[1], next_move_enemy[0], next_move_enemy[1], gridmap, height, width, score_enemy, character_enemy, diccolornumber_enemy, agent_trap, character, score_agent)
     print("im in enemyway" , "*" * 20)
     #enemyway1 = dijkstraforall(gridmap, height, width, start_enemy[0], start_enemy[1], score_enemy, score_agent, agent_trap, character, character_enemy, diccolornumber_agent)
-    print(enemyway , " im in trap or not")
-    dicforall, dicfordiamond, dicforhole = dijkstraforall(gridmap,height, width, start_agent[0],start_agent[1], score_agent,score_enemy,enemy_trap,character,character_enemy,diccolornumber_agent)
+
+
     maxvaluefortrap = -inf
     nextmove = tuple()
     #print(enemyway, " enemyway")
