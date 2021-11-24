@@ -420,7 +420,7 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
     pq.put((0, agentx, agenty, 0, scoredij))
     distancelist[(agentx, agenty)] = 0
     if agentx == goalx and agenty == goaly:
-        way.put(())
+        way.put((agentx,agenty,0))
         return way
 
     if gridmap[agentx][agenty] == 'T' + character and gridmap[goalx][goaly] == 'T':

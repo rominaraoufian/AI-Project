@@ -12,7 +12,8 @@ def trapornot(gridmap, height, width, next_move_agent, next_move_enemy, maxvalue
     enemyway = dijkstrawayenemy(start_enemy[0], start_enemy[1], next_move_enemy[0], next_move_enemy[1], gridmap, height, width, score_enemy, character_enemy, diccolornumber_enemy, agent_trap, character)
 
     dicforall, dicfordiamond, dicforhole = dijkstraforall(gridmap,height, width, start_agent[0],start_agent[1], score_agent,score_enemy,enemy_trap,character,character_enemy,diccolornumber_agent)
-
+    print(dicfordiamond,"dicfordiamond")
+    print(dicforall,"dicforall in trapornot")
     maxvaluefortrap = maxvalue
     nextmove = tuple() if next_move_agent == tuple() else next_move_agent
 
