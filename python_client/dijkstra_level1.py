@@ -9,7 +9,7 @@ def dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, scoredij,trap
         pq.put((0, agentx, agenty, 0, scoredij))
         distancelist[(agentx, agenty)] = 0
         flag = False
-        flag_hit=False
+        flag_hit = False
         print(trap, "trap")
         while not pq.empty():
             temp = pq.get()

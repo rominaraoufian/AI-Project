@@ -22,8 +22,6 @@ def trapornot(gridmap, height, width, next_move_agent, next_move_enemy, maxvalue
     #print(enemyway, " enemyway")
     while not enemyway.empty():
         place = enemyway.get()
-        print(place , "*" * 20)
-
         if place == ():
             continue
         if dicforall[place[0]][place[1]] == inf:
@@ -41,7 +39,7 @@ def trapornot(gridmap, height, width, next_move_agent, next_move_enemy, maxvalue
                      value = ((40 - (place_togo + 2)) * 40) // 100
                 if (((place_togo + 1) <= place[2]) and score_agent-1 > score_enemy):
                     value = ((40 - (place_togo + 1)) * 40) // 100
-                print(value, "valuetrape", '~' * 40)
+                #print(value, "valuetrape", '~' * 40)
 
 
                 if value >= maxvaluefortrap:
@@ -77,7 +75,7 @@ def trapornot(gridmap, height, width, next_move_agent, next_move_enemy, maxvalue
                     nextmove = (place[0], place[1])
 
                     # print(nextmove, "nextmovetrap")
-                print(value, "value for g")
+                #print(value, "value for g")
         if (gridmap[place[0]][place[1]] == '3') and (diccolornumber_agent['r'] < 5) and (score_agent - place_togo >= 50) and (
                 place[0] != next_move_enemy[0]) and (place[1] != next_move_enemy[1]):
 
@@ -92,13 +90,13 @@ def trapornot(gridmap, height, width, next_move_agent, next_move_enemy, maxvalue
                     maxvaluefortrap = value
                     nextmove = (place[0], place[1])
         # print(nextmove, "nextmovetrap")
-                print(value, "value for r")
+               #print(value, "value for r")
         if (gridmap[place[0]][place[1]] == '4') and (diccolornumber_agent['b'] < 4) and (score_agent - place_togo >= 140) and (
                 place[0] != next_move_enemy[0]) and (place[1] != next_move_enemy[1]):
             if ((((place_togo + 2) <= place[2]) and score_agent-1 <= score_enemy)or (((place_togo + 1) <= place[2]) and score_agent-1 > score_enemy)) and (
                     ((score_agent + 75) - (place_togo + 1)) >= leastscore):
 
-                print("im in trap four")
+                #print("im in trap four")
                 if (((place_togo + 2) <= place[2]) and score_agent-1 <= score_enemy):
                     value = (((40 - (place_togo + 2)) * 40) // 100 + 75)
                 if (((place_togo + 1) <= place[2]) and score_agent - 1 > score_enemy):

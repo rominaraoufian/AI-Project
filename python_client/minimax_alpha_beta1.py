@@ -26,6 +26,7 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
     def alph_beta_minmax(is_max_turn, agentx, agenty, enemyx, enemyy, alpha, beta, level, remain_turn_agent, remain_turn_enemy, score_agent, score_enemy,diccolor_number_copy_agent,diccolor_number_copy_enemy):
         # global current_score_agent
         # global current_score_enemy
+        print(transpositiontable)
         global max_value
         global next_move
         global next_move_enemy
