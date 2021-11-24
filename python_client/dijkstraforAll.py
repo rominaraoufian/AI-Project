@@ -11,8 +11,9 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,score_enemy,tr
   pq = PriorityQueue()
   pq.put((0, agentx, agenty,0, scoredij))
   distancelist[(agentx, agenty)] = 0
-  #print(agentx,agenty,"agentx,y dijkstraforall")
-  array_distance[agentx][agenty] = (0,scoredij)
+
+  array_distance[agentx][agenty] = (0, scoredij)
+
   flag = False
   while not pq.empty():
       temp = pq.get()
@@ -54,7 +55,7 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,score_enemy,tr
 
           # print("im in up")
           if (current_nodex-1, current_nodey) not in distancelist:
-              if flag and (not flag_hit):
+              if flag:
                 distancelist[(current_nodex - 1, current_nodey)] = dist + 41
                 pq.put((dist+41, current_nodex-1, current_nodey, actual_dist+1, scoredij-41))
               elif flag_hit:
@@ -69,7 +70,7 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,score_enemy,tr
                   pq.put((dist + 1, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 1))
 
           else:
-              if flag and (not flag_hit):
+              if flag:
                   if dist + 41 < distancelist[(current_nodex-1, current_nodey)]:
                       distancelist[(current_nodex - 1, current_nodey)] = dist + 41
                       pq.put((dist + 41, current_nodex - 1, current_nodey, actual_dist+1, scoredij-41))
@@ -101,7 +102,7 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,score_enemy,tr
 
           # print("im in down")
           if (current_nodex + 1, current_nodey) not in distancelist:
-              if flag and (not flag_hit):
+              if flag:
                   distancelist[(current_nodex + 1, current_nodey)] = dist + 41
                   pq.put((dist + 41, current_nodex + 1, current_nodey, actual_dist+1, scoredij - 41))
               elif flag_hit:
@@ -116,7 +117,7 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,score_enemy,tr
                   pq.put((dist + 1, current_nodex + 1, current_nodey, actual_dist+1, scoredij - 1))
 
           else:
-              if flag and (not flag_hit):
+              if flag:
                   if dist + 41 < distancelist[(current_nodex + 1, current_nodey)]:
                       distancelist[(current_nodex + 1, current_nodey)] = dist + 41
                       pq.put((dist + 41, current_nodex + 1, current_nodey, actual_dist+1, scoredij - 41))
@@ -146,10 +147,11 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,score_enemy,tr
               or flag or((gridmap[current_nodex][current_nodey-1] == '1') or (gridmap[current_nodex][current_nodey-1] == '2') or (gridmap[current_nodex][current_nodey-1] == '3') or (gridmap[current_nodex][current_nodey-1] == '4')) or flag_hit):
           # print("im in left")
           if (current_nodex , current_nodey-1) not in distancelist:
-              if flag and (not flag_hit):
+              if flag:
                   distancelist[(current_nodex , current_nodey-1)] = dist + 41
                   pq.put((dist + 41, current_nodex, current_nodey-1, actual_dist+1, scoredij - 41))
               elif flag_hit:
+                  #print("dist",actual_dist,"im in trapi hit")
                   if scoredij-1 < score_enemy:
                           distancelist[(current_nodex, current_nodey - 1)] = dist + 21
                           pq.put((dist + 21, current_nodex, current_nodey - 1, actual_dist + 1, scoredij - 21))
@@ -161,11 +163,12 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,score_enemy,tr
                   pq.put((dist + 1, current_nodex , current_nodey-1, actual_dist+1, scoredij - 1))
 
           else:
-              if flag and (not flag_hit):
+              if flag:
                   if dist + 41 < distancelist[(current_nodex, current_nodey-1)]:
                       distancelist[(current_nodex , current_nodey-1)] = dist + 41
                       pq.put((dist + 41, current_nodex , current_nodey-1, actual_dist+1, scoredij - 41))
               elif flag_hit:
+                  #print("dist", actual_dist, "im in trapi hit")
                   if scoredij-1 < score_enemy:
                       if dist + 21 < distancelist[(current_nodex, current_nodey-1)]:
                           distancelist[(current_nodex, current_nodey-1)] = dist + 21
@@ -191,10 +194,11 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,score_enemy,tr
          (gridmap[current_nodex][current_nodey+1] == '1') or (gridmap[current_nodex][current_nodey+1] == '2') or (gridmap[current_nodex][current_nodey+1] == '3') or (gridmap[current_nodex][current_nodey+1] == '4')) or flag_hit):
           # print("im in right",current_nodex,current_nodey,actual_dist)
           if (current_nodex, current_nodey + 1) not in distancelist:
-              if flag and (not flag_hit):
+              if flag :
                   distancelist[(current_nodex, current_nodey + 1)] = dist + 41
                   pq.put((dist + 41, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 41))
               elif flag_hit:
+                  #print("dist", actual_dist, "im in trapi hit")
                   if scoredij-1 < score_enemy:
                          distancelist[(current_nodex, current_nodey + 1)] = dist + 21
                          pq.put((dist + 21, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 21))
@@ -205,14 +209,13 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,score_enemy,tr
                   distancelist[(current_nodex, current_nodey + 1)] = dist + 1
                   pq.put((dist + 1, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 1))
 
-
-
           else:
-              if flag and (not flag_hit):
+              if flag:
                   if dist + 41 < distancelist[(current_nodex, current_nodey + 1)]:
                       distancelist[(current_nodex, current_nodey + 1)] = dist + 41
                       pq.put((dist + 41, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 41))
               elif flag_hit:
+                  #print("dist", actual_dist, "im in trapi hit")
                   if scoredij-1 < score_enemy:
                       if dist + 21 < distancelist[(current_nodex, current_nodey + 1)]:
                           distancelist[(current_nodex, current_nodey + 1)] = dist + 21
@@ -225,8 +228,8 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,score_enemy,tr
                   if dist + 1 < distancelist[(current_nodex, current_nodey + 1)]:
                       distancelist[(current_nodex, current_nodey + 1)] = dist + 1
                       pq.put((dist + 1, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 1))
-                      #print("im in right2", (dist + 1, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 1))
+
 
   # for item in array_distance:
-  #     print(item)
+  #      print(item)
   return (array_distance, dicdistance_diamond,dicdistance_hole)
