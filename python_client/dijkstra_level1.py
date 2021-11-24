@@ -2,15 +2,14 @@ from queue import PriorityQueue
 from math import inf
 
 
-def dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, scoredij,trap, character,character_enemy, diccolornumber):
+def dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, scoredij,score_enemy,trap, character,character_enemy, diccolornumber):
         visited = {}
         distancelist = {}
         pq = PriorityQueue()
         pq.put((0, agentx, agenty, 0, scoredij))
         distancelist[(agentx, agenty)] = 0
         flag = False
-        flag_hit = False
-        print(trap, "trap")
+        flag_hit=False
         while not pq.empty():
             temp = pq.get()
             dist = temp[0]
@@ -49,8 +48,12 @@ def dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, scoredij,trap
                         distancelist[(current_nodex - 1, current_nodey)] = dist + 41
                         pq.put((dist + 41, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 41))
                     elif flag_hit:
-                        distancelist[(current_nodex - 1, current_nodey)] = dist + 21
-                        pq.put((dist + 21, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 21))
+                        if scoredij - 1 < score_enemy:
+                            distancelist[(current_nodex - 1, current_nodey)] = dist + 21
+                            pq.put((dist + 21, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 21))
+                        elif scoredij - 1 >= score_enemy:
+                            distancelist[(current_nodex - 1, current_nodey)] = dist + 1
+                            pq.put((dist + 1, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 1))
                     else:
                         distancelist[(current_nodex - 1, current_nodey)] = dist + 1
                         pq.put((dist + 1, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 1))
@@ -61,9 +64,14 @@ def dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, scoredij,trap
                             distancelist[(current_nodex - 1, current_nodey)] = dist + 41
                             pq.put((dist + 41, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 41))
                     elif flag_hit:
-                        if dist + 21 < distancelist[(current_nodex - 1, current_nodey)]:
-                           distancelist[(current_nodex - 1, current_nodey)] = dist + 21
-                           pq.put((dist + 21, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 21))
+                            if scoredij - 1 < score_enemy:
+                                if dist + 21 < distancelist[(current_nodex - 1, current_nodey)]:
+                                    distancelist[(current_nodex - 1, current_nodey)] = dist + 21
+                                    pq.put((dist + 21, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 21))
+                            elif scoredij - 1 >= score_enemy:
+                                if dist + 1 < distancelist[(current_nodex - 1, current_nodey)]:
+                                    distancelist[(current_nodex - 1, current_nodey)] = dist + 1
+                                    pq.put((dist + 1, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 1))
                     else:
                         if dist + 1 < distancelist[(current_nodex - 1, current_nodey)]:
                             distancelist[(current_nodex - 1, current_nodey)] = dist + 1
@@ -93,8 +101,12 @@ def dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, scoredij,trap
                         distancelist[(current_nodex + 1, current_nodey)] = dist + 41
                         pq.put((dist + 41, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 41))
                     elif flag_hit:
-                        distancelist[(current_nodex+1, current_nodey)] = dist + 21
-                        pq.put((dist + 21, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 21))
+                        if scoredij - 1 < score_enemy:
+                            distancelist[(current_nodex + 1, current_nodey)] = dist + 21
+                            pq.put((dist + 21, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 21))
+                        elif scoredij - 1 >= score_enemy:
+                            distancelist[(current_nodex + 1, current_nodey)] = dist + 1
+                            pq.put((dist + 1, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 1))
                     else:
                         distancelist[(current_nodex + 1, current_nodey)] = dist + 1
                         pq.put((dist + 1, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 1))
@@ -105,9 +117,15 @@ def dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, scoredij,trap
                             distancelist[(current_nodex + 1, current_nodey)] = dist + 41
                             pq.put((dist + 41, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 41))
                     elif flag_hit:
-                        if dist + 21 < distancelist[(current_nodex + 1, current_nodey)]:
-                            distancelist[(current_nodex + 1, current_nodey)] = dist + 21
-                            pq.put((dist + 21, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 21))
+                            if scoredij - 1 < score_enemy:
+                                if dist + 21 < distancelist[(current_nodex + 1, current_nodey)]:
+                                    distancelist[(current_nodex + 1, current_nodey)] = dist + 21
+                                    pq.put(
+                                        (dist + 21, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 21))
+                            elif scoredij - 1 >= score_enemy:
+                                if dist + 1 < distancelist[(current_nodex + 1, current_nodey)]:
+                                    distancelist[(current_nodex + 1, current_nodey)] = dist + 1
+                                    pq.put((dist + 1, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 1))
                     else:
                         if dist + 1 < distancelist[(current_nodex + 1, current_nodey)]:
                             distancelist[(current_nodex + 1, current_nodey)] = dist + 1
@@ -135,8 +153,13 @@ def dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, scoredij,trap
                         distancelist[(current_nodex, current_nodey - 1)] = dist + 41
                         pq.put((dist + 41, current_nodex, current_nodey - 1, actual_dist + 1, scoredij - 41))
                     elif flag_hit:
-                        distancelist[(current_nodex, current_nodey - 1)] = dist + 21
-                        pq.put((dist + 21, current_nodex, current_nodey - 1, actual_dist + 1, scoredij - 21))
+                        # print("dist",actual_dist,"im in trapi hit")
+                        if scoredij - 1 < score_enemy:
+                            distancelist[(current_nodex, current_nodey - 1)] = dist + 21
+                            pq.put((dist + 21, current_nodex, current_nodey - 1, actual_dist + 1, scoredij - 21))
+                        elif scoredij - 1 >= score_enemy:
+                            distancelist[(current_nodex, current_nodey - 1)] = dist + 1
+                            pq.put((dist + 1, current_nodex, current_nodey - 1, actual_dist + 1, scoredij - 1))
                     else:
                         distancelist[(current_nodex, current_nodey - 1)] = dist + 1
                         pq.put((dist + 1, current_nodex, current_nodey - 1, actual_dist + 1, scoredij - 1))
@@ -147,9 +170,14 @@ def dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, scoredij,trap
                             distancelist[(current_nodex, current_nodey - 1)] = dist + 41
                             pq.put((dist + 41, current_nodex, current_nodey - 1, actual_dist + 1, scoredij - 41))
                     elif flag_hit:
-                        if dist + 21 < distancelist[(current_nodex, current_nodey - 1)]:
-                            distancelist[(current_nodex, current_nodey - 1)] = dist + 21
-                            pq.put((dist + 21, current_nodex, current_nodey - 1, actual_dist + 1, scoredij - 21))
+                        if scoredij - 1 < score_enemy:
+                            if dist + 21 < distancelist[(current_nodex, current_nodey - 1)]:
+                                distancelist[(current_nodex, current_nodey - 1)] = dist + 21
+                                pq.put((dist + 21, current_nodex, current_nodey - 1, actual_dist + 1, scoredij - 21))
+                        elif scoredij - 1 >= score_enemy:
+                            if dist + 1 < distancelist[(current_nodex, current_nodey - 1)]:
+                                distancelist[(current_nodex, current_nodey - 1)] = dist + 1
+                                pq.put((dist + 1, current_nodex, current_nodey - 1, actual_dist + 1, scoredij - 1))
                     else:
                         if dist + 1 < distancelist[(current_nodex, current_nodey - 1)]:
                             distancelist[(current_nodex, current_nodey - 1)] = dist + 1
@@ -178,8 +206,12 @@ def dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, scoredij,trap
                         distancelist[(current_nodex, current_nodey + 1)] = dist + 41
                         pq.put((dist + 41, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 41))
                     elif flag_hit:
-                        distancelist[(current_nodex, current_nodey + 1)] = dist + 21
-                        pq.put((dist + 21, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 21))
+                        if scoredij - 1 < score_enemy:
+                            distancelist[(current_nodex, current_nodey + 1)] = dist + 21
+                            pq.put((dist + 21, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 21))
+                        elif scoredij - 1 >= score_enemy:
+                            distancelist[(current_nodex, current_nodey + 1)] = dist + 1
+                            pq.put((dist + 1, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 1))
                     else:
                         distancelist[(current_nodex, current_nodey + 1)] = dist + 1
                         pq.put((dist + 1, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 1))
@@ -190,9 +222,15 @@ def dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, scoredij,trap
                             distancelist[(current_nodex, current_nodey + 1)] = dist + 41
                             pq.put((dist + 41, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 41))
                     elif flag_hit:
-                        if dist + 21 < distancelist[(current_nodex, current_nodey + 1)]:
-                            distancelist[(current_nodex, current_nodey + 1)] = dist + 21
-                            pq.put((dist + 21, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 21))
+                            if scoredij - 1 < score_enemy:
+                                if dist + 21 < distancelist[(current_nodex, current_nodey + 1)]:
+                                    distancelist[(current_nodex, current_nodey + 1)] = dist + 21
+                                    pq.put(
+                                        (dist + 21, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 21))
+                            elif scoredij - 1 >= score_enemy:
+                                if dist + 1 < distancelist[(current_nodex, current_nodey + 1)]:
+                                    distancelist[(current_nodex, current_nodey + 1)] = dist + 1
+                                    pq.put((dist + 1, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 1))
                     else:
                         if dist + 1 < distancelist[(current_nodex, current_nodey + 1)]:
                             distancelist[(current_nodex, current_nodey + 1)] = dist + 1

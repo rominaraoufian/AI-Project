@@ -21,18 +21,17 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
     max_value = float('-inf')
     next_move = tuple()
     next_move_enemy = tuple()
-    max_depth_new=max_depth
+    max_depth_new = max_depth
 
     def alph_beta_minmax(is_max_turn, agentx, agenty, enemyx, enemyy, alpha, beta, level, remain_turn_agent, remain_turn_enemy, score_agent, score_enemy,diccolor_number_copy_agent,diccolor_number_copy_enemy):
         # global current_score_agent
         # global current_score_enemy
-        print(transpositiontable)
+        #print(transpositiontable)
         global max_value
         global next_move
         global next_move_enemy
         global max_depth_new
-        global next_move_enemy
-        hash_state=hash_key(visited_diamond,visited_hole,agentx,agenty,enemyx,enemyy,remain_turn_agent,remain_turn_enemy,score_agent,score_enemy)
+        hash_state = hash_key(visited_diamond,visited_hole,agentx,agenty,enemyx,enemyy,remain_turn_agent,remain_turn_enemy,score_agent,score_enemy)
         #transposition value (exact,lowerbound,upperbound,depth)
         #transpositiontable[hash_state][3] >= level or transpositiontable[hash_state][3] <= level because position of  add value
         if (hash_state in transpositiontable) and (transpositiontable[hash_state][3] <= level):
@@ -70,22 +69,17 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
                     if valuevisited[1] == 1:
                         next_move_enemy = keyvisited
 
-                        #print("next move", next_move)
                 for keyvisited, valuevisited in visited_hole.items():
                     if valuevisited[1] == 0:
                         next_move = (keyvisited[0], keyvisited[1])
                     if valuevisited[1] == 1:
                         next_move_enemy = (keyvisited[0], keyvisited[1])
 
-
-                        #print("next move", next_move)
             #print(value, "value")
             return value
 
         if (remain_turn_agent == 0 and is_max_turn) or (remain_turn_enemy==0 and (not is_max_turn)):
             if score_agent - current_score_agent > 0:
-            #print("im in remain turn")
-
                 if len(visited_diamond) == 0:
                     value=(((20 * ((score_agent - current_score_agent) - (4/10*(score_enemy - current_score_enemy)))) + (
                     (80 * (remain_turn_agent - 1/10 *remain_turn_enemy)))) // 100)
@@ -106,15 +100,12 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
                     if valuevisited[1] == 1:
                         next_move_enemy = keyvisited
 
-                        #print("next move", next_move)
-
                 for keyvisited, valuevisited in visited_hole.items():
                     if valuevisited[1] == 0:
                         next_move = (keyvisited[0], keyvisited[1])
                     if valuevisited[1] == 1:
                         next_move_enemy = (keyvisited[0], keyvisited[1])
 
-                        #print("next move", next_move)
             #print(value, "value")
             return value
 
@@ -137,14 +128,12 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
                     if valuevisited[1] == 1:
                         next_move_enemy = keyvisited
 
-                        #print("next move", next_move)
                 for keyvisited, valuevisited in visited_hole.items():
                     if valuevisited[1] == 0:
                         next_move = (keyvisited[0], keyvisited[1])
                     if valuevisited[1] == 1:
                         next_move_enemy = (keyvisited[0], keyvisited[1])
 
-                        #print("next move", next_move)
             #print(value, "value")
             return value
         #if dicdistance is empty
@@ -178,16 +167,7 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
                 # print(diamond[2],"diamond[2]")
                 if d not in visited_diamond:
                     visited_diamond[d] = (True, level)
-
-                    # print(diccolor_number_copy_agent, "dic color number")
-                    # print(calculatedistance,"calculatedistance")
-                    #
-                    # print(calculatescore,"calculatescore")
-                    # print(remain_turn_agent,"remain_turn_agent")
-                    # print(level,"level")
-                    # print(depth,"depth")
                     if (calculatedistance <= remain_turn_agent) and (level + 1 <= depth):
-                        # print("im in if ")
                         if (diamond[2] == 10) and (diccolor_number_copy_agent['y'] < 15):
                             #print("im in y diamond")
                             diccolor_number_copy_agent['y'] += 1
@@ -236,20 +216,16 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
             sort_hole_list = sortmoves(dicdistancehole,remain_turn_agent,diccolor_number_copy_agent)
             for hole in sort_hole_list:
                 h = (hole[0], hole[1])
-
                 calculatescore = dicdistancehole[hole][1]
                 calculatedistance = dicdistancehole[hole][0]
                 visited_hole[(h[0], h[1], level)] = (True, level)
                 current_hole = (h[0], h[1], 0)
-
                 # distancehole = dijkstra(gridmap, height, width, agentx, agenty, h[0], h[1], score_agent)
-
                 if (calculatedistance <= remain_turn_agent) and (level + 1 <= depth):
                     value_hole = 0
                     for item_hole in holedic:
                         if item_hole != current_hole:
                             value_hole += alph_beta_minmax(not is_max_turn, item_hole[0], item_hole[1], enemyx, enemyy, alpha, beta, level+1, remain_turn_agent-calculatedistance-1,remain_turn_enemy, calculatescore-1, score_enemy,diccolor_number_copy_agent,diccolor_number_copy_enemy)
-
                     result_return = (value_hole // (len(holedic) - 1))
 
                 best_value = max(best_value, result_return)
@@ -349,7 +325,6 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
                                                              75 + calculatescore, diccolor_number_copy_agent,
                                                              diccolor_number_copy_enemy)
                             diccolor_number_copy_enemy['b'] -= 1
-
                     best_value = min(best_value, result_return)
                     beta = min(beta, best_value)
                     if beta <= alpha:
@@ -365,10 +340,9 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
                                 storedHkeys.get()
                                 storedHkeys.put(hash_state)
                                 transpositiontable[hash_state] = (float('inf'),float('inf'), best_value, level)
-
                         return best_value
                     visited_diamond.pop(d, None)
-            sort_hole_list = sortmoves(dicdistanceholeenemy,remain_turn_enemy,diccolor_number_copy_enemy)
+            sort_hole_list = sortmoves(dicdistanceholeenemy, remain_turn_enemy, diccolor_number_copy_enemy)
 
             for hole in sort_hole_list:
                 h = (hole[0], hole[1])
@@ -385,7 +359,7 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
                             value_hole += alph_beta_minmax(not is_max_turn, agentx, agenty, item_hole[0], item_hole[1],
                                                            alpha, beta, level + 1, remain_turn_agent,
                                                            remain_turn_enemy - calculatedistance - 1, score_agent,
-                                                           calculatescore- 1, diccolor_number_copy_agent,
+                                                           calculatescore - 1, diccolor_number_copy_agent,
                                                            diccolor_number_copy_enemy)
 
                     result_return = (value_hole // (len(holedic) - 1))
@@ -433,7 +407,7 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
         #check size for this transposition for update
         if (hash_state in transpositiontable) and (transpositiontable[hash_state][3] > level):
             max_depth_new = max(max_depth_new, level)
-            transpositiontable[hash_state]=(best_value,transpositiontable[hash_state][1],transpositiontable[hash_state][2],level)
+            transpositiontable[hash_state] = (best_value, transpositiontable[hash_state][1], transpositiontable[hash_state][2],level)
         else:
             max_depth_new = max(max_depth_new, level)
             if len(transpositiontable) < transpositionsize:
