@@ -236,3 +236,6 @@ def dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, scoredij,scor
                             distancelist[(current_nodex, current_nodey + 1)] = dist + 1
                             pq.put((dist + 1, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 1))
 
+            score_enemy -= 1
+
+        return float('inf'),float('-inf')

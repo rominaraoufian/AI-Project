@@ -108,8 +108,8 @@ def dij_show_way(agentx, agenty, goalx, goaly, gridmap, height, width,scoredij,c
 
 
 def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width, scoredij,score_enemy, trap, character,character_enemy, diccolornumber):
-    print(agentx, agenty , " im in enemy start dijkstra enemy way")
-    print(goalx, goaly, " im in goal enemy dijkstra enemy way")
+    # print(agentx, agenty , " im in enemy start dijkstra enemy way")
+    # print(goalx, goaly, " im in goal enemy dijkstra enemy way")
     visited = {}
     distancelist = {}
     parent = {}
@@ -122,17 +122,17 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width, scored
     if agentx == goalx and agenty == goaly and (gridmap[agentx][agenty] == 'T' or gridmap[agentx][agenty] == 'T' + character):
         way.put('t')
         way_return = way.get()
-        print(way_return, "wayreturn")
+        # print(way_return, "wayreturn")
         return way_return
     if gridmap[agentx][agenty] == 'T' + character and gridmap[goalx][goaly] == 'T':
         way.put('t')
         way_return = way.get()
-        print(way_return, "wayreturn")
+        # print(way_return, "wayreturn")
         return way_return
     if agentx == goalx and agenty == goaly:
         way.put('p')
         way_return = way.get()
-        print("action p choose", "*" * 20)
+        # print("action p choose", "*" * 20)
         return way_return
     flag = False
     while not pq.empty():
@@ -144,7 +144,7 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width, scored
         actual_dist = temp[3]
         visited[(current_nodex, current_nodey)] = True
         if current_nodex == goalx and current_nodey == goaly:
-            print("im in goal = current in dijkstra enemy way")
+            # print("im in goal = current in dijkstra enemy way")
             x = current_nodex
             y = current_nodey
             if gridmap[x][y] == 'T':
@@ -409,13 +409,13 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width, scored
                         distancelist[(current_nodex, current_nodey + 1)] = dist + 1
                         pq.put((dist + 1, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 1))
                         parent[(current_nodex, current_nodey + 1)] = (current_nodex, current_nodey, 'r')
-
+        score_enemy -= 1
 
 
 def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scoredij,character,diccolornumber, trap, characterenemy, score_enemy):
 
-    print(agentx, agenty, "agent x, y in dijkstra enemy way")
-    print(goalx, goaly, "goalx, y in dijkstra enemy way")
+    # print(agentx, agenty, "agent x, y in dijkstra enemy way")
+    # print(goalx, goaly, "goalx, y in dijkstra enemy way")
     visited = {}
     distancelist = {}
     parent = {}
@@ -442,7 +442,7 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
         actual_dist = temp[3]
         visited[(current_nodex, current_nodey)] = True
         if (current_nodex == goalx) and (current_nodey == goaly):
-            print("im in goal == current in dijkstra enemy way")
+            # print("im in goal == current in dijkstra enemy way")
             x = current_nodex
             y = current_nodey
             if gridmap[x][y] == 'T':
@@ -750,3 +750,4 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
                         pq.put((dist + 1, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 1))
                         parent[(current_nodex, current_nodey + 1)] = (
                         current_nodex, current_nodey, (current_nodex, current_nodey + 1, actual_dist + 1))
+        score_enemy -=1

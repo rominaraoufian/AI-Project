@@ -7,11 +7,11 @@ from math import inf
 #should change value
 
 
-def trapornot(gridmap, height, width, next_move_agent, next_move_enemy, maxvalue, score_agent, score_enemy, start_agent, start_enemy, leastscore, remainturn, diccolornumber_agent, diccolornumber_enemy, agent_trap, enemy_trap, character, character_enemy):
+def trapornot(gridmap, height, width, next_move_agent, next_move_enemy, maxvalue, score_agent, score_enemy, start_agent, start_enemy, leastscore, diccolornumber_agent, diccolornumber_enemy, agent_trap, enemy_trap, character, character_enemy):
 
     # print("im wanna fill enemy way")
-    # print(start_agent , " im start agent in trap or not")
-    # print(start_enemy , " im start enemy in trap or not")
+    print(start_agent , " im start agent in trap or not")
+    print(start_enemy , " im start enemy in trap or not")
     dicforall, dicfordiamond, dicforhole = dijkstraforall(gridmap, height, width, start_agent[0], start_agent[1], score_agent, score_enemy, enemy_trap, character,character_enemy, diccolornumber_agent)
     distance=float('inf')
     if next_move_enemy == () and next_move_agent != ():
@@ -37,9 +37,10 @@ def trapornot(gridmap, height, width, next_move_agent, next_move_enemy, maxvalue
     enemyway = dijkstrawayenemy(start_enemy[0], start_enemy[1], next_move_enemy[0], next_move_enemy[1], gridmap, height, width, score_enemy, character_enemy, diccolornumber_enemy, agent_trap, character, score_agent)
     print("im in enemyway" , "*" * 20)
     #enemyway1 = dijkstraforall(gridmap, height, width, start_enemy[0], start_enemy[1], score_enemy, score_agent, agent_trap, character, character_enemy, diccolornumber_agent)
+    print(next_move_enemy,"nextmoveenemy",'$'*10)
+    print(next_move_agent,"nextmoveagent",'$'*10)
 
-
-    maxvaluefortrap = -inf
+    maxvaluefortrap = float('-inf')
     nextmove = tuple()
     #print(enemyway, " enemyway")
     while not enemyway.empty():
@@ -55,17 +56,11 @@ def trapornot(gridmap, height, width, next_move_agent, next_move_enemy, maxvalue
         if gridmap[place[0]][place[1]] == 'E' or gridmap[place[0]][place[1]] == 'E' + character:
             if ((((place_togo + 2) <= place[2]) and score_agent-1 <= score_enemy)or (((place_togo + 1) <= place[2]) and score_agent-1 > score_enemy)) and ((score_agent-(place_togo+1)) >= leastscore):
 
-                #value = (40 - place_togo + 2) * (8/10)
-                # if next_move_agent == ():
-                #     value = (40 - place_togo + 2) * (6//10)
-                # else:
                 if (((place_togo + 2) <= place[2]) and score_agent-1 <= score_enemy):
                      value = ((40 - (place_togo + 2)) * 40) // 100
                 if (((place_togo + 1) <= place[2]) and score_agent-1 > score_enemy):
                     value = ((40 - (place_togo + 1)) * 40) // 100
                 print(value, "valuetrape", '~' * 40)
-
-
                 if value >= maxvaluefortrap:
                     print("i choose trap0.............")
                     maxvaluefortrap = value
@@ -85,8 +80,6 @@ def trapornot(gridmap, height, width, next_move_agent, next_move_enemy, maxvalue
                     print("i choose trap1.............")
         if (gridmap[place[0]][place[1]] == '2') and (diccolornumber_agent['g'] < 8) and (score_agent - place_togo >= 15) and (
                 place[0] != next_move_enemy[0]) and (place[1] != next_move_enemy[1]):
-
-
             if ((((place_togo + 2) <= place[2]) and score_agent-1 <= score_enemy)or (((place_togo + 1) <= place[2]) and score_agent-1 > score_enemy)) and (((score_agent + 25) - (place_togo+ 1)) >= leastscore):
                 if (((place_togo + 2) <= place[2]) and score_agent-1 <= score_enemy):
                     value = (((40 - (place_togo + 2)) * 40) // 100 + 25)
