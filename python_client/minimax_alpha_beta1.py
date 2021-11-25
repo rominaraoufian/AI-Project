@@ -54,9 +54,10 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
                         value = ((20 * ((score_agent - current_score_agent)-(4/10*(score_enemy-current_score_enemy)))) + ((remain_turn_agent - 1/10*(remain_turn_enemy)) * 80)) // 100
                     else:
                         value = (((20 * ((score_agent - current_score_agent)-(4/10*(score_enemy-current_score_enemy)))) + ((80 * (remain_turn_agent - 1/10 *remain_turn_enemy)))) // 100)
-                    print(value,max_value,"value, max_value")
+                    # print(value,max_value,"value, max_value")
             else:
                 value = (1/ 10 * (remain_turn_agent))
+
                 #value = ( - 8/10*(scoreenemy - current_score_enemy))
             if value > max_value:
                 max_value = value
@@ -88,9 +89,10 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
                 else:
                     value = (((20 * ((score_agent - current_score_agent) - (4/10*(score_enemy - current_score_enemy)))) + (
                         (80 * (remain_turn_agent - 1/10 *remain_turn_enemy)))) // 100)
-                print(value,max_value,"value, max_value")
+                # print(value,max_value,"value, max_value")
             else:
                 value = (1 / 10 * (remain_turn_agent))
+
                 #value = ( - 8/10*(scoreenemy - current_score_enemy))
             if value > max_value:
                 max_value = value
@@ -111,14 +113,15 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
 
         if len(diamonddic) == len(visited_diamond):
             #print("im in len diamond visited diamond")
-            print(score_agent, current_score_agent, "score agent , current score agent")
+            # print(score_agent, current_score_agent, "score agent , current score agent")
             if score_agent - current_score_agent > 0:
                 value = (((20 * ((score_agent - current_score_agent) - (4/10*(score_enemy - current_score_enemy)))) + (
                     (80 * (remain_turn_agent - 1/10 * remain_turn_enemy)))) // 100)
-                print((value, max_value, "value, max_value"))
+                # print((value, max_value, "value, max_value"))
             # value = (((20 * ((score_agent - current_score_agent)-(score_enemy-current_score_enemy))) + (80 * (remain_turn_agent - remain_turn_enemy))) // 100)
             else:
                 value = (1 / 10 * (remain_turn_agent))
+
                 #value = (- 8/10*(scoreenemy - current_score_enemy))
             if value > max_value:
                 max_value = value
@@ -424,7 +427,7 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
     diccolor_number_copy_agent = diccolornumberagent.copy()
     diccolor_number_copy_enemy=diccolornumberenemy.copy()
     alph_beta_minmax(True, agentx, agenty, enemyx, enemyy, float('-inf'), float('inf'), 0, turn_agent,turn_enemy, scoreagent, scoreenemy, diccolor_number_copy_agent,diccolor_number_copy_enemy)
-    print(next_move,"next_moveminmax")
-    print(max_value, "best value minimax")
+    # print(next_move,"next_moveminmax")
+    # print(max_value, "best value minimax")
     if next_move == tuple(): max_value = float('-inf')
     return next_move,next_move_enemy,max_depth_new, max_value

@@ -227,6 +227,7 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,score_enemy,tr
                       distancelist[(current_nodex, current_nodey + 1)] = dist + 1
                       pq.put((dist + 1, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 1))
 
+      score_enemy -=1
 
   # for item in array_distance:
   #      print(item)
