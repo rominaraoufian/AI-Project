@@ -64,8 +64,8 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,score_enemy,tr
                      distancelist[(current_nodex - 1, current_nodey)] = dist + 21
                      pq.put((dist + 21, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 21))
                   elif scoredij-1 >= score_enemy:
-                      distancelist[(current_nodex - 1, current_nodey)] = dist + 1
-                      pq.put((dist + 1, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 1))
+                      distancelist[(current_nodex - 1, current_nodey)] = dist + 1/2
+                      pq.put((dist + 1/2, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 1))
               else:
                   distancelist[(current_nodex - 1, current_nodey)] = dist + 1
                   pq.put((dist + 1, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 1))
@@ -81,9 +81,9 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,score_enemy,tr
                        distancelist[(current_nodex - 1, current_nodey)] = dist + 21
                        pq.put((dist + 21, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 21))
                   elif scoredij-1 >= score_enemy:
-                      if dist + 1 < distancelist[(current_nodex - 1, current_nodey)]:
-                         distancelist[(current_nodex - 1, current_nodey)] = dist + 1
-                         pq.put((dist + 1, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 1))
+                      if dist + 1/2 < distancelist[(current_nodex - 1, current_nodey)]:
+                         distancelist[(current_nodex - 1, current_nodey)] = dist + 1/2
+                         pq.put((dist + 1/2, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 1))
               else:
                   if dist + 1 < distancelist[(current_nodex-1,current_nodey)]:
                       distancelist[(current_nodex - 1, current_nodey)] = dist + 1
@@ -111,8 +111,8 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,score_enemy,tr
                       distancelist[(current_nodex + 1, current_nodey)] = dist + 21
                       pq.put((dist + 21, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 21))
                   elif scoredij-1 >= score_enemy:
-                      distancelist[(current_nodex + 1, current_nodey)] = dist + 1
-                      pq.put((dist + 1, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 1))
+                      distancelist[(current_nodex + 1, current_nodey)] = dist + 1/2
+                      pq.put((dist + 1/2, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 1))
               else:
                   distancelist[(current_nodex + 1, current_nodey)] = dist + 1
                   pq.put((dist + 1, current_nodex + 1, current_nodey, actual_dist+1, scoredij - 1))
@@ -128,9 +128,9 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,score_enemy,tr
                           distancelist[(current_nodex + 1, current_nodey)] = dist + 21
                           pq.put((dist + 21, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 21))
                   elif scoredij-1 >= score_enemy:
-                      if dist + 1 < distancelist[(current_nodex + 1, current_nodey)]:
-                          distancelist[(current_nodex + 1, current_nodey)] = dist + 1
-                          pq.put((dist + 1, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 1))
+                      if dist + 1/2 < distancelist[(current_nodex + 1, current_nodey)]:
+                          distancelist[(current_nodex + 1, current_nodey)] = dist + 1/2
+                          pq.put((dist + 1/2, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 1))
               else:
                   if dist + 1 < distancelist[(current_nodex + 1, current_nodey)]:
                       distancelist[(current_nodex + 1, current_nodey)] = dist + 1
@@ -157,8 +157,8 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,score_enemy,tr
                           distancelist[(current_nodex, current_nodey - 1)] = dist + 21
                           pq.put((dist + 21, current_nodex, current_nodey - 1, actual_dist + 1, scoredij - 21))
                   elif scoredij-1 >= score_enemy:
-                          distancelist[(current_nodex, current_nodey - 1)] = dist + 1
-                          pq.put((dist + 1, current_nodex, current_nodey - 1, actual_dist + 1, scoredij - 1))
+                          distancelist[(current_nodex, current_nodey - 1)] = dist + 1/2
+                          pq.put((dist + 1/2, current_nodex, current_nodey - 1, actual_dist + 1, scoredij - 1))
               else:
                   distancelist[(current_nodex, current_nodey-1)] = dist + 1
                   pq.put((dist + 1, current_nodex , current_nodey-1, actual_dist+1, scoredij - 1))
@@ -174,9 +174,9 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,score_enemy,tr
                           distancelist[(current_nodex, current_nodey-1)] = dist + 21
                           pq.put((dist + 21, current_nodex, current_nodey-1, actual_dist + 1, scoredij - 21))
                   elif scoredij-1 >= score_enemy:
-                      if dist + 1 < distancelist[(current_nodex, current_nodey-1)]:
-                          distancelist[(current_nodex, current_nodey-1)] = dist + 1
-                          pq.put((dist + 1, current_nodex, current_nodey-1, actual_dist + 1, scoredij - 1))
+                      if dist + 1/2 < distancelist[(current_nodex, current_nodey-1)]:
+                          distancelist[(current_nodex, current_nodey-1)] = dist + 1/2
+                          pq.put((dist + 1/2, current_nodex, current_nodey-1, actual_dist + 1, scoredij - 1))
               else:
                   if dist + 1 < distancelist[(current_nodex , current_nodey-1)]:
                       distancelist[(current_nodex , current_nodey-1)] = dist + 1
@@ -202,8 +202,8 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,score_enemy,tr
                          distancelist[(current_nodex, current_nodey + 1)] = dist + 21
                          pq.put((dist + 21, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 21))
                   elif scoredij-1 >= score_enemy:
-                         distancelist[(current_nodex, current_nodey + 1)] = dist + 1
-                         pq.put((dist + 1, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 1))
+                         distancelist[(current_nodex, current_nodey + 1)] = dist + 1/2
+                         pq.put((dist + 1/2, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 1))
               else:
                   distancelist[(current_nodex, current_nodey + 1)] = dist + 1
                   pq.put((dist + 1, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 1))
@@ -219,9 +219,9 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,score_enemy,tr
                           distancelist[(current_nodex, current_nodey + 1)] = dist + 21
                           pq.put((dist + 21, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 21))
                   elif scoredij-1 >= score_enemy:
-                      if dist + 1 < distancelist[(current_nodex, current_nodey + 1)]:
-                          distancelist[(current_nodex, current_nodey + 1)] = dist + 1
-                          pq.put((dist + 1, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 1))
+                      if dist + 1/2 < distancelist[(current_nodex, current_nodey + 1)]:
+                          distancelist[(current_nodex, current_nodey + 1)] = dist + 1/2
+                          pq.put((dist + 1/2, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 1))
               else:
                   if dist + 1 < distancelist[(current_nodex, current_nodey + 1)]:
                       distancelist[(current_nodex, current_nodey + 1)] = dist + 1

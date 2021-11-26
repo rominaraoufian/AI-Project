@@ -24,21 +24,21 @@ def hitortrap(gridmap, height, width, next_move_enemy, score_agent, score_enemy,
            flagE = True if gridmap[place[0]][place[1]] == 'E' else False
            flagagent = True if gridmap[place[0]][place[1]] == ('E'+ character) else False
            flagenemy = True if gridmap[place[0]][place[1]] == ('E'+ character_enemy) else False
-           if ((place_togo + 2) < place[2]) and flagtrap and (flagE or flagagent):
-                   value = ((40 - (place_togo + 2)) * 40) // 100
+           if ((place_togo + 2) <= place[2]) and flagtrap and (flagE or flagagent):
+                   value = ((40 - 3/2*(place_togo + 2)) * 40) // 100
                    if value >= maxvaluefortrap:
                        print("i choose trap0.............")
                        maxvaluefortrap = value
                        nextmove = (place[0], place[1])
 
-           elif (place_togo + 1) < place[2] and score_agent > score_enemy and (flagE or flagagent):
-               value = ((20 - (place_togo + 1)) * 40) // 100
+           elif (place_togo) <= place[2] and score_agent > score_enemy and (flagE or flagagent):
+               value = ((20 - 3/2*(place_togo )) * 40) // 100
                if value >= maxvaluefortrap:
                    print("i choose trap0.............")
                    maxvaluefortrap = value
                    nextmove = (place[0], place[1])
-           elif place_togo -1 == place[2] and score_agent >= score_enemy and flagenemy:
-               value = ((20 - (place_togo)) * 40) // 100
+           elif place_togo == place[2] and score_agent >= score_enemy and flagenemy:
+               value = ((20 - 3/2*(place_togo)) * 40) // 100
                if value >= maxvaluefortrap:
                    print("i choose trap0.............")
                    maxvaluefortrap = value
