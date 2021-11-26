@@ -30,7 +30,7 @@ agent_trap = []
 transposition = {}
 transposition_size = 0
 max_depth=0
-
+trapcountinfo=0
 
 def getinfo(gridmap, height, width, character,scoreinitial):
     global diamond
@@ -318,6 +318,7 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
     global transposition_size
     global max_depth
     global agent_trap
+    global trapcountinfo
     score_agent = scoreinitial
     score_enemy = scoreinitial
 
@@ -356,7 +357,7 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
                     start_enemy = (i, j)
         print(start_enemy,"start enemy")
         print(start_agent, "start_agent")
-
+        trapcountinfo=trapcount
         transposition_size = height * width - (walls+len(diamond)+len(hole))
 
         sizedh_minmax = len(diamond) + len(hole)
@@ -375,20 +376,20 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
         if start_enemy == previous_enemy_place and (start_enemy not in enemy_trap):
             enemy_trap.append(start_enemy)
 
-        if (start_enemy[0],start_enemy[1],10) in diamond:
+        if (start_enemy[0], start_enemy[1], 10) in diamond:
             if diccolornumber_enemy['y'] < 15:
                 diccolornumber_enemy['y'] += 1
-                del diamond[ (start_enemy[0],start_enemy[1],10)]
+                del diamond[(start_enemy[0], start_enemy[1], 10)]
 
-        if (start_enemy[0],start_enemy[1],25) in diamond:
-            if diccolornumber_enemy['g'] < 8 and score_enemy-25 > 14:
+        if (start_enemy[0], start_enemy[1], 25) in diamond:
+            if diccolornumber_enemy['g'] < 8 and score_enemy - 25 > 14:
                 diccolornumber_enemy['g'] += 1
-                del diamond [(start_enemy[0],start_enemy[1],25)]
+                del diamond[(start_enemy[0], start_enemy[1], 25)]
 
-        if (start_enemy[0],start_enemy[1],35) in diamond:
+        if (start_enemy[0], start_enemy[1], 35) in diamond:
             if diccolornumber_enemy['r'] < 5 and score_enemy - 35 > 49:
                 diccolornumber_enemy['r'] += 1
-                del diamond[(start_enemy[0],start_enemy[1],35)]
+                del diamond[(start_enemy[0], start_enemy[1], 35)]
         if (start_enemy[0], start_enemy[1], 75) in diamond:
             if diccolornumber_enemy['b'] < 4 and score_enemy - 75 > 139:
                 diccolornumber_enemy['b'] += 1
@@ -415,15 +416,10 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
                del diamond[(start_agent[0], start_agent[1], 75)]
 
 
-
-
-
     # print(character_enemy,"character enemy")
     # print(character,"character")
     depth_minmax = floor(log((10 ** 4) * timelimit, max(sizedh_minmax, 2)))
-
     if (walls // (height + width)) * 100 < 5 and len(hole) == 0:
-
         depth_minmax -= 1
 
     depth_minmax = max(max_depth, depth_minmax)
@@ -434,32 +430,22 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
     print("-" * 15)
     # print(start_enemy,"start_enemy")
     # print(start_agent,"start_agent")
-    # print(turn,"turn")
     if character_enemy == 'A':
         enemyturn = maxturn - turn
     else:
         enemyturn = maxturn - turn + 1
-    # print(score_enemy, "score_enemy", '#' * 5)
-    # print(start_enemy, "start_enemy", '#' * 6)
-    # print(start_agent,"startagent","@"*10)
-    # print(score_agent,"scoreageny",'@'*10)
 
-    if character_enemy == 'A':
-        enemyturn = maxturn - turn
-    else:
-        enemyturn = maxturn - turn + 1
-    next_move,next_move_enemy,max_depth,maxvalue = minmax1(gridmap, height, width, maxturn-turn+1, enemyturn, diamond, hole, start_agent[0], start_agent[1], start_enemy[0], start_enemy[1], trapcount,depth_minmax, score_agent, score_enemy, diccolornumber_agent,diccolornumber_enemy,transposition, enemy_trap, agent_trap,transposition_size,max_depth,character,character_enemy)
+    next_move,next_move_enemy,max_depth,maxvalue = minmax1(gridmap, height, width, maxturn-turn+1, enemyturn, diamond, hole, start_agent[0], start_agent[1], start_enemy[0], start_enemy[1], trapcountinfo,depth_minmax, score_agent, score_enemy, diccolornumber_agent,diccolornumber_enemy,transposition, enemy_trap, agent_trap,transposition_size,max_depth,character,character_enemy)
     print(next_move, "next_move agent from minimax")
-    print(next_move_enemy,"next_move enemy from minimax")
+    print(next_move_enemy, "next_move enemy from minimax")
     print(maxvalue, "max value from minimax")
-    trapsize = len(agent_trap)
     maxvaluefortrap = float('-inf')
-
     next_move_trap = tuple()
     trapnumber = len(agent_trap)
-    if score_agent >= 35*(trapnumber+1) and trapcount > 0:
-        next_move_trap,maxvaluefortrap = trapornot(gridmap,height, width, next_move, next_move_enemy, maxvalue, score_agent, score_enemy, start_agent, start_enemy, 35 * (trapnumber+1), diccolornumber_agent, diccolornumber_enemy, agent_trap, enemy_trap, character, character_enemy)
-        print(next_move_trap,"nextmovetrap from trapornot")
+
+    if score_agent >= 35*(trapnumber+1) and trapnumber < trapcountinfo:
+        next_move_trap, maxvaluefortrap = trapornot(gridmap,height, width, next_move, next_move_enemy, maxvalue, score_agent, score_enemy, start_agent, start_enemy, 35 * (trapnumber+1), diccolornumber_agent, diccolornumber_enemy, agent_trap, enemy_trap, character, character_enemy)
+
     if next_move_trap != () and maxvaluefortrap > maxvalue:
         next_move = next_move_trap
     if not next_move == ():
@@ -470,13 +456,14 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
            agent_trap.append(next_move)
        return next_action
     else:
-        next_move , maxvaluefortrap = hitortrap(gridmap, height, width, next_move_enemy, score_agent, score_enemy, maxvalue,start_agent,start_enemy, maxturn-turn+1, enemyturn, agent_trap, enemy_trap,character, character_enemy, diccolornumber_agent, diccolornumber_enemy, trapcount)
+
+        next_move, maxvaluefortrap = hitortrap(gridmap, height, width, next_move_enemy, score_agent, score_enemy, maxvalue,start_agent,start_enemy, maxturn-turn+1, enemyturn, agent_trap, enemy_trap,character, character_enemy, diccolornumber_agent, diccolornumber_enemy, trapcountinfo)
         print(next_move, "next move from hitortrap")
         print(maxvaluefortrap, "maxvaluefortrap from hitortrap")
         if next_move != ():
             next_action = dij_show_action(start_agent[0], start_agent[1], next_move[0], next_move[1], gridmap, height,
-                                      width, score_agent, score_enemy, enemy_trap, character, character_enemy,
-                                      diccolornumber_agent)
+                                          width, score_agent, score_enemy, enemy_trap, character, character_enemy,
+                                          diccolornumber_agent)
 
             if next_action == 'p':
                 agent_trap.append(next_move)
