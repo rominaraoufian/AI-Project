@@ -465,9 +465,11 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
 
         # up
         flag = False
+
         flag_hit = False
         # if current_nodex - 1 >= 0 and gridmap[current_nodex - 1][current_nodey] == 'E' + characterenemy:
         #     flag_hit = True
+
         if current_nodex - 1 >= 0:
             if (current_nodex - 1, current_nodey) in trap:
                 flag = True
@@ -490,9 +492,11 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
                 if flag:
                     distancelist[(current_nodex - 1, current_nodey)] = dist + 41
                     pq.put((dist + 41, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 41))
+
                     parent[(current_nodex-1, current_nodey)] = (current_nodex, current_nodey, (current_nodex-1,
                                                                                                current_nodey,
                                                                                                actual_dist + 1))
+
 
                 # elif flag_hit:
                 #     if scoredij - 1 < score_enemy:
@@ -502,7 +506,7 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
                 #             current_nodex, current_nodey, (current_nodex - 1, current_nodey, actual_dist + 1))
                 #     elif scoredij - 1 >= score_enemy:
                 #         distancelist[(current_nodex - 1, current_nodey)] = dist + 1
-                #         pq.put((dist + 1, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 1))
+
                 #         parent[(current_nodex -1, current_nodey)] = (
                 #             current_nodex, current_nodey, (current_nodex - 1, current_nodey, actual_dist + 1))
                 else:
@@ -518,6 +522,7 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
                         pq.put((dist + 41, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 41))
                         parent[(current_nodex - 1, current_nodey)] = (
                             current_nodex, current_nodey, (current_nodex - 1, current_nodey, actual_dist + 1))
+
                 # elif flag_hit:
                 #     if scoredij - 1 < score_enemy:
                 #         if dist + 21 < distancelist[(current_nodex - 1, current_nodey)]:
@@ -528,6 +533,7 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
                 #     elif scoredij - 1 >= score_enemy:
                 #         if dist + 1 < distancelist[(current_nodex - 1, current_nodey)]:
                 #             distancelist[(current_nodex - 1, current_nodey)] = dist + 1
+
                 #             pq.put((dist + 1, current_nodex - 1, current_nodey, actual_dist + 1, scoredij - 1))
                 #             parent[(current_nodex - 1, current_nodey)] = (
                 #                 current_nodex, current_nodey, (current_nodex - 1, current_nodey, actual_dist + 1))
@@ -541,6 +547,7 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
         # down
         flag = False
         flag_hit = False
+
         # if current_nodex + 1 < height and gridmap[current_nodex + 1][current_nodey] == 'E' + characterenemy:
         #     flag_hit = True
         if current_nodex + 1 < height:
@@ -572,6 +579,7 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
                 #     if scoredij - 1 < score_enemy:
                 #         distancelist[(current_nodex + 1, current_nodey)] = dist + 21
                 #         pq.put((dist + 21, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 21))
+
                 #         parent[(current_nodex + 1, current_nodey)] = (current_nodex, current_nodey, (current_nodex + 1,
                 #                                                                                      current_nodey,
                 #                                                                                      actual_dist + 1))
@@ -596,12 +604,13 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
                         parent[(current_nodex + 1, current_nodey)] = (current_nodex, current_nodey, (current_nodex + 1,
                                                                                                      current_nodey,
                                                                                                      actual_dist + 1))
+
                 # elif flag_hit:
                 #     if scoredij - 1 < score_enemy:
                 #         if dist + 21 < distancelist[(current_nodex + 1, current_nodey)]:
                 #             distancelist[(current_nodex + 1, current_nodey)] = dist + 21
                 #             pq.put((dist + 21, current_nodex + 1, current_nodey, actual_dist + 1, scoredij - 21))
-                #             parent[(current_nodex + 1, current_nodey)] = (current_nodex, current_nodey, (current_nodex + 1,
+      #             parent[(current_nodex + 1, current_nodey)] = (current_nodex, current_nodey, (current_nodex + 1,
                 #                                                                                          current_nodey,
                 #                                                                                          actual_dist + 1))
                 #     elif scoredij - 1 >= score_enemy:
@@ -611,6 +620,7 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
                 #             parent[(current_nodex + 1, current_nodey)] = (current_nodex, current_nodey, (current_nodex + 1,
                 #                                                                                          current_nodey,
                 #                                                                                          actual_dist + 1))
+
                 else:
                     if dist + 1 < distancelist[(current_nodex + 1, current_nodey)]:
                         distancelist[(current_nodex + 1, current_nodey)] = dist + 1
@@ -622,8 +632,10 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
         # left
         flag = False
         flag_hit = False
+
         # if current_nodey - 1 < width and gridmap[current_nodex][current_nodey - 1] == 'E' + characterenemy:
         #     flag_hit = True
+
         if current_nodey - 1 < width:
             if (current_nodex, current_nodey - 1) in trap:
                 flag = True
@@ -648,14 +660,17 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
                 if flag:
                     distancelist[(current_nodex, current_nodey - 1)] = dist + 41
                     pq.put((dist + 41, current_nodex, current_nodey - 1, actual_dist + 1, scoredij - 41))
+
                     parent[(current_nodex, current_nodey - 1)] = (current_nodex, current_nodey, (current_nodex,
                                                                                                  current_nodey - 1,
                                                                                                  actual_dist + 1))
+
                 # elif flag_hit:
                 #     # print("dist",actual_dist,"im in trapi hit")
                 #     if scoredij - 1 < score_enemy:
                 #         distancelist[(current_nodex, current_nodey - 1)] = dist + 21
                 #         pq.put((dist + 21, current_nodex, current_nodey - 1, actual_dist + 1, scoredij - 21))
+
                 #         parent[(current_nodex, current_nodey - 1)] = (current_nodex, current_nodey, (current_nodex,
                 #                                                                                      current_nodey - 1,
                 #                                                                                      actual_dist + 1))
@@ -680,12 +695,14 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
                         parent[(current_nodex, current_nodey - 1)] = (current_nodex, current_nodey, (current_nodex,
                                                                                                      current_nodey - 1,
                                                                                                      actual_dist + 1))
+
                 # elif flag_hit:
                 #     # print("dist", actual_dist, "im in trapi hit")
                 #     if scoredij - 1 < score_enemy:
                 #         if dist + 21 < distancelist[(current_nodex, current_nodey - 1)]:
                 #             distancelist[(current_nodex, current_nodey - 1)] = dist + 21
                 #             pq.put((dist + 21, current_nodex, current_nodey - 1, actual_dist + 1, scoredij - 21))
+
                 #             parent[(current_nodex, current_nodey - 1)] = (current_nodex, current_nodey, (current_nodex,
                 #                                                                                          current_nodey - 1,
                 #                                                                                          actual_dist + 1))
@@ -696,6 +713,7 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
                 #             parent[(current_nodex, current_nodey - 1)] = (current_nodex, current_nodey, (current_nodex,
                 #                                                                                          current_nodey - 1,
                 #                                                                                          actual_dist + 1))
+
                 else:
                     if dist + 1 < distancelist[(current_nodex, current_nodey - 1)]:
                         distancelist[(current_nodex, current_nodey - 1)] = dist + 1
@@ -706,8 +724,10 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
         # right
         flag = False
         flag_hit = False
+
         # if current_nodey + 1 < width and gridmap[current_nodex][current_nodey + 1] == 'E' + characterenemy:
         #     flag_hit = True
+
         if current_nodey + 1 < width:
             if (current_nodex, current_nodey + 1) in trap:
                 flag = True
@@ -742,6 +762,7 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
                 #         current_nodex, current_nodey, (current_nodex, current_nodey + 1, actual_dist + 1))
                 #     elif scoredij - 1 >= score_enemy:
                 #         distancelist[(current_nodex, current_nodey + 1)] = dist + 1
+
                 #         pq.put((dist + 1, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 1))
                 #         parent[(current_nodex, current_nodey + 1)] = (
                 #         current_nodex, current_nodey, (current_nodex, current_nodey + 1, actual_dist + 1))
@@ -769,6 +790,7 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
                 #     elif scoredij - 1 >= score_enemy:
                 #         if dist + 1 < distancelist[(current_nodex, current_nodey + 1)]:
                 #             distancelist[(current_nodex, current_nodey + 1)] = dist + 1
+
                 #             pq.put((dist + 1, current_nodex, current_nodey + 1, actual_dist + 1, scoredij - 1))
                 #             parent[(current_nodex, current_nodey + 1)] = (
                 #             current_nodex, current_nodey, (current_nodex, current_nodey + 1, actual_dist + 1))

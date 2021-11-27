@@ -6,6 +6,7 @@ from minmax_alpha_beta import minmax
 from minimax_alpha_beta1 import minmax1
 from TrapOrNot import trapornot
 from hitortrap import hitortrap
+from HoleorNot import holeornot
 
 #change diamondlist to dictionary, should other functions
 diamond = {}
@@ -29,8 +30,11 @@ enemy_trap = []
 agent_trap = []
 transposition = {}
 transposition_size = 0
-max_depth=0
-trapcountinfo=0
+max_depth = 0
+trapcountinfo = 0
+holecounter = 0
+befor_score_agent=0
+
 
 def getinfo(gridmap, height, width, character,scoreinitial):
     global diamond
@@ -319,6 +323,9 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
     global max_depth
     global agent_trap
     global trapcountinfo
+    global holecounter
+    global befor_score_agent
+
     score_agent = scoreinitial
     score_enemy = scoreinitial
 
@@ -326,12 +333,14 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
         character_enemy = 'B'
         agent_id = 0
         enemy_id = 1
+        befor_score_agent = score_agent
         score_agent = scores[0]
         score_enemy = scores[1]
     else:
         character_enemy = 'A'
         agent_id = 1
         enemy_id = 0
+        befor_score_agent = score_agent
         score_enemy = scores[0]
         score_agent = scores[1]
 
@@ -358,6 +367,7 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
         print(start_enemy,"start enemy")
         print(start_agent, "start_agent")
         trapcountinfo=trapcount
+
         transposition_size = height * width - (walls+len(diamond)+len(hole))
 
         sizedh_minmax = len(diamond) + len(hole)
@@ -434,24 +444,40 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
         enemyturn = maxturn - turn
     else:
         enemyturn = maxturn - turn + 1
+
     next_move,next_move_enemy,max_depth,maxvalue = minmax1(gridmap, height, width, maxturn-turn+1, enemyturn, diamond, hole, start_agent[0], start_agent[1], start_enemy[0], start_enemy[1], trapcountinfo,depth_minmax, score_agent, score_enemy, diccolornumber_agent,diccolornumber_enemy,transposition, enemy_trap, agent_trap,transposition_size,max_depth,character,character_enemy)
-    print(next_move_enemy,"next_moove")
+    print(next_move, "next_move agent from minimax")
+    print(next_move_enemy, "next_move enemy from minimax")
+    print(maxvalue, "max value from minimax")
     maxvaluefortrap = float('-inf')
     next_move_trap = tuple()
     trapnumber = len(agent_trap)
+    holeornot(gridmap, height,width,holecounter, hole, score_agent, score_enemy, agent_trap, enemy_trap, befor_score_agent,start_agent,start_enemy,next_move,next_move_enemy,character,character_enemy)
+
     if score_agent >= 35*(trapnumber+1) and trapnumber < trapcountinfo:
         next_move_trap, maxvaluefortrap = trapornot(gridmap,height, width, next_move, next_move_enemy, maxvalue, score_agent, score_enemy, start_agent, start_enemy, 35 * (trapnumber+1), diccolornumber_agent, diccolornumber_enemy, agent_trap, enemy_trap, character, character_enemy)
 
     if next_move_trap != () and maxvaluefortrap > maxvalue:
         next_move = next_move_trap
     if not next_move == ():
+       print("finaly next move in getinfo")
        next_action = dij_show_action(start_agent[0], start_agent[1], next_move[0], next_move[1], gridmap, height, width,score_agent,score_enemy,enemy_trap,character,character_enemy,diccolornumber_agent)
        print(next_action, "next_action")
        if next_action == 'p':
            agent_trap.append(next_move)
+       if next_action == 't':
+           holecounter += 1
+
+       else:
+           holecounter=0
+
        return next_action
+
     else:
+
         next_move, maxvaluefortrap = hitortrap(gridmap, height, width, next_move_enemy, score_agent, score_enemy, maxvalue,start_agent,start_enemy, maxturn-turn+1, enemyturn, agent_trap, enemy_trap,character, character_enemy, diccolornumber_agent, diccolornumber_enemy, trapcountinfo)
+        print(next_move, "next move from hitortrap")
+        print(maxvaluefortrap, "maxvaluefortrap from hitortrap")
         if next_move != ():
             next_action = dij_show_action(start_agent[0], start_agent[1], next_move[0], next_move[1], gridmap, height,
                                           width, score_agent, score_enemy, enemy_trap, character, character_enemy,
@@ -459,6 +485,18 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
 
             if next_action == 'p':
                 agent_trap.append(next_move)
+            if next_action == 't':
+                holecounter += 1
+            #     holeornot(holecounter,hole,score_agent,score_enemy,agent_trap,enemy_trap,befor_score_agent)
+            else:
+                holecounter = 0
+
             return next_action
         else:
            return 'n'
+
+
+
+#برای چک کردن سیاه چاله ها یک متعیر گرفته که هر دفعه وقتی اکشن تلپورت بود پلاس میشود و در غیر این صورت صفر میشود
+#مقداری برای چک کردن گیر کردن در سیاه چاله بذاریم براساس تعداد سیاه چاله ها در نقشه
+# مقداری  که میخوایم چک کنیم با اسکور خودمون ربط بدیم
