@@ -295,6 +295,7 @@ def getinfophase2(gridmap, height, width, turn, maxturn, character,scoreinitial,
     depth_minmax = max(max_depth, depth_minmax)
     if depth_minmax % 2:
         depth_minmax = max(depth_minmax-1, 2)
+
     # print("-"*15)
     # print(maxturn-turn+1)
     # print("-" * 15)
@@ -350,7 +351,7 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
                 s = str(gridmap[i][j])
                 if gridmap[i][j] == 'W':
                     walls += 1
-                if gridmap[i][j] == 'T':
+                if gridmap[i][j] == 'T' or gridmap[i][j] == 'T'+character_enemy:
                     hole[(i, j, 0)] = True
                 if gridmap[i][j] == '1':
                     diamond[(i, j, 10)] = True
@@ -435,6 +436,7 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
     depth_minmax = max(max_depth, depth_minmax)
     if depth_minmax % 2:
         depth_minmax = max(depth_minmax-1, 2)
+    # print(depth_minmax, " depth minimax")
     print("-"*15)
     print(maxturn-turn+1)
     print("-" * 15)
@@ -458,11 +460,13 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
     next_move_trap = tuple()
     trapnumber = len(agent_trap)
     if score_agent >= 35*(trapnumber+1) and trapnumber < trapcountinfo:
-        next_move_trap, maxvaluefortrap = trapornot(gridmap,height, width, next_move, next_move_enemy, maxvalue, score_agent, score_enemy, start_agent, start_enemy, 35 * (trapnumber+1), diccolornumber_agent, diccolornumber_enemy, agent_trap, enemy_trap, character, character_enemy)
+        next_move_trap, maxvaluefortrap, flagdiamond = trapornot(gridmap,height, width, next_move, next_move_enemy, maxvalue, score_agent, score_enemy, start_agent, start_enemy, 35 * (trapnumber+1), diccolornumber_agent, diccolornumber_enemy, agent_trap, enemy_trap, character, character_enemy)
+        if (flagdiamond == False) and next_move_trap != ():
+            maxvaluefortrap = maxvalue + 1
     if next_move_trap != () and maxvaluefortrap > maxvalue:
         next_move = next_move_trap
     if not next_move == ():
-       print("finaly next move in getinfo")
+       print(next_move, "finaly next move in getinfo")
        next_action = dij_show_action(start_agent[0], start_agent[1], next_move[0], next_move[1], gridmap, height, width,score_agent,score_enemy,enemy_trap,character,character_enemy,diccolornumber_agent)
        print(next_action, "next_action")
        if next_action == 'p':
@@ -471,7 +475,7 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
            holecounter += 1
 
        else:
-           holecounter=0
+           holecounter -= 1
 
        return next_action
 
@@ -491,7 +495,7 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
                 holecounter += 1
             #     holeornot(holecounter,hole,score_agent,score_enemy,agent_trap,enemy_trap,befor_score_agent)
             else:
-                holecounter = 0
+                holecounter -= 1
 
             return next_action
         else:
