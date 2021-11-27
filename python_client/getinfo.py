@@ -449,14 +449,16 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
     print(next_move, "next_move agent from minimax")
     print(next_move_enemy, "next_move enemy from minimax")
     print(maxvalue, "max value from minimax")
+
+    next_move_holeOrnot, max_valueholeOrnot = holeornot(gridmap, height,width,holecounter, hole, score_agent, score_enemy, agent_trap, enemy_trap, befor_score_agent,start_agent,start_enemy,next_move,next_move_enemy,character,character_enemy, maxvalue)
+    if max_valueholeOrnot > maxvalue:
+        maxvalue = max_valueholeOrnot
+        next_move = next_move_holeOrnot
     maxvaluefortrap = float('-inf')
     next_move_trap = tuple()
     trapnumber = len(agent_trap)
-    holeornot(gridmap, height,width,holecounter, hole, score_agent, score_enemy, agent_trap, enemy_trap, befor_score_agent,start_agent,start_enemy,next_move,next_move_enemy,character,character_enemy)
-
     if score_agent >= 35*(trapnumber+1) and trapnumber < trapcountinfo:
         next_move_trap, maxvaluefortrap = trapornot(gridmap,height, width, next_move, next_move_enemy, maxvalue, score_agent, score_enemy, start_agent, start_enemy, 35 * (trapnumber+1), diccolornumber_agent, diccolornumber_enemy, agent_trap, enemy_trap, character, character_enemy)
-
     if next_move_trap != () and maxvaluefortrap > maxvalue:
         next_move = next_move_trap
     if not next_move == ():
