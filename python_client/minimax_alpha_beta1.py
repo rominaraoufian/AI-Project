@@ -71,6 +71,7 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
                         next_move_enemy = keyvisited
 
                 for keyvisited, valuevisited in visited_hole.items():
+                    print(keyvisited,"keyvisited hole")
                     if valuevisited[1] == 0:
                         next_move = (keyvisited[0], keyvisited[1])
                     if valuevisited[1] == 1:
@@ -103,6 +104,7 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
                         next_move_enemy = keyvisited
 
                 for keyvisited, valuevisited in visited_hole.items():
+                    print(keyvisited, "keyvisited hole")
                     if valuevisited[1] == 0:
                         next_move = (keyvisited[0], keyvisited[1])
                     if valuevisited[1] == 1:
@@ -132,6 +134,7 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
                         next_move_enemy = keyvisited
 
                 for keyvisited, valuevisited in visited_hole.items():
+                    print(keyvisited, "keyvisited hole")
                     if valuevisited[1] == 0:
                         next_move = (keyvisited[0], keyvisited[1])
                     if valuevisited[1] == 1:
@@ -272,7 +275,9 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
                     return best_value
 
         else:
-           # print("im in enemy")
+            print("im in enemy")
+            print(level,"level")
+            print(holedic,"holedic")
             #print("start enemy",enemyx, enemyy,10*'$')
             dicdistanceallenemy, dicdistancediamondenemy, dicdistanceholeenemy = dijkstraforall(gridmap, height, width, enemyx, enemyy, score_enemy,score_agent, agenttraps, character_enemy,character,  diccolor_number_copy_enemy)
             #print(dicdistancediamondenemy,"dicdistancediamondenemy")
@@ -346,12 +351,14 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
                         return best_value
                     visited_diamond.pop(d, None)
             sort_hole_list = sortmoves(dicdistanceholeenemy, remain_turn_enemy, diccolor_number_copy_enemy)
-
+            print(sort_hole_list,"sort_holelist")
+            print(dicdistanceholeenemy,"dicdistanceholeenemy")
             for hole in sort_hole_list:
                 h = (hole[0], hole[1])
                 calculatescore = dicdistanceholeenemy[hole][1]
                 calculatedistance = dicdistanceholeenemy[hole][0]
                 visited_hole[(h[0], h[1], level)] = (True, level)
+                print(visited_hole[(h[0], h[1], level)],'visited_hole[(h[0], h[1], level)] = (True, level)')
                 current_hole = (h[0], h[1], 0)
                 # distancehole = dijkstra(gridmap, height, width, enemyx, enemyy, h[0], h[1], score_enemy)
 

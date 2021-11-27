@@ -162,7 +162,7 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width, scored
 
         # up
         flag_hit = False
-        if current_nodex - 1 >= 0 and gridmap[current_nodex - 1][current_nodey] == 'E' + character_enemy:
+        if current_nodex - 1 >= 0 and gridmap[current_nodex - 1][current_nodey] == 'E' + character_enemy and gridmap[current_nodex - 1][current_nodey] == 'T' + character_enemy:
             flag_hit = True
         flag = False
         if current_nodex - 1 >= 0:
@@ -228,7 +228,7 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width, scored
         # down
         flag = False
         flag_hit = False
-        if current_nodex + 1 < height and gridmap[current_nodex + 1][current_nodey] == 'E' + character_enemy:
+        if current_nodex + 1 < height and gridmap[current_nodex + 1][current_nodey] == 'E' + character_enemy and gridmap[current_nodex + 1][current_nodey] == 'T' + character_enemy:
             flag_hit = True
         if current_nodex + 1 < height:
             if (current_nodex + 1, current_nodey) in trap:
@@ -291,7 +291,7 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width, scored
         # left
         flag = False
         flag_hit = False
-        if current_nodey - 1 >= 0 and gridmap[current_nodex][current_nodey - 1] == 'E' + character_enemy:
+        if current_nodey - 1 >= 0 and gridmap[current_nodex][current_nodey - 1] == 'E' + character_enemy and gridmap[current_nodex][current_nodey - 1] == 'T' + character_enemy:
             flag_hit = True
         if current_nodey - 1 >= 0:
             if (current_nodex, current_nodey - 1) in trap:
@@ -355,7 +355,7 @@ def dij_show_action(agentx, agenty, goalx, goaly, gridmap, height, width, scored
         # right
         flag = False
         flag_hit = False
-        if current_nodey + 1 < width and gridmap[current_nodex][current_nodey + 1] == 'E' + character_enemy:
+        if current_nodey + 1 < width and gridmap[current_nodex][current_nodey + 1] == 'E' + character_enemy and gridmap[current_nodex][current_nodey + 1] == 'T' + character_enemy:
             flag_hit = True
         if current_nodey + 1 < width:
             if (current_nodex, current_nodey + 1) in trap:
