@@ -12,7 +12,7 @@ def holeornot(gridmap, height,width,holecounter, hole, score_agent, score_enemy,
     ex=start_enemy[0]
     ey=start_enemy[1]
     print("im in hole or not")
-    if next_move_enemy == tuple():
+    if next_move_enemy == tuple() or not(gridmap[start_enemy[0]][start_enemy[1]] == 'T'+ character_enemy and gridmap[next_move_enemy[0]][next_move_enemy[1]] == 'T'+character_enemy):
         return nextmove, maxvalueforholeornot
     if gridmap[start_enemy[0]][start_enemy[1]] != 'T' + character_enemy and gridmap[next_move_enemy[0]][next_move_enemy[1]] != 'T' + character_enemy:
         return nextmove, maxvalueforholeornot
@@ -25,10 +25,12 @@ def holeornot(gridmap, height,width,holecounter, hole, score_agent, score_enemy,
     # print(gridmap[next_move_enemy[0]][next_move_enemy[1]], "gridmap[next_move[0]][next_move[1]] in hole or not")
     if gridmap[start_agent[0]][start_agent[1]] == 'T' + character and gridmap[next_move[0]][next_move[1]] == 'T'+character:
         print("im in hole or not start and nextmove = t")
+
         if (holecounter >= maximun_holecounter) or (count_of_hits > holenumber//2):
             if gridmap[start_enemy[0]][start_enemy[1]] == 'T' + character_enemy and gridmap[next_move_enemy[0]][next_move_enemy[1]] == 'T'+character_enemy:
                 if score_agent < score_enemy:
                     if (sx-1 >= 0) and (gridmap[sx-1][sy] != 'W') and (gridmap[sx-1][sy] != 'T') and (gridmap[sx-1][sy] != 'T'+character_enemy) and ((sx-1,sy) not in enemy_trap):
+
                         value = maxvalue + 1
                         if maxvalueforholeornot < value:
                             print(" im in sx-1 hole or not")
@@ -60,6 +62,7 @@ def holeornot(gridmap, height,width,holecounter, hole, score_agent, score_enemy,
                             print(" im in sy+1 hole or not")
                             nextmove = (sx, sy + 1)
                             maxvalueforholeornot = value
+
 
 
                 else:
@@ -96,7 +99,7 @@ def holeornot(gridmap, height,width,holecounter, hole, score_agent, score_enemy,
                         nextmove = next_move
                         maxvalueforholeornot = maxvalue
 
-
+    print(nextmove, maxvalueforholeornot, "nextmove and max value in hole or not")
     return nextmove, maxvalueforholeornot
 # if  befor_score_agent - score_agent > 20 and holecounter > 1:
 #     pass
