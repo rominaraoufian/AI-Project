@@ -233,6 +233,7 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
                     visited_diamond.pop(d, None)
 
             sort_hole_list = sortmoves(dicdistancehole,remain_turn_agent,diccolor_number_copy_agent)
+            print(sort_hole_list,"sort hle list")
             for hole in sort_hole_list:
                 h = (hole[0], hole[1])
                 calculatescore = dicdistancehole[hole][1]
@@ -242,17 +243,17 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
                 # distancehole = dijkstra(gridmap, height, width, agentx, agenty, h[0], h[1], score_agent)
                 if (calculatedistance <= remain_turn_agent) and (level + 1 <= depth):
                     value_hole = 0
-                    for item_hole in sort_hole_list:
+                    for item_hole in holedic:
                         if item_hole != current_hole:
                             value_hole += alph_beta_minmax(not is_max_turn, item_hole[0], item_hole[1], enemyx, enemyy, alpha, beta, level+1, remain_turn_agent-calculatedistance-1,remain_turn_enemy, calculatescore-1, score_enemy,diccolor_number_copy_agent,diccolor_number_copy_enemy)
                     result_return = (value_hole // (len(holedic) - 1))
 
                 if (best_value < result_return) and (level == 0) and (result_return < beta):
-
                      next_move = h
                 best_value = max(best_value, result_return)
                 alpha = max(alpha, best_value)
                 if beta <= alpha:
+                    print("im in haras")
                     if (hash_state in transpositiontable) and (transpositiontable[hash_state][3] > level):
                         max_depth_new = max(max_depth_new, level)
                         transpositiontable[hash_state] = (transpositiontable[hash_state][0], best_value, transpositiontable[hash_state][2], level)
@@ -392,7 +393,7 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
 
                 if (calculatedistance <= remain_turn_enemy) and (level + 1 <= depth):
                     value_hole = 0
-                    for item_hole in sort_hole_list:
+                    for item_hole in holedic:
                         if item_hole != current_hole:
                             value_hole += alph_beta_minmax(not is_max_turn, agentx, agenty, item_hole[0], item_hole[1],
                                                            alpha, beta, level + 1, remain_turn_agent,
