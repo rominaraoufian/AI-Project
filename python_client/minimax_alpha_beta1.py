@@ -35,6 +35,7 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
         #transposition value (exact,lowerbound,upperbound,depth)
         #transpositiontable[hash_state][3] >= level or transpositiontable[hash_state][3] <= level because position of  add value
         if (hash_state in transpositiontable) and (transpositiontable[hash_state][3] <= level):
+            print("im in hash")
             if transpositiontable[hash_state][0] != float('inf'):
                 return transpositiontable[hash_state][0]
             if (transpositiontable[hash_state][1] != float('inf')) and (is_max_turn) :
@@ -242,7 +243,7 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
                 # distancehole = dijkstra(gridmap, height, width, agentx, agenty, h[0], h[1], score_agent)
                 if (calculatedistance <= remain_turn_agent) and (level + 1 <= depth):
                     value_hole = 0
-                    for item_hole in sort_hole_list:
+                    for item_hole in holedic:
                         if item_hole != current_hole:
                             value_hole += alph_beta_minmax(not is_max_turn, item_hole[0], item_hole[1], enemyx, enemyy, alpha, beta, level+1, remain_turn_agent-calculatedistance-1,remain_turn_enemy, calculatescore-1, score_enemy,diccolor_number_copy_agent,diccolor_number_copy_enemy)
                     result_return = (value_hole // (len(holedic) - 1))
@@ -392,7 +393,7 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
 
                 if (calculatedistance <= remain_turn_enemy) and (level + 1 <= depth):
                     value_hole = 0
-                    for item_hole in sort_hole_list:
+                    for item_hole in holedic:
                         if item_hole != current_hole:
                             value_hole += alph_beta_minmax(not is_max_turn, agentx, agenty, item_hole[0], item_hole[1],
                                                            alpha, beta, level + 1, remain_turn_agent,

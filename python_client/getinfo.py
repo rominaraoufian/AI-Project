@@ -382,7 +382,7 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
         previous_enemy_place = start_enemy
         prevous_enemy_score = score_enemy
         before_start_agent = start_agent
-        before_start_enemy= start_enemy
+        before_start_enemy = start_enemy
         for i in range(0, height):
             for j in range(0, width):
                 s = str(gridmap[i][j])

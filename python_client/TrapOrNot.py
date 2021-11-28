@@ -127,17 +127,17 @@ def trapornot(gridmap, height, width, next_move_agent, next_move_enemy, maxvalue
                         maxvaluefortrap = value
                         nextmove = (place[0], place[1])
 
-        elif gridmap[place[0]][place[1]] == 'E' and place_togo <= place[2] and score_agent > score_enemy:
-            value = ((20 - 3/2*(place_togo))*40)//100
-            if value >= maxvaluefortrap:
-                print("i choose trap0.............")
-                maxvaluefortrap = value
-                nextmove = (place[0], place[1])
-                print(nextmove, "nextmove" * 3)
-                print(value, "valuetrape", '~' * 35)
-        elif gridmap[place[0]][place[1]] == 'E'+character and place_togo == place[2]+1 and score_agent >= score_enemy:
+        # if gridmap[place[0]][place[1]] == 'E' and place_togo <= place[2] and score_agent > score_enemy:
+        #     value = ((20 - 3/2*(place_togo)))//100
+        #     if value >= maxvaluefortrap:
+        #         print("i choose trap0.............")
+        #         maxvaluefortrap = value
+        #         nextmove = (place[0], place[1])
+        #         print(nextmove, "nextmove" * 3)
+        #         print(value, "valuetrape", '~' * 30)
+        if gridmap[place[0]][place[1]] == 'E'+character and place_togo == place[2]+1 and score_agent >= score_enemy:
 
-            value = ((20) * 40) // 100
+            value = (60) // 100
             if value >= maxvaluefortrap:
                 print("i choose trap0.............")
                 maxvaluefortrap = value
