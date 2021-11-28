@@ -2,7 +2,7 @@
 def holeornot(gridmap, height,width,holecounter, hole, score_agent, score_enemy, agent_trap, enemy_trap, befor_score_agent,start_agent,start_enemy,next_move,next_move_enemy,character,character_enemy, maxvalue,count_of_hits):
     holenumber = len(hole)
     #maybe need to decrease maximum_holecounter
-    print(count_of_hits,"countofhole","#"*10)
+    #print(count_of_hits,"countofhole","#"*10)
     maximun_holecounter = holenumber + 2
     nextmove = tuple()
     maxvalueforholeornot = float('-inf')

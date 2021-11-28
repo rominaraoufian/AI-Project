@@ -391,8 +391,8 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
                 if s.find(character_enemy) != -1:
                     start_enemy = (i, j)
 
-        print(befor_score_agent, "befor score agent")
-        print(score_agent, "score_agent")
+        # print(befor_score_agent, "befor score agent")
+        # print(score_agent, "score_agent")
         print(gridmap[before_start_agent[0]][before_start_agent[1]],"gridmap[before_start_agent[0]][before_start_agent[1]]")
         print(gridmap[start_agent[0]][start_agent[1]],"gridmap[start_agent[0]][start_agent[1]]")
         print(gridmap[before_start_enemy[0]][before_start_enemy[1]],"gridmap[before_start_enemy[0]][before_start_enemy[1]]")
@@ -402,7 +402,7 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
                 gridmap[before_start_agent[0]][before_start_agent[1]] !='T' + character and gridmap[start_agent[0]][start_agent[1]]=='T' + character)) and (gridmap[before_start_enemy[0]][before_start_enemy[1]] == 'T' +character_enemy) and (
             before_start_enemy == start_enemy
         ):
-            print("im in hits")
+            #print("im in hits")
             count_of_hits += 1
 
         if start_enemy == previous_enemy_place and (start_enemy not in enemy_trap) and gridmap[start_enemy[0]][start_enemy[1]] != 'T'+character_enemy:
@@ -467,7 +467,8 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
         enemyturn = maxturn - turn
     else:
         enemyturn = maxturn - turn + 1
-
+    print(start_agent, " start agent")
+    print(start_enemy, " start enemy")
     next_move,next_move_enemy,max_depth,maxvalue = minmax1(gridmap, height, width, maxturn-turn+1, enemyturn, diamond, hole, start_agent[0], start_agent[1], start_enemy[0], start_enemy[1], trapcountinfo,depth_minmax, score_agent, score_enemy, diccolornumber_agent,diccolornumber_enemy,transposition, enemy_trap, agent_trap,transposition_size,max_depth,character,character_enemy)
     print(next_move, "next_move agent from minimax")
     print(next_move_enemy, "next_move enemy from minimax")
@@ -526,6 +527,4 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
 
 
 
-#برای چک کردن سیاه چاله ها یک متعیر گرفته که هر دفعه وقتی اکشن تلپورت بود پلاس میشود و در غیر این صورت صفر میشود
-#مقداری برای چک کردن گیر کردن در سیاه چاله بذاریم براساس تعداد سیاه چاله ها در نقشه
-# مقداری  که میخوایم چک کنیم با اسکور خودمون ربط بدیم
+
