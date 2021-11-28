@@ -1,7 +1,7 @@
 from dijkstraforAll import dijkstraforall
 from calculatedFunc import hash_key, sortmoves
 from queue import Queue
-from math import  inf
+from math import inf
 
 storedHkeys = Queue()
 max_value = float('-inf')
