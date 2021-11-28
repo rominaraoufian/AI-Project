@@ -21,9 +21,9 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,score_enemy,tr
       current_nodey = temp[2]
       scoredij = temp[4]
       actual_dist = temp[3]
-      if (current_nodex,current_nodey) in visited:
-          #print("im in visited continue")
-          continue
+      # if (current_nodex,current_nodey) in visited:
+      #     #print("im in visited continue")
+      #     continue
       visited[(current_nodex, current_nodey)] = True
       if gridmap[current_nodex][current_nodey] == 'T' or gridmap[current_nodex][current_nodey] == 'T' + character or gridmap[current_nodex][current_nodey] == 'T' + character_enemy:
           #print("im in dijkstra hole")
@@ -49,7 +49,7 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,score_enemy,tr
       #up
       flag = False
       flag_hit = False
-      if current_nodex - 1 >= 0 and gridmap[current_nodex - 1][current_nodey] == 'E' + character_enemy and gridmap[current_nodex-1][current_nodey] == 'T'+character_enemy:
+      if current_nodex - 1 >= 0 and (gridmap[current_nodex - 1][current_nodey] == 'E' + character_enemy or gridmap[current_nodex-1][current_nodey] == 'T'+character_enemy):
           flag_hit = True
       if (current_nodex-1 >= 0):
           if (current_nodex-1, current_nodey) in trap:
@@ -97,7 +97,7 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,score_enemy,tr
       #down
       flag = False
       flag_hit = False
-      if current_nodex + 1 < height and gridmap[current_nodex + 1][current_nodey] == 'E' + character_enemy and gridmap[current_nodex + 1][current_nodey] == 'T' + character_enemy:
+      if current_nodex + 1 < height and (gridmap[current_nodex + 1][current_nodey] == 'E' + character_enemy or gridmap[current_nodex + 1][current_nodey] == 'T' + character_enemy):
           flag_hit = True
       if (current_nodex+1 < height):
           if (current_nodex + 1, current_nodey) in trap:
@@ -144,7 +144,7 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,score_enemy,tr
       #left
       flag = False
       flag_hit = False
-      if current_nodey - 1 >= 0 and gridmap[current_nodex][current_nodey - 1] == 'E' + character_enemy and gridmap[current_nodex][current_nodey-1] == 'T'+character_enemy:
+      if current_nodey - 1 >= 0 and (gridmap[current_nodex][current_nodey - 1] == 'E' + character_enemy or gridmap[current_nodex][current_nodey-1] == 'T'+character_enemy):
           flag_hit = True
       if(current_nodey - 1 >= 0):
           if (current_nodex,current_nodey-1) in trap:
@@ -190,7 +190,7 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,score_enemy,tr
       #right
       flag = False
       flag_hit = False
-      if current_nodey + 1 < width and gridmap[current_nodex][current_nodey + 1] == 'E' + character_enemy and gridmap[current_nodex][current_nodey+1] == 'T'+character_enemy:
+      if current_nodey + 1 < width and (gridmap[current_nodex][current_nodey + 1] == 'E' + character_enemy or gridmap[current_nodex][current_nodey+1] == 'T'+character_enemy):
           flag_hit = True
       if current_nodey + 1 < width:
           if (current_nodex, current_nodey+1) in trap:

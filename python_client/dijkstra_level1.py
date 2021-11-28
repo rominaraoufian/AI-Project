@@ -27,7 +27,7 @@ def dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, scoredij,scor
             # up
             flag = False
             flag_hit = False
-            if current_nodex -1 >=0 and gridmap[current_nodex-1][current_nodey] == 'E'+character_enemy and gridmap[current_nodex-1][current_nodey] == 'T'+character_enemy:
+            if current_nodex -1 >=0 and (gridmap[current_nodex-1][current_nodey] == 'E'+character_enemy or gridmap[current_nodex-1][current_nodey] == 'T'+character_enemy):
                 flag_hit=True
             if current_nodex - 1 >= 0:
                 if (current_nodex - 1, current_nodey) in trap:
@@ -80,7 +80,7 @@ def dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, scoredij,scor
             flag = False
             flag_hit = False
 
-            if current_nodex + 1 < height and gridmap[current_nodex + 1][current_nodey] == 'E' + character_enemy and gridmap[current_nodex + 1][current_nodey] == 'T' + character_enemy:
+            if current_nodex + 1 < height and (gridmap[current_nodex + 1][current_nodey] == 'E' + character_enemy or gridmap[current_nodex + 1][current_nodey] == 'T' + character_enemy):
                 flag_hit = True
             if current_nodex + 1 < height:
                 if (current_nodex + 1, current_nodey) in trap:
@@ -133,7 +133,7 @@ def dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, scoredij,scor
             # left
             flag = False
             flag_hit = False
-            if current_nodey - 1 >= 0 and gridmap[current_nodex][current_nodey-1] == 'E' + character_enemy  and gridmap[current_nodex][current_nodey-1] == 'T' + character_enemy:
+            if current_nodey - 1 >= 0 and (gridmap[current_nodex][current_nodey-1] == 'E' + character_enemy  or gridmap[current_nodex][current_nodey-1] == 'T' + character_enemy):
                 flag_hit = True
             if current_nodey - 1 >= 0:
                 if (current_nodex, current_nodey - 1) in trap:
@@ -185,7 +185,7 @@ def dijkstra(gridmap, height, width, agentx, agenty, goalx, goaly, scoredij,scor
             # right
             flag = False
             flag_hit = False
-            if current_nodey + 1 < width and gridmap[current_nodex][current_nodey + 1] == 'E' + character_enemy and gridmap[current_nodex][current_nodey + 1] == 'T' + character_enemy:
+            if current_nodey + 1 < width and (gridmap[current_nodex][current_nodey + 1] == 'E' + character_enemy or gridmap[current_nodex][current_nodey + 1] == 'T' + character_enemy):
                 flag_hit = True
             if current_nodey + 1 < width:
                 if (current_nodex, current_nodey + 1) in trap:
