@@ -127,17 +127,17 @@ def trapornot(gridmap, height, width, next_move_agent, next_move_enemy, maxvalue
                         maxvaluefortrap = value
                         nextmove = (place[0], place[1])
 
-        elif gridmap[place[0]][place[1]] == 'E' and place_togo <= place[2] and score_agent > score_enemy:
-            value = ((20 - 3/2*(place_togo))*40)//100
-            if value >= maxvaluefortrap:
-                print("i choose trap0.............")
-                maxvaluefortrap = value
-                nextmove = (place[0], place[1])
-                print(nextmove, "nextmove" * 3)
-                print(value, "valuetrape", '~' * 35)
-        elif gridmap[place[0]][place[1]] == 'E'+character and place_togo == place[2]+1 and score_agent >= score_enemy:
+        # if gridmap[place[0]][place[1]] == 'E' and place_togo <= place[2] and score_agent > score_enemy:
+        #     value = ((20 - 3/2*(place_togo)))//100
+        #     if value >= maxvaluefortrap:
+        #         print("i choose trap0.............")
+        #         maxvaluefortrap = value
+        #         nextmove = (place[0], place[1])
+        #         print(nextmove, "nextmove" * 3)
+        #         print(value, "valuetrape", '~' * 30)
+        if gridmap[place[0]][place[1]] == 'E'+character and place_togo == place[2]+1 and score_agent >= score_enemy:
 
-            value = ((20) * 40) // 100
+            value = (60) // 100
             if value >= maxvaluefortrap:
                 print("i choose trap0.............")
                 maxvaluefortrap = value
@@ -147,18 +147,18 @@ def trapornot(gridmap, height, width, next_move_agent, next_move_enemy, maxvalue
 
     # write code for hit
 
-    if (gridmap[next_move_agent[0]][next_move_agent[1]] == 'T') or (gridmap[next_move_agent[0]][next_move_agent[1]] == 'T' + character) and (
-        (gridmap[next_move_enemy[0]][next_move_enemy[1]] != 'T') or (gridmap[next_move_enemy[0]][next_move_enemy[1]] != 'T' + character_enemy)):
-
-            for item in dicfordiamond:
-                if (item[3] == 10) and (dicfordiamond['y'] < 15) and (dicforall[(item[0],item[1])] != inf):
-                    flagdiamond = True
-                elif (item[3] == 25) and (dicfordiamond['g'] < 8) and (score_agent - dicfordiamond[(item[0],item[1])][0] >= 15):
-                    flagdiamond = True
-                elif (item[3] == 35) and (dicfordiamond['r'] < 5) and (score_agent - dicfordiamond[(item[0], item[1])][0] >= 50):
-                    flagdiamond = True
-                elif (item[3] == 75) and (dicfordiamond['b'] < 4) and (score_agent - dicfordiamond[(item[0], item[1])][0] >= 140):
-                    flagdiamond = True
+    # if (gridmap[next_move_agent[0]][next_move_agent[1]] == 'T') or (gridmap[next_move_agent[0]][next_move_agent[1]] == 'T' + character) and (
+    #     (gridmap[next_move_enemy[0]][next_move_enemy[1]] != 'T') or (gridmap[next_move_enemy[0]][next_move_enemy[1]] != 'T' + character_enemy) ) and (not flagdiamond):
+    #
+    #         for item in dicfordiamond:
+    #             if (item[2] == 10) and (dicfordiamond['y'] < 15) and (dicforall[(item[0],item[1])] != inf):
+    #                 flagdiamond = True
+    #             elif (item[2] == 25) and (dicfordiamond['g'] < 8) and (dicfordiamond[(item[0], item[1])][1] >= 15):
+    #                 flagdiamond = True
+    #             elif (item[2] == 35) and (dicfordiamond['r'] < 5) and (dicfordiamond[(item[0], item[1])][1] >= 50):
+    #                 flagdiamond = True
+    #             elif (item[2] == 75) and (dicfordiamond['b'] < 4) and (dicfordiamond[(item[0], item[1])][1] >= 140):
+    #                 flagdiamond = True
 
 
 

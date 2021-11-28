@@ -1,7 +1,7 @@
 from dijkstraforAll import dijkstraforall
 from calculatedFunc import hash_key, sortmoves
 from queue import Queue
-from math import  inf
+from math import inf
 
 storedHkeys = Queue()
 max_value = float('-inf')
@@ -35,6 +35,7 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
         #transposition value (exact,lowerbound,upperbound,depth)
         #transpositiontable[hash_state][3] >= level or transpositiontable[hash_state][3] <= level because position of  add value
         if (hash_state in transpositiontable) and (transpositiontable[hash_state][3] <= level):
+            print("im in hash")
             if transpositiontable[hash_state][0] != float('inf'):
                 return transpositiontable[hash_state][0]
             if (transpositiontable[hash_state][1] != float('inf')) and (is_max_turn) :

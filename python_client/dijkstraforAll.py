@@ -58,7 +58,7 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,score_enemy,tr
          (gridmap[current_nodex-1][current_nodey] == 'E') or (gridmap[current_nodex-1][current_nodey] == 'T')or(gridmap[current_nodex-1][current_nodey]=="E"+character) or(gridmap[current_nodex-1][current_nodey]=="T"+character) or flag or(
          (gridmap[current_nodex-1][current_nodey] == '1') or (gridmap[current_nodex-1][current_nodey] == '2') or (gridmap[current_nodex-1][current_nodey] == '3') or (gridmap[current_nodex-1][current_nodey] == '4')) or flag_hit):
 
-          print("im in up")
+          # print("im in up")
           if (current_nodex-1, current_nodey) not in distancelist:
               if flag:
                 distancelist[(current_nodex - 1, current_nodey)] = dist + 41
@@ -196,7 +196,7 @@ def dijkstraforall(gridmap,height, width, agentx,agenty, scoredij,score_enemy,tr
       if (current_nodey + 1 < width) and ((current_nodex, current_nodey+1) not in visited) and (
          (gridmap[current_nodex][current_nodey+1] == 'E') or (gridmap[current_nodex][current_nodey+1] == 'T') or (gridmap[current_nodex][current_nodey+1]=="E"+character)or (gridmap[current_nodex][current_nodey+1]=="T"+character) or flag  or(
          (gridmap[current_nodex][current_nodey+1] == '1') or (gridmap[current_nodex][current_nodey+1] == '2') or (gridmap[current_nodex][current_nodey+1] == '3') or (gridmap[current_nodex][current_nodey+1] == '4')) or flag_hit):
-          print("im in right",current_nodex,current_nodey,actual_dist)
+          # print("im in right",current_nodex,current_nodey,actual_dist)
           if (current_nodex, current_nodey + 1) not in distancelist:
               if flag :
                   distancelist[(current_nodex, current_nodey + 1)] = dist + 41

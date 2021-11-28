@@ -382,7 +382,7 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
         previous_enemy_place = start_enemy
         prevous_enemy_score = score_enemy
         before_start_agent = start_agent
-        before_start_enemy= start_enemy
+        before_start_enemy = start_enemy
         for i in range(0, height):
             for j in range(0, width):
                 s = str(gridmap[i][j])
@@ -391,18 +391,18 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
                 if s.find(character_enemy) != -1:
                     start_enemy = (i, j)
 
-        print(befor_score_agent, "befor score agent")
-        print(score_agent, "score_agent")
-        print(gridmap[before_start_agent[0]][before_start_agent[1]],"gridmap[before_start_agent[0]][before_start_agent[1]]")
-        print(gridmap[start_agent[0]][start_agent[1]],"gridmap[start_agent[0]][start_agent[1]]")
-        print(gridmap[before_start_enemy[0]][before_start_enemy[1]],"gridmap[before_start_enemy[0]][before_start_enemy[1]]")
-        print(gridmap[start_enemy[0]][start_enemy[1]],"gridmap[start_enemy[0]][start_enemy[1]]== 'T'+character_enemy")
+        print(befor_score_agent, "befor score agent in getinfo")
+        print(score_agent, "score_agent in getinfo")
+        print(gridmap[before_start_agent[0]][before_start_agent[1]],"gridmap[before_start_agent[0]][before_start_agent[1]] in getinfo")
+        print(gridmap[start_agent[0]][start_agent[1]],"gridmap[start_agent[0]][start_agent[1]] in getinfo")
+        print(gridmap[before_start_enemy[0]][before_start_enemy[1]],"gridmap[before_start_enemy[0]][before_start_enemy[1]] in  getinfo")
+        print(gridmap[start_enemy[0]][start_enemy[1]],"gridmap[start_enemy[0]][start_enemy[1]]== 'T'+character_enemy in get info")
 
         if (befor_score_agent - score_agent == 21) and ((gridmap[before_start_agent[0]][before_start_agent[1]]=='T' + character and before_start_agent == start_agent) or(
                 gridmap[before_start_agent[0]][before_start_agent[1]] !='T' + character and gridmap[start_agent[0]][start_agent[1]]=='T' + character)) and (gridmap[before_start_enemy[0]][before_start_enemy[1]] == 'T' +character_enemy) and (
             before_start_enemy == start_enemy
         ):
-            print("im in hits")
+            print(count_of_hits,"im in hits in getinfo")
             count_of_hits += 1
 
         if start_enemy == previous_enemy_place and (start_enemy not in enemy_trap) and gridmap[start_enemy[0]][start_enemy[1]] != 'T'+character_enemy:
@@ -482,8 +482,8 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
     trapnumber = len(agent_trap)
     if score_agent >= 35*(trapnumber+1) and trapnumber < trapcountinfo:
         next_move_trap, maxvaluefortrap, flagdiamond = trapornot(gridmap,height, width, next_move, next_move_enemy, maxvalue, score_agent, score_enemy, start_agent, start_enemy, 35 * (trapnumber+1), diccolornumber_agent, diccolornumber_enemy, agent_trap, enemy_trap, character, character_enemy)
-        if (flagdiamond == False) and next_move_trap != ():
-            maxvaluefortrap = maxvalue + 1
+        # if (flagdiamond == False) and next_move_trap != ():
+        #     maxvaluefortrap = maxvalue + 1
     if next_move_trap != () and maxvaluefortrap > maxvalue:
         next_move = next_move_trap
     if not next_move == ():
