@@ -34,7 +34,9 @@ max_depth = 0
 trapcountinfo = 0
 holecounter = 0
 befor_score_agent=0
-
+count_of_hits=0
+before_start_agent=0
+before_start_enemy=0
 
 def getinfo(gridmap, height, width, character,scoreinitial):
     global diamond
@@ -326,9 +328,12 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
     global trapcountinfo
     global holecounter
     global befor_score_agent
-
-    score_agent = scoreinitial
-    score_enemy = scoreinitial
+    global count_of_hits
+    global before_start_agent
+    global before_start_enemy
+    if turn == 1:
+      score_agent = scoreinitial
+      score_enemy = scoreinitial
 
     if character == 'A':
         character_enemy = 'B'
@@ -346,6 +351,7 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
         score_agent = scores[1]
 
     if turn == 1:
+
         for i in range(0, height):
             for j in range(0, width):
                 s = str(gridmap[i][j])
@@ -375,6 +381,8 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
     if turn != 1:
         previous_enemy_place = start_enemy
         prevous_enemy_score = score_enemy
+        before_start_agent = start_agent
+        before_start_enemy= start_enemy
         for i in range(0, height):
             for j in range(0, width):
                 s = str(gridmap[i][j])
@@ -383,8 +391,21 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
                 if s.find(character_enemy) != -1:
                     start_enemy = (i, j)
 
+        print(befor_score_agent, "befor score agent")
+        print(score_agent, "score_agent")
+        print(gridmap[before_start_agent[0]][before_start_agent[1]],"gridmap[before_start_agent[0]][before_start_agent[1]]")
+        print(gridmap[start_agent[0]][start_agent[1]],"gridmap[start_agent[0]][start_agent[1]]")
+        print(gridmap[before_start_enemy[0]][before_start_enemy[1]],"gridmap[before_start_enemy[0]][before_start_enemy[1]]")
+        print(gridmap[start_enemy[0]][start_enemy[1]],"gridmap[start_enemy[0]][start_enemy[1]]== 'T'+character_enemy")
 
-        if start_enemy == previous_enemy_place and (start_enemy not in enemy_trap):
+        if (befor_score_agent - score_agent == 21) and ((gridmap[before_start_agent[0]][before_start_agent[1]]=='T' + character and before_start_agent == start_agent) or(
+                gridmap[before_start_agent[0]][before_start_agent[1]] !='T' + character and gridmap[start_agent[0]][start_agent[1]]=='T' + character)) and (gridmap[before_start_enemy[0]][before_start_enemy[1]] == 'T' +character_enemy) and (
+            before_start_enemy == start_enemy
+        ):
+            print("im in hits")
+            count_of_hits += 1
+
+        if start_enemy == previous_enemy_place and (start_enemy not in enemy_trap) and gridmap[start_enemy[0]][start_enemy[1]] != 'T'+character_enemy:
             enemy_trap.append(start_enemy)
 
         if (start_enemy[0], start_enemy[1], 10) in diamond:
@@ -452,7 +473,7 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
     print(next_move_enemy, "next_move enemy from minimax")
     print(maxvalue, "max value from minimax")
 
-    next_move_holeOrnot, max_valueholeOrnot = holeornot(gridmap, height,width,holecounter, hole, score_agent, score_enemy, agent_trap, enemy_trap, befor_score_agent,start_agent,start_enemy,next_move,next_move_enemy,character,character_enemy, maxvalue)
+    next_move_holeOrnot, max_valueholeOrnot = holeornot(gridmap, height,width,holecounter, hole, score_agent, score_enemy, agent_trap, enemy_trap, befor_score_agent,start_agent,start_enemy,next_move,next_move_enemy,character,character_enemy, maxvalue,count_of_hits)
     if max_valueholeOrnot > maxvalue:
         maxvalue = max_valueholeOrnot
         next_move = next_move_holeOrnot
@@ -475,7 +496,9 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
            holecounter += 1
 
        else:
+
            holecounter -= 1
+
 
        return next_action
 
