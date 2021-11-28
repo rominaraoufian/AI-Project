@@ -26,7 +26,7 @@ def holeornot(gridmap, height,width,holecounter, hole, score_agent, score_enemy,
     if gridmap[start_agent[0]][start_agent[1]] == 'T' + character and gridmap[next_move[0]][next_move[1]] == 'T'+character:
         print("im in hole or not start and nextmove = t")
 
-        if (holecounter >= maximun_holecounter) or (count_of_hits > holenumber//2):
+        if (holecounter >= maximun_holecounter) or (count_of_hits >= holenumber//2):
             if gridmap[start_enemy[0]][start_enemy[1]] == 'T' + character_enemy and gridmap[next_move_enemy[0]][next_move_enemy[1]] == 'T'+character_enemy:
                 if score_agent < score_enemy:
                     if (sx-1 >= 0) and (gridmap[sx-1][sy] != 'W') and (gridmap[sx-1][sy] != 'T') and (gridmap[sx-1][sy] != 'T'+character_enemy) and ((sx-1,sy) not in enemy_trap):

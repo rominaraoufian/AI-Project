@@ -234,6 +234,7 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
                     visited_diamond.pop(d, None)
 
             sort_hole_list = sortmoves(dicdistancehole,remain_turn_agent,diccolor_number_copy_agent)
+            print(sort_hole_list,"sort hle list")
             for hole in sort_hole_list:
                 h = (hole[0], hole[1])
                 calculatescore = dicdistancehole[hole][1]
@@ -249,11 +250,11 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
                     result_return = (value_hole // (len(holedic) - 1))
 
                 if (best_value < result_return) and (level == 0) and (result_return < beta):
-
                      next_move = h
                 best_value = max(best_value, result_return)
                 alpha = max(alpha, best_value)
                 if beta <= alpha:
+                    print("im in haras")
                     if (hash_state in transpositiontable) and (transpositiontable[hash_state][3] > level):
                         max_depth_new = max(max_depth_new, level)
                         transpositiontable[hash_state] = (transpositiontable[hash_state][0], best_value, transpositiontable[hash_state][2], level)

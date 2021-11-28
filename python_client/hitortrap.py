@@ -48,8 +48,11 @@ def hitortrap(gridmap, height, width, next_move_enemy, score_agent, score_enemy,
 
    else:
        if score_agent >= score_enemy:
-          nextmove = start_enemy
-          maxvaluefortrap = 1
+          print(dicforall[start_enemy[0]][start_enemy[1]],"dicforall[start_enemy[0]][start_enemy[1]] in hitortrap")
+          if (dicforall[start_enemy[0]][start_enemy[1]][0] != inf):
+              print("im in scoreagent scoreenemy")
+              nextmove = start_enemy
+              maxvaluefortrap = 1
 
        else:
            sx = start_agent[0]
@@ -61,19 +64,19 @@ def hitortrap(gridmap, height, width, next_move_enemy, score_agent, score_enemy,
            print((maxvaluefortrap < dicforall[sx - 1][sy][0]), "(maxvaluefortrap < dicforall[sx + 1][sy][0]")
            print(dicforall[ex][ey][0] < dicforall[sx - 1][sy][0], "dicforall[ex][ey][0] < dicforall[sx + 1][sy][0])")
            print(';' * 20)
-           if (( sx-1 >= 0)and (gridmap[sx-1][sy] != 'W') and (gridmap[sx-1][sy] != 'E'+character_enemy) and (
+           if ((sx-1 >= 0) and (dicforall[sx-1][sy][0] != inf)and (gridmap[sx-1][sy] != 'W') and (gridmap[sx-1][sy] != 'E'+character_enemy) and (gridmap[sx-1][sy] != 'T'+character_enemy)and (
                    dicforall[ex][ey][0] <= dicforall[sx-1][sy][0]) and ((sx-1,sy) not in enemy_trap) and (maxvaluefortrap < dicforall[sx-1][sy][0])):
                 nextmove = (sx-1, sy)
                 maxvaluefortrap = dicforall[sx-1][sy][0]
-           if ((sx + 1 < height) and (dicforall[ex][ey][0] <= dicforall[sx + 1][sy][0]) and (gridmap[sx+1][sy] != 'W') and (gridmap[sx+1][sy] != 'E'+character_enemy) and (
+           if ((sx + 1 < height) and (dicforall[sx+1][sy][0] != inf) and (dicforall[ex][ey][0] <= dicforall[sx + 1][sy][0]) and (gridmap[sx+1][sy] != 'W') and (gridmap[sx+1][sy] != 'E'+character_enemy) and (gridmap[sx+1][sy] != 'T'+character_enemy) and (
                    (sx + 1, sy) not in enemy_trap) and (maxvaluefortrap < dicforall[sx + 1][sy][0])):
                nextmove = (sx + 1, sy)
                maxvaluefortrap = dicforall[sx + 1][sy][0]
-           if ((sy - 1 >= 0) and (dicforall[ex][ey][0] <= dicforall[sx][sy-1][0]) and(gridmap[sx][sy-1] != 'W') and (gridmap[sx][sy-1] != 'E'+character_enemy) and (
+           if ((sy - 1 >= 0) and (dicforall[sx][sy-1][0] != inf) and (dicforall[ex][ey][0] <= dicforall[sx][sy-1][0]) and(gridmap[sx][sy-1] != 'W') and (gridmap[sx][sy-1] != 'E'+character_enemy) and (gridmap[sx][sy-1] != 'T'+character_enemy)  and (
                    (sx , sy-1) not in enemy_trap) and (maxvaluefortrap < dicforall[sx ][sy-1][0])):
                nextmove = (sx, sy-1)
                maxvaluefortrap = dicforall[sx][sy-1][0]
-           if ((sy + 1 < width) and (dicforall[ex][ey][0] <= dicforall[sx][sy+1][0]) and (gridmap[sx][sy+1] != 'W') and (gridmap[sx][sy+1] != 'E'+character_enemy) and (
+           if ((sy + 1 < width) and (dicforall[sx][sy+1][0] != inf) and (dicforall[ex][ey][0] <= dicforall[sx][sy+1][0]) and (gridmap[sx][sy+1] != 'W') and (gridmap[sx][sy+1] != 'E'+character_enemy)and (gridmap[sx][sy+1] != 'T'+character_enemy) and (
                    (sx , sy+1) not in enemy_trap) and (maxvaluefortrap < dicforall[sx][sy+1][0])):
                nextmove = (sx, sy+1)
                maxvaluefortrap = dicforall[sx][sy+1][0]

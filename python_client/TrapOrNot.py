@@ -152,6 +152,7 @@ def trapornot(gridmap, height, width, next_move_agent, next_move_enemy, maxvalue
 
     # write code for hit
 
+
     if not flagdiamond:
 
             for item in dicfordiamond:
@@ -163,6 +164,7 @@ def trapornot(gridmap, height, width, next_move_agent, next_move_enemy, maxvalue
                     flagdiamond = True
                 elif (item[2] == 75) and (diccolornumber_agent['b'] < 4) and (dicfordiamond[(item[0], item[1])][1] >= 140):
                     flagdiamond = True
+
 
 
 
