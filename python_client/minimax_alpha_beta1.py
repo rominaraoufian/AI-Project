@@ -66,22 +66,6 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
 
                 #value = ( - 8/10*(scoreenemy - current_score_enemy))
 
-            # if value > max_value:
-            #     max_value = value
-            #     for keyvisited, valuevisited in visited_diamond.items():
-            #
-            #         #print(keyvisited,valuevisited,"keyvisited , valuevisited")
-            #
-            #         if valuevisited[1] == 0:
-            #             next_move = keyvisited
-            #         if valuevisited[1] == 1:
-            #             next_move_enemy = keyvisited
-            #
-            #     for keyvisited, valuevisited in visited_hole.items():
-            #         if valuevisited[1] == 0:
-            #             next_move = (keyvisited[0], keyvisited[1])
-            #         if valuevisited[1] == 1:
-            #             next_move_enemy = (keyvisited[0], keyvisited[1])
 
             #print(value, max_value, "value, max_value")
 
@@ -92,8 +76,6 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
                 if len(visited_diamond) == 0:
                     value=(((20 * ((score_agent - current_score_agent) - (4/10*(score_enemy - current_score_enemy)))) + (
                     (80 * (remain_turn_agent - 1/10 *remain_turn_enemy)))) // 100)
-
-
                 else:
                     value = (((20 * ((score_agent - current_score_agent) - (4/10*(score_enemy - current_score_enemy)))) + (
                         (80 * (remain_turn_agent - 1/10 *remain_turn_enemy)))) // 100)
@@ -101,23 +83,6 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
             else:
                 value = (1 / 10 * (remain_turn_agent))
 
-                #value = ( - 8/10*(scoreenemy - current_score_enemy))
-
-            # if value > max_value:
-            #     max_value = value
-            #     for keyvisited, valuevisited in visited_diamond.items():
-            #         if valuevisited[1] == 0:
-            #             next_move = keyvisited
-            #         if valuevisited[1] == 1:
-            #             next_move_enemy = keyvisited
-            #
-            #     for keyvisited, valuevisited in visited_hole.items():
-            #         if valuevisited[1] == 0:
-            #             next_move = (keyvisited[0], keyvisited[1])
-            #         if valuevisited[1] == 1:
-            #             next_move_enemy = (keyvisited[0], keyvisited[1])
-
-            #print(value, max_value, "value, max_value")
             return value
 
         if len(diamonddic) == len(visited_diamond):
@@ -131,23 +96,6 @@ def minmax1(gridmap, height, width, turn_agent, turn_enemy, diamonddic, holedic,
             else:
                 value = (1 / 10 * (remain_turn_agent))
 
-                #value = (- 8/10*(scoreenemy - current_score_enemy))
-
-            # if value > max_value:
-            #     max_value = value
-            #     for keyvisited, valuevisited in visited_diamond.items():
-            #         if valuevisited[1] == 0:
-            #             next_move = keyvisited
-            #         if valuevisited[1] == 1:
-            #             next_move_enemy = keyvisited
-            #
-            #     for keyvisited, valuevisited in visited_hole.items():
-            #         if valuevisited[1] == 0:
-            #             next_move = (keyvisited[0], keyvisited[1])
-            #         if valuevisited[1] == 1:
-            #             next_move_enemy = (keyvisited[0], keyvisited[1])
-            # print(value, max_value, "value, max_value")
-            #print(value, "value")
             return value
         #if dicdistance is empty
 

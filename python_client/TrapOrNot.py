@@ -59,11 +59,12 @@ def trapornot(gridmap, height, width, next_move_agent, next_move_enemy, maxvalue
     value = float('-inf')
     minplace=float('inf')
     flagdiamond = True
-    if (gridmap[next_move_agent[0]][next_move_agent[1]] == 'T') or (
-                gridmap[next_move_agent[0]][next_move_agent[1]] == 'T' + character) and (
-            (gridmap[next_move_enemy[0]][next_move_enemy[1]] != 'T') or (
-                gridmap[next_move_enemy[0]][next_move_enemy[1]] != 'T' + character_enemy)):
-        flagdiamond = False
+    if next_move_agent != ():
+        if (gridmap[next_move_agent[0]][next_move_agent[1]] == 'T') or (
+                    gridmap[next_move_agent[0]][next_move_agent[1]] == 'T' + character) and (
+                (gridmap[next_move_enemy[0]][next_move_enemy[1]] != 'T') or (
+                    gridmap[next_move_enemy[0]][next_move_enemy[1]] != 'T' + character_enemy)):
+            flagdiamond = False
     #print(enemyway, " enemyway")
     #if (gridmap[next_move_agent[0]][next_move_agent[1]] != 'T') or  (gridmap[next_move_agent[0]][next_move_agent[1]] != 'T' + character):
     while not enemyway.empty():
