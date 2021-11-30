@@ -482,8 +482,8 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
     trapnumber = len(agent_trap)
     if score_agent >= 35*(trapnumber+1) and trapnumber < trapcountinfo:
         next_move_trap, maxvaluefortrap, flagdiamond = trapornot(gridmap,height, width, next_move, next_move_enemy, maxvalue, score_agent, score_enemy, start_agent, start_enemy, 35 * (trapnumber+1), diccolornumber_agent, diccolornumber_enemy, agent_trap, enemy_trap, character, character_enemy)
-        if (flagdiamond == False) and next_move_trap != ():
-            maxvaluefortrap = maxvalue + 1
+        # if (flagdiamond == False) and next_move_trap != ():
+        #     maxvaluefortrap = maxvalue + 1
     if next_move_trap != () and maxvaluefortrap > maxvalue:
         next_move = next_move_trap
     if not next_move == ():
