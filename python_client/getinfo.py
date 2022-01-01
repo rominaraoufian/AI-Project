@@ -7,7 +7,8 @@ from minimax_alpha_beta1 import minmax1
 from TrapOrNot import trapornot
 from hitortrap import hitortrap
 from HoleorNot import holeornot
-
+import numpy as np
+import qlearning
 #change diamondlist to dictionary, should other functions
 diamond = {}
 hole = {}
@@ -525,6 +526,86 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
         else:
            return 'n'
 
+
+
+
+def getinfophasee3(gridmap, height, width, turn, maxturn, character,scoreinitial, scores, timelimit):
+     global diamond
+     global hole
+     global walls
+     global start_agent
+     q_values = np.zeros((height, width, 5))
+     rewards = np.full((height, width), 0.)
+
+     for i in range(0, height):
+         for j in range(0, width):
+             if gridmap[i][j] == 'W':
+                 walls += 1
+             if gridmap[i][j] == 'T':
+                 hole[(i, j, 0)] = True
+                 rewards[i][j] = -1
+             if gridmap[i][j] == '1':
+                 diamond[(i, j, 10)] = True
+                 rewards[i][j] = 10
+             if gridmap[i][j] == '2':
+                 diamond[(i, j, 25)] = True
+                 rewards[i][j] = 25
+             if gridmap[i][j] == '3':
+                 diamond[(i, j, 35)] = True
+                 rewards[i][j] = 35
+             if gridmap[i][j] == '4':
+                 diamond[(i, j, 75)] = True
+                 rewards[i][j] = 75
+             if gridmap[i][j] == character:
+                 start_agent = (i,j)
+             if gridmap[i][j] == 'E' or gridmap[i][j] == 'E'+character:
+                 rewards[i][j] = -1
+
+     episodes = 1000
+     epsilon = 1
+     learning_rate = 0.9
+     discount_factor = 0.9
+     reduce_epsilon = 0.1
+     turns = maxturn-turn
+     for i in range (episodes):
+
+        diamond_copy = diamond.copy()
+        rewards_copy = rewards.copy()
+        observation = (start_agent, turns, diamond_copy, diccolornumber_agent)
+        location_agent = start_agent
+        diccolornumber_agent = {'y' : 0, 'b': 0, 'g': 0, 'r': 0}
+        while not qlearning.is_terminal(observation):
+
+            action_agent = qlearning.getNextAction(observation, height, width, hole, score_agent, epsilon)
+            location_agent_old = observation[0]
+            location_agent_new = qlearning.getlocation(action_agent, location_agent_old)
+            # delete diamond that we get in action from diamond_copy
+            reward = qlearning.getreward(rewards_copy, location_agent_new, score_agent)
+            if reward == 10:
+                del diamond_copy[(observation[0][0], observation[0][1], 10)]
+                rewards_copy[observation[0][0]] [observation[0][1]] = -1
+                diccolornumber_agent['y'] += 1
+            if reward == 25:
+                del diamond_copy[(observation[0][0], observation[0][1], 25)]
+                rewards_copy[observation[0][0]][observation[0][1]] = -1
+                diccolornumber_agent['g'] += 1
+            if reward == 35:
+                del diamond_copy[(observation[0][0], observation[0][1], 35)]
+                rewards_copy[observation[0][0]][observation[0][1]] = -1
+                diccolornumber_agent['r'] += 1
+            if reward == 75:
+                 del diamond_copy[(observation[0][0], observation[0][1], 75)]
+                 rewards_copy[observation[0][0]][observation[0][1]] = -1
+                 diccolornumber_agent['b'] += 1
+
+            observation = (location_agent_new, turns-1, diamond_copy, diccolornumber_agent)
+
+            old_q_value = q_values[location_agent_old[0],location_agent_old[1], action_agent]
+            temporal_difference = reward + (discount_factor * np.max(q_values[location_agent_new[0], location_agent_new[1]])) - old_q_value
+            new_q_value = old_q_value + (learning_rate * temporal_difference)
+            q_values[location_agent_old[0], location_agent_old[1], action_agent] = new_q_value
+
+        epsilon *= reduce_epsilon
 
 
 
