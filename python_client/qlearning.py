@@ -21,41 +21,61 @@ def getNextAction(observation, gridmap, height, width, hole, score_agent,charact
 
     if np.random.random() > epsilon:
         #q_values[agentx][agenty]?
-        return np.argmax(q_values[agentx, agenty,submask_copy])
-    else:
-        flag =False
-        while not flag:
-            if gridmap[agentx][agenty] == 'T' + character or gridmap[agentx][agenty] == 'T':
-                action = np.random.randint(5)
+        # print("summask",bin(submask_copy))
+        # print("action ",q_values[agentx, agenty,submask_copy])
+        action = np.argmax(q_values[agentx, agenty,submask_copy])
+        if action == 2:
+            if agentx - 1 >= 0 and gridmap[agentx - 1][agenty] != 'W':
+                return action
 
-            else:
-                action = np.random.randint(4)
+        if action == 3:
+            if agentx + 1 < height and gridmap[agentx + 1][agenty] != 'W':
+                return action
 
-            # 0=>left,1=>right,2=>up,3=>down,4=>teleport
-            if action == 2:
-                if agentx-1 > 0 and gridmap[agentx-1][agenty] != 'W':
-                    flag=True
+        if action == 0:
+            if agenty - 1 >= 0 and gridmap[agentx][agenty - 1] != 'W':
+                return action
 
-            if action == 3:
-                if agentx + 1 < height and gridmap[agentx + 1][agenty] != 'W':
-                    flag=True
+        if action == 1:
+            if agenty + 1 < width and gridmap[agentx][agenty + 1] != 'W':
+                return action
+        if action == 4:
+            return action
 
-            if action == 0:
-                if agenty - 1 > 0 and gridmap[agentx][agenty-1] != 'W':
-                    flag = True
 
-            if action == 1:
-                if agenty + 1 < width and gridmap[agentx][agenty+1] != 'W':
-                    flag = True
-            if action == 4:
+    flag =False
+    while not flag:
+        if gridmap[agentx][agenty] == 'T' + character or gridmap[agentx][agenty] == 'T':
+            action = np.random.randint(5)
+        else:
+            action = np.random.randint(4)
+
+        # 0=>left,1=>right,2=>up,3=>down,4=>teleport
+        if action == 2:
+            if agentx-1 >= 0 and gridmap[agentx-1][agenty] != 'W':
                 flag=True
 
-        return action
+        if action == 3:
+            if agentx + 1 < height and gridmap[agentx + 1][agenty] != 'W':
+                flag=True
+
+        if action == 0:
+            if agenty - 1 >= 0 and gridmap[agentx][agenty-1] != 'W':
+                flag = True
+
+        if action == 1:
+            if agenty + 1 < width and gridmap[agentx][agenty+1] != 'W':
+                flag = True
+        if action == 4:
+            flag=True
+
+    return action
 
 
 def getlocation(action_agent, location_agent_old, holes):
     list_location = []
     # 0=>left,1=>right,2=>up,3=>down,4=>teleport
+    # print(action_agent,"actionagent")
     if action_agent == 0:
         # list_location.append((location_agent_old[0], location_agent_old[1]-1))
         return (location_agent_old[0], location_agent_old[1]-1)
@@ -72,8 +92,11 @@ def getlocation(action_agent, location_agent_old, holes):
         for hole in holes:
             if hole != (location_agent_old[0], location_agent_old[1], 0):
                 list_location.append((hole[0], hole[1]))
-        num_random = np.randomrandint(len(list_location))
+
+        num_random = np.random.randint(len(list_location))
+
         return list_location[num_random]
+
 
     # return list_location
 
