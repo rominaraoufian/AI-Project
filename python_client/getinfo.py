@@ -38,7 +38,8 @@ befor_score_agent=0
 count_of_hits=0
 before_start_agent=0
 before_start_enemy=0
-
+diamond_list = []
+score_old = 0
 def getinfo(gridmap, height, width, character,scoreinitial):
     global diamond
     global hole
@@ -529,13 +530,14 @@ def getinfophase2_1(gridmap, height, width, turn, maxturn, character,scoreinitia
 
 
 
-def getinfophasee3(gridmap, height, width, turn, maxturn, character,scoreinitial, scores, timelimit):
+def learning_func(gridmap, height, width, turn, maxturn, character,scoreinitial, scores, timelimit):
      global diamond
      global hole
      global walls
      global start_agent
+     global diamond_list
      rewards = np.full((height, width), 0.)
-     diamond_list = []
+
      for i in range(0, height):
          for j in range(0, width):
              if gridmap[i][j] == 'W':
@@ -559,7 +561,7 @@ def getinfophasee3(gridmap, height, width, turn, maxturn, character,scoreinitial
                  diamond[(i, j, 75)] = True
                  rewards[i][j] = 75
                  diamond_list.append((i, j, 75))
-             if gridmap[i][j] == character:
+             if gridmap[i][j][1:] == character:
                  start_agent = (i,j)
              if gridmap[i][j] == 'E' or gridmap[i][j] == 'E'+character:
                  rewards[i][j] = -1
@@ -574,6 +576,7 @@ def getinfophasee3(gridmap, height, width, turn, maxturn, character,scoreinitial
 
 
      for i in range(episodes):
+        print("im in episode", i)
         submask_copy = submask-1
         turns = maxturn - turn + 1
         score_agent = scoreinitial[0]
@@ -622,13 +625,62 @@ def getinfophasee3(gridmap, height, width, turn, maxturn, character,scoreinitial
             observation = (location_agent_new, turns-1, diamond_copy, diccolornumber_agent)
 
             old_q_value = q_values[location_agent_old[0],location_agent_old[1],submask_copy, action_agent]
-            temporal_difference = reward + (discount_factor * np.max(q_values[location_agent_new[0], location_agent_new[1]])) - old_q_value
+            temporal_difference = reward + (discount_factor * np.max(q_values[location_agent_new[0], location_agent_new[1], submask_copy])) - old_q_value
             new_q_value = old_q_value + (learning_rate * temporal_difference)
             q_values[location_agent_old[0], location_agent_old[1],submask_copy, action_agent] = new_q_value
             score_agent -= 1
-            submask_copy=submask_copy_new
-
+            submask_copy = submask_copy_new
+        print("reward is" , reward )
         epsilon *= reduce_epsilon
 
+     return q_values
 
 
+def getinfophase3(gridmap, height, width, turn, maxturn, character,scoreinitial, scores, timelimit):
+    print("im in turn " , turn)
+    global diamond_list
+    global score_old
+    agentx = 0
+    agenty = 0
+    for i in range(height):
+        for j in range(width):
+            if gridmap[i][j][1:] == character:
+                agentx = i
+                agenty = j
+                break
+    if turn==1:
+
+        score_old = scoreinitial[0]
+        submask = (1 << len(diamond_list))
+        submask -= 1
+        q_values = learning_func(gridmap, height, width, turn, maxturn, character,scoreinitial, scores, timelimit)
+
+
+    if scores - score_old == 9:
+        index_diamond = diamond_list.index((agentx,agenty,10))
+        submask = submask & (~(1 << index_diamond))
+    if scores - score_old == 24:
+        index = diamond_list.index((agentx, agenty, 25))
+        submask = submask & (~(1 << index_diamond))
+    if scores - score_old == 34:
+        index_diamond = diamond_list.index((agentx, agenty, 35))
+        submask = submask & (~(1 << index_diamond))
+    if scores - score_old == 74:
+        index = diamond_list.index((agentx, agenty, 75))
+        submask = submask & (~(1 << index_diamond))
+
+
+    score_old = scores
+
+    action = np.max(q_values[agentx, agenty, submask])
+    # 0=>left,1=>right,2=>up,3=>down,4=>teleport
+    if action == 0:
+        return 'l'
+    if action == 1:
+        return 'r'
+    if action == 2:
+        return 'u'
+    if action == 3:
+        return 'd'
+    if action== 4:
+        return 't'
