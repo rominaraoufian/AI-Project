@@ -572,8 +572,7 @@ def learning_func(gridmap, height, width, turn, maxturn, character,scoreinitial,
      discount_factor = 0.9
      reduce_epsilon = 0.4
      submask = 1 << len(diamond)
-     q_values = np.zeros((height, width,submask, 5))
-
+     q_values = np.full((height, width,submask, 5), -1)
 
      for i in range(episodes):
         print("im in episode", i)
@@ -586,6 +585,7 @@ def learning_func(gridmap, height, width, turn, maxturn, character,scoreinitial,
         observation = (start_agent, turns, diamond_copy, diccolornumber_agent)
         location_agent = start_agent
         while not qlearning.is_terminal(observation):
+            print(" im in turn", observation[1])
             #0=>left,1=>right,2=>up,3=>down,4=>teleport
             action_agent = qlearning.getNextAction(observation,gridmap, height, width, hole, score_agent,character, epsilon,q_values,submask_copy)
             location_agent_old = observation[0]
@@ -593,6 +593,7 @@ def learning_func(gridmap, height, width, turn, maxturn, character,scoreinitial,
             submask_copy_new=submask_copy
             # delete diamond that we get in action from diamond_copy
             reward = qlearning.getreward(rewards_copy, location_agent_new, score_agent,gridmap,diccolornumber_agent,character)
+            observation = (location_agent_new, turns, diamond_copy, diccolornumber_agent)
             if reward == 10:
                 del diamond_copy[(observation[0][0], observation[0][1], 10)]
                 rewards_copy[observation[0][0]][observation[0][1]] = -1
@@ -622,7 +623,8 @@ def learning_func(gridmap, height, width, turn, maxturn, character,scoreinitial,
                  diccolornumber_agent['b'] += 1
                  score_agent += 75
 
-            observation = (location_agent_new, turns-1, diamond_copy, diccolornumber_agent)
+            turns -= 1
+            observation = (location_agent_new, turns, diamond_copy, diccolornumber_agent)
 
             old_q_value = q_values[location_agent_old[0],location_agent_old[1],submask_copy, action_agent]
             temporal_difference = reward + (discount_factor * np.max(q_values[location_agent_new[0], location_agent_new[1], submask_copy])) - old_q_value
@@ -630,7 +632,7 @@ def learning_func(gridmap, height, width, turn, maxturn, character,scoreinitial,
             q_values[location_agent_old[0], location_agent_old[1],submask_copy, action_agent] = new_q_value
             score_agent -= 1
             submask_copy = submask_copy_new
-        print("reward is" , reward )
+        print("reward is" , reward)
         epsilon *= reduce_epsilon
 
      return q_values

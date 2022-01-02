@@ -20,8 +20,24 @@ def getNextAction(observation, gridmap, height, width, hole, score_agent,charact
     dic_color_number = observation[3]
 
     if np.random.random() > epsilon:
-        #q_values[agentx][agenty]?
-        return np.argmax(q_values[agentx, agenty,submask_copy])
+       flag = False
+       action = np.argmax(q_values[agentx, agenty,submask_copy])
+       if action == 2:
+           if agentx - 1 >= 0 and gridmap[agentx - 1][agenty] != 'W':
+               flag = True
+
+       if action == 3:
+           if agentx + 1 < height and gridmap[agentx + 1][agenty] != 'W':
+               flag = True
+
+       if action == 0:
+           if agenty - 1 >= 0 and gridmap[agentx][agenty - 1] != 'W':
+               flag = True
+
+       if action == 1:
+           if agenty + 1 < width and gridmap[agentx][agenty + 1] != 'W':
+               flag = True
+
     else:
         flag =False
         while not flag:
@@ -33,7 +49,7 @@ def getNextAction(observation, gridmap, height, width, hole, score_agent,charact
 
             # 0=>left,1=>right,2=>up,3=>down,4=>teleport
             if action == 2:
-                if agentx-1 > 0 and gridmap[agentx-1][agenty] != 'W':
+                if agentx-1 >= 0 and gridmap[agentx-1][agenty] != 'W':
                     flag=True
 
             if action == 3:
@@ -41,7 +57,7 @@ def getNextAction(observation, gridmap, height, width, hole, score_agent,charact
                     flag=True
 
             if action == 0:
-                if agenty - 1 > 0 and gridmap[agentx][agenty-1] != 'W':
+                if agenty - 1 >= 0 and gridmap[agentx][agenty-1] != 'W':
                     flag = True
 
             if action == 1:
@@ -49,8 +65,7 @@ def getNextAction(observation, gridmap, height, width, hole, score_agent,charact
                     flag = True
             if action == 4:
                 flag=True
-
-        return action
+    return action
 
 
 def getlocation(action_agent, location_agent_old, holes):
@@ -72,7 +87,8 @@ def getlocation(action_agent, location_agent_old, holes):
         for hole in holes:
             if hole != (location_agent_old[0], location_agent_old[1], 0):
                 list_location.append((hole[0], hole[1]))
-        num_random = np.randomrandint(len(list_location))
+        print(len(list_location))
+        num_random = np.random.randint(len(list_location))
         return list_location[num_random]
 
     # return list_location
