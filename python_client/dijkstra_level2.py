@@ -433,7 +433,7 @@ def dijkstrawayenemy(agentx, agenty, goalx, goaly, gridmap, height, width,scored
         way.put((agentx,agenty,0))
         return way
 
-    if gridmap[agentx][agenty] == 'T' + character and gridmap[goalx][goaly] == 'T':
+    if (gridmap[agentx][agenty] == 'T' + character and gridmap[goalx][goaly] == 'T'):
         way.put(())
         return way
 

@@ -574,7 +574,7 @@ def learning_func(gridmap, height, width, turn, maxturn, character,scoreinitial,
      discount_factor = 0.9
      reduce_epsilon = 0.4
      submask = 1 << len(diamond)
-     q_values = np.full((height, width,submask, 5), -1000)#full with out
+     q_values = np.full((height, width,submask, 5), 0)#full with out
 
 
      for i in range(episodes):
@@ -592,7 +592,7 @@ def learning_func(gridmap, height, width, turn, maxturn, character,scoreinitial,
             action_agent = qlearning.getNextAction(observation,gridmap, height, width, hole, score_agent,character, epsilon,q_values,submask_copy)
             location_agent_old = observation[0]
             location_agent_new = qlearning.getlocation(action_agent, location_agent_old,hole)
-            submask_copy_new=submask_copy
+            submask_copy_new = submask_copy
             # delete diamond that we get in action from diamond_copy
             reward = qlearning.getreward(rewards_copy, location_agent_new, score_agent,gridmap,diccolornumber_agent,character)
             observation = (location_agent_new, turns, diamond_copy, diccolornumber_agent)
@@ -629,12 +629,14 @@ def learning_func(gridmap, height, width, turn, maxturn, character,scoreinitial,
             observation = (location_agent_new, turns, diamond_copy, diccolornumber_agent)
 
             old_q_value = q_values[location_agent_old[0],location_agent_old[1],submask_copy, action_agent]
-            temporal_difference = reward + (discount_factor * np.max(q_values[location_agent_new[0], location_agent_new[1], submask_copy])) - old_q_value
+            temporal_difference = reward + (discount_factor * np.max(q_values[location_agent_new[0], location_agent_new[1], submask_copy_new])) - old_q_value
             new_q_value = old_q_value + (learning_rate * temporal_difference)
+            print(new_q_value,"new q")
+            print(old_q_value,"old q")
             q_values[location_agent_old[0], location_agent_old[1], submask_copy, action_agent] = new_q_value
             score_agent -= 1
             submask_copy = submask_copy_new
-        print("reward is" , reward )
+        # print("q_values is" , q_values)
         epsilon *= reduce_epsilon
 
      return q_values
@@ -654,12 +656,11 @@ def getinfophase3(gridmap, height, width, turn, maxturn, character,scoreinitial,
                 agentx = i
                 agenty = j
                 break
-    if turn==1:
+    if turn == 1:
         score_old = scoreinitial[0]
         submask = (1 << len(diamond_list))
         submask -= 1
         q_values = learning_func(gridmap, height, width, turn, maxturn, character,scoreinitial, scores, timelimit)
-
 
     if scores - score_old == 9:
         index_diamond = diamond_list.index((agentx,agenty,10))
@@ -673,7 +674,6 @@ def getinfophase3(gridmap, height, width, turn, maxturn, character,scoreinitial,
     if scores - score_old == 74:
         index_diamond = diamond_list.index((agentx, agenty, 75))
         submask = submask & (~(1 << index_diamond))
-
 
     score_old = scores
 
