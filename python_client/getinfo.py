@@ -569,17 +569,18 @@ def learning_func(gridmap, height, width, turn, maxturn, character,scoreinitial,
              if gridmap[i][j] == 'E' or gridmap[i][j] == 'E'+character:
                  rewards[i][j] = -1
 
-     episodes = 5000
+     episodes = 6000
      epsilon = 0.9
      learning_rate = 0.2
      discount_factor = 0.9
      reduce_epsilon = 0.4
      submask_learning = 1 << len(diamond_list)
-     q_values = np.full((height, width,submask_learning, 5), 0.)#full with out
-     for i in range(height):
-         for j in range(width):
-             if gridmap[i][j] != 'T':
-                 q_values[i,j,:,4] = float('-inf')
+     #q_values = np.full((height, width,submask_learning, 5), 0.)#full with out
+     q_values = {}
+     # for i in range(height):
+     #     for j in range(width):
+     #         if gridmap[i][j] != 'T':
+     #             q_values[i,j,:,4] = float('-inf')
 
      for i in range(episodes):
         # print("im in episode", i)
@@ -596,8 +597,12 @@ def learning_func(gridmap, height, width, turn, maxturn, character,scoreinitial,
         while not qlearning.is_terminal(observation):
             times+=1
             #0=>left,1=>right,2=>up,3=>down,4=>teleport
-            action_agent = qlearning.getNextAction(observation,gridmap, height, width, hole, score_agent,character, epsilon,q_values,submask_copy)
             location_agent_old = observation[0]
+            if (location_agent_old[0], location_agent_old[1], submask_copy) not in q_values:
+                q_values[(location_agent_old[0], location_agent_old[1], submask_copy)] = [0.,0.,0.,0.,0.]
+                if gridmap[location_agent_old[0]][location_agent_old[1]] != 'T':
+                    q_values[(location_agent_old[0], location_agent_old[1], submask_copy)][4] = float ('-inf')
+            action_agent = qlearning.getNextAction(observation,gridmap, height, width, hole, score_agent,character, epsilon,q_values,submask_copy)
             location_agent_new = qlearning.getlocation(action_agent, location_agent_old,hole)
             submask_copy_new = submask_copy
             # delete diamond that we get in action from diamond_copy
@@ -632,15 +637,20 @@ def learning_func(gridmap, height, width, turn, maxturn, character,scoreinitial,
                  submask_copy_new = submask_copy_new & (~(1 << index_diamond))
                  diccolornumber_agent['b'] += 1
                  score_agent += 75
-
+            if (location_agent_new[0], location_agent_new[1], submask_copy_new) not in q_values:
+                q_values[(location_agent_new[0], location_agent_new[1], submask_copy_new)] = [0., 0., 0., 0., 0.]
+                if gridmap[location_agent_new[0]][location_agent_new[1]] != 'T':
+                    q_values[(location_agent_new[0], location_agent_new[1], submask_copy_new)][4] = float('-inf')
             turns -= 1
             observation = (location_agent_new, turns, diamond_copy, diccolornumber_agent)
-
-            old_q_value = q_values[location_agent_old[0],location_agent_old[1],submask_copy, action_agent]
-            temporal_difference = reward + (discount_factor * np.max(q_values[location_agent_new[0], location_agent_new[1], submask_copy_new])) - old_q_value
+            #old_q_value = q_values[location_agent_old[0],location_agent_old[1],submask_copy, action_agent]
+            old_q_value = q_values[(location_agent_old[0], location_agent_old[1], submask_copy)][action_agent]
+            #temporal_difference = reward + (discount_factor * np.max(q_values[location_agent_new[0], location_agent_new[1], submask_copy_new])) - old_q_value
+            #temporal_difference = reward + (discount_factor * max(q_values[(location_agent_new[0], location_agent_new[1], submask_copy_new)])) - old_q_value
+            temporal_difference = reward + (discount_factor * np.max(np.array(q_values[(location_agent_new[0], location_agent_new[1], submask_copy_new)]))) - old_q_value
             new_q_value = old_q_value + (learning_rate * temporal_difference)
 
-            q_values[location_agent_old[0], location_agent_old[1], submask_copy, action_agent] = new_q_value
+            q_values[(location_agent_old[0], location_agent_old[1], submask_copy)][action_agent] = new_q_value
             score_agent -= 1
             submask_copy = submask_copy_new
         print(all_rewards,"all_rewards")
@@ -674,8 +684,11 @@ def getinfophase3(gridmap, height, width, turn, maxturn, character,scoreinitial,
             submask_index |= (1 << i)
 
     score_old = scores
-
-    action = np.argmax(q_values[agentx, agenty,submask_index])
+    if ((agentx, agenty, submask_index)) not in q_values:
+        q_values[((agentx, agenty, submask_index))] = [0., 0., 0., 0., 0.]
+        if gridmap[agentx][agenty] != 'T':
+            q_values[(agentx, agenty, submask_index)][4] = float('-inf')
+    action = np.argmax(np.array(q_values[(agentx, agenty, submask_index)]))
     # 0=>left,1=>right,2=>up,3=>down,4=>teleport
     if action == 0:
         return 'l'

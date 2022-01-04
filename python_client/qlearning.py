@@ -25,7 +25,8 @@ def getNextAction(observation, gridmap, height, width, hole, score_agent,charact
         #q_values[agentx][agenty]?
         # print("summask",bin(submask_copy))
         # print("action ",q_values[agentx, agenty,submask_copy])
-        action = np.argmax(q_values[agentx, agenty,submask_copy])
+        #action = np.argmax(q_values[agentx, agenty,submask_copy])
+        action = np.argmax(np.array(q_values[(agentx, agenty,submask_copy)]))
         if action == 2:
             if agentx - 1 >= 0 and gridmap[agentx - 1][agenty] != 'W':
                 return action
