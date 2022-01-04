@@ -5,10 +5,12 @@ def is_terminal(observation):
     turn = observation[1]
     diamond = observation[2]
     dic_color_number = observation[3]
-    if turn == 0 or (not len(diamond)):
+    if turn == 0 or (len(diamond)==0):
         return True
     if dic_color_number['y'] == 15 and dic_color_number['g'] == 8 and dic_color_number['r'] == 5 and dic_color_number['b'] == 4:
         return True
+
+    return False
 
 
 
@@ -70,25 +72,19 @@ def getNextAction(observation, gridmap, height, width, hole, score_agent,charact
         if action == 4:
             flag=True
 
-
     return action
 
 
 def getlocation(action_agent, location_agent_old, holes):
     list_location = []
     # 0=>left,1=>right,2=>up,3=>down,4=>teleport
-    # print(action_agent,"actionagent")
     if action_agent == 0:
-        # list_location.append((location_agent_old[0], location_agent_old[1]-1))
         return (location_agent_old[0], location_agent_old[1]-1)
     if action_agent == 1:
-        # list_location.append((location_agent_old[0], location_agent_old[1] + 1))
         return (location_agent_old[0], location_agent_old[1] + 1)
     if action_agent == 2:
-        # list_location.append((location_agent_old[0]-1, location_agent_old[1]))
         return (location_agent_old[0]-1, location_agent_old[1])
     if action_agent == 3:
-        # list_location.append((location_agent_old[0]+1, location_agent_old[1]))
         return (location_agent_old[0]+1, location_agent_old[1])
     if action_agent == 4:
         for hole in holes:
@@ -99,9 +95,6 @@ def getlocation(action_agent, location_agent_old, holes):
         num_random = np.random.randint(len(list_location))
 
         return list_location[num_random]
-
-
-    # return list_location
 
 
 def getreward(rewards_copy, location_agent_new, score_agent,gridmap,diccolornumber_agent,character):
