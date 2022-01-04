@@ -40,7 +40,8 @@ before_start_agent=0
 before_start_enemy=0
 diamond_list = []
 score_old = 0
-submask=0
+# submask = 0
+q_values = None
 
 def getinfo(gridmap, height, width, character,scoreinitial):
     global diamond
@@ -573,13 +574,16 @@ def learning_func(gridmap, height, width, turn, maxturn, character,scoreinitial,
      learning_rate = 0.2
      discount_factor = 0.9
      reduce_epsilon = 0.4
-     submask = 1 << len(diamond)
-     q_values = np.full((height, width,submask, 5), 0)#full with out
-
+     submask_learning = 1 << len(diamond_list)
+     q_values = np.full((height, width,submask_learning, 5), 0.)#full with out
+     for i in range(height):
+         for j in range(width):
+             if gridmap[i][j] != 'T':
+                 q_values[i,j,:,4] = float('-inf')
 
      for i in range(episodes):
         # print("im in episode", i)
-        submask_copy = submask-1
+        submask_copy = submask_learning-1
         turns = maxturn - turn + 1
         score_agent = scoreinitial[0]
         diamond_copy = diamond.copy()
@@ -587,7 +591,10 @@ def learning_func(gridmap, height, width, turn, maxturn, character,scoreinitial,
         diccolornumber_agent = {'y': 0, 'b': 0, 'g': 0, 'r': 0}
         observation = (start_agent, turns, diamond_copy, diccolornumber_agent)
         location_agent = start_agent
+        all_rewards=0
+        times=0
         while not qlearning.is_terminal(observation):
+            times+=1
             #0=>left,1=>right,2=>up,3=>down,4=>teleport
             action_agent = qlearning.getNextAction(observation,gridmap, height, width, hole, score_agent,character, epsilon,q_values,submask_copy)
             location_agent_old = observation[0]
@@ -595,33 +602,34 @@ def learning_func(gridmap, height, width, turn, maxturn, character,scoreinitial,
             submask_copy_new = submask_copy
             # delete diamond that we get in action from diamond_copy
             reward = qlearning.getreward(rewards_copy, location_agent_new, score_agent,gridmap,diccolornumber_agent,character)
+            all_rewards += reward
             observation = (location_agent_new, turns, diamond_copy, diccolornumber_agent)
             if reward == 10:
                 del diamond_copy[(observation[0][0], observation[0][1], 10)]
                 rewards_copy[observation[0][0]][observation[0][1]] = -1
                 index_diamond = diamond_list.index((observation[0][0], observation[0][1], 10))
-                submask_copy_new = submask_copy & (~(1<<index_diamond))
+                submask_copy_new = submask_copy_new & (~(1 << index_diamond))
                 diccolornumber_agent['y'] += 1
                 score_agent += 10
             if reward == 25:
                 del diamond_copy[(observation[0][0], observation[0][1], 25)]
                 rewards_copy[observation[0][0]][observation[0][1]] = -1
                 index_diamond = diamond_list.index((observation[0][0], observation[0][1], 25))
-                submask_copy_new = submask_copy & (~(1 << index_diamond))
+                submask_copy_new = submask_copy_new & (~(1 << index_diamond))
                 diccolornumber_agent['g'] += 1
                 score_agent += 25
             if reward == 35:
                 del diamond_copy[(observation[0][0], observation[0][1], 35)]
                 rewards_copy[observation[0][0]][observation[0][1]] = -1
                 index_diamond = diamond_list.index((observation[0][0], observation[0][1], 35))
-                submask_copy_new = submask_copy & (~(1 << index_diamond))
+                submask_copy_new = submask_copy_new & (~(1 << index_diamond))
                 diccolornumber_agent['r'] += 1
                 score_agent += 35
             if reward == 75:
                  del diamond_copy[(observation[0][0], observation[0][1], 75)]
                  rewards_copy[observation[0][0]][observation[0][1]] = -1
                  index_diamond = diamond_list.index((observation[0][0], observation[0][1], 75))
-                 submask_copy_new = submask_copy & (~(1 << index_diamond))
+                 submask_copy_new = submask_copy_new & (~(1 << index_diamond))
                  diccolornumber_agent['b'] += 1
                  score_agent += 75
 
@@ -631,14 +639,13 @@ def learning_func(gridmap, height, width, turn, maxturn, character,scoreinitial,
             old_q_value = q_values[location_agent_old[0],location_agent_old[1],submask_copy, action_agent]
             temporal_difference = reward + (discount_factor * np.max(q_values[location_agent_new[0], location_agent_new[1], submask_copy_new])) - old_q_value
             new_q_value = old_q_value + (learning_rate * temporal_difference)
-            print(new_q_value,"new q")
-            print(old_q_value,"old q")
+
             q_values[location_agent_old[0], location_agent_old[1], submask_copy, action_agent] = new_q_value
             score_agent -= 1
             submask_copy = submask_copy_new
-        # print("q_values is" , q_values)
+        print(all_rewards,"all_rewards")
+        print(times,"times")
         epsilon *= reduce_epsilon
-
      return q_values
 
 
@@ -647,7 +654,7 @@ def getinfophase3(gridmap, height, width, turn, maxturn, character,scoreinitial,
     global diamond_list
     global score_old
     global q_values
-    global submask
+
     agentx = 0
     agenty = 0
     for i in range(height):
@@ -658,26 +665,17 @@ def getinfophase3(gridmap, height, width, turn, maxturn, character,scoreinitial,
                 break
     if turn == 1:
         score_old = scoreinitial[0]
-        submask = (1 << len(diamond_list))
-        submask -= 1
         q_values = learning_func(gridmap, height, width, turn, maxturn, character,scoreinitial, scores, timelimit)
 
-    if scores - score_old == 9:
-        index_diamond = diamond_list.index((agentx,agenty,10))
-        submask = submask & (~(1 << index_diamond))
-    if scores - score_old == 24:
-        index_diamond = diamond_list.index((agentx, agenty, 25))
-        submask = submask & (~(1 << index_diamond))
-    if scores - score_old == 34:
-        index_diamond = diamond_list.index((agentx, agenty, 35))
-        submask = submask & (~(1 << index_diamond))
-    if scores - score_old == 74:
-        index_diamond = diamond_list.index((agentx, agenty, 75))
-        submask = submask & (~(1 << index_diamond))
+
+    submask_index=0
+    for i,item in enumerate(diamond_list):
+        if 'E' not in gridmap[item[0]][item[1]]:
+            submask_index |= (1 << i)
 
     score_old = scores
 
-    action = np.argmax(q_values[agentx, agenty,submask])
+    action = np.argmax(q_values[agentx, agenty,submask_index])
     # 0=>left,1=>right,2=>up,3=>down,4=>teleport
     if action == 0:
         return 'l'
