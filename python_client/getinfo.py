@@ -8,7 +8,9 @@ from TrapOrNot import trapornot
 from hitortrap import hitortrap
 from HoleorNot import holeornot
 import numpy as np
+from matplotlib import pyplot as plt
 import qlearning
+
 #change diamondlist to dictionary, should other functions
 diamond = {}
 hole = {}
@@ -577,6 +579,12 @@ def learning_func(gridmap, height, width, turn, maxturn, character,scoreinitial,
      submask_learning = 1 << len(diamond_list)
      #q_values = np.full((height, width,submask_learning, 5), 0.)#full with out
      q_values = {}
+     rewards_avrg_episodes={}
+     rewards_avrg_episodes['avg']=[]
+     rewards_avrg_episodes['episodes']=[]
+     rewards_episodes=[]
+     SHOW_EVERY = 800
+
      # for i in range(height):
      #     for j in range(width):
      #         if gridmap[i][j] != 'T':
@@ -653,14 +661,18 @@ def learning_func(gridmap, height, width, turn, maxturn, character,scoreinitial,
             q_values[(location_agent_old[0], location_agent_old[1], submask_copy)][action_agent] = new_q_value
             score_agent -= 1
             submask_copy = submask_copy_new
-        print(all_rewards,"all_rewards")
-        print(times,"times")
+        print(all_rewards,"rewards for each episodes")
+        rewards_episodes.append(all_rewards)
+        if not i % SHOW_EVERY:
+            average_reward = sum(rewards_episodes[-SHOW_EVERY:]) / SHOW_EVERY
+            rewards_avrg_episodes['avg'].append(average_reward)
+            rewards_avrg_episodes['episodes'].append(i)
+        print(times,"agent truns in each episodes")
         epsilon *= reduce_epsilon
-     return q_values
+     return q_values,rewards_avrg_episodes
 
 
 def getinfophase3(gridmap, height, width, turn, maxturn, character,scoreinitial, scores, timelimit):
-    print("im in turn " , turn)
     global diamond_list
     global score_old
     global q_values
@@ -675,7 +687,11 @@ def getinfophase3(gridmap, height, width, turn, maxturn, character,scoreinitial,
                 break
     if turn == 1:
         score_old = scoreinitial[0]
-        q_values = learning_func(gridmap, height, width, turn, maxturn, character,scoreinitial, scores, timelimit)
+        q_values,rewards_episodes = learning_func(gridmap, height, width, turn, maxturn, character,scoreinitial, scores, timelimit)
+        plt.plot(rewards_episodes['episodes'],rewards_episodes['avg'])
+        plt.xlabel("epochs")
+        plt.ylabel("average rewards")
+        plt.show()
 
 
     submask_index=0

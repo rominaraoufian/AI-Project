@@ -92,7 +92,6 @@ def getlocation(action_agent, location_agent_old, holes):
             if hole != (location_agent_old[0], location_agent_old[1], 0):
                 list_location.append((hole[0], hole[1]))
 
-        print(len(list_location))
         num_random = np.random.randint(len(list_location))
 
         return list_location[num_random]
