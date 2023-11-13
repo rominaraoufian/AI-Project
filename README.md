@@ -1,3 +1,6 @@
+# About Project
+This project is a gaming project which the agent should play the game using AI methods. It has 3 phases. In the 1st phase,, the agent should get as many diamond as it can and attain highest score using DFS. In the 2nd phase, the agent has a opponent and should defeat his opponent using minimax tree, and in the last phase, the agent should collect as many diamond as it can using RL algorithm called Q-Learning. In all 3 phases we use Dijkstra algorithm to find a best way for agent.
+
 # Installing prerequisites (Python, Pip and Packages) 
 1- Install <a href=https://www.python.org/downloads/>Python</a> version 3.6 or upper 
 
